@@ -9,11 +9,11 @@ import io.cucumber.java.en.When;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+
 import static org.junit.Assert.*;
 
-public class Stepdefs {
-class TestRunDisplay {
+public class StepDefinitions {
+static class TestRunDisplay {
     String testRunScript = "";
 }
     @DataTableType
@@ -157,7 +157,7 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
 
     }
 
-    class DomainTermValid {
+    static class DomainTermValid {
         String value;
 
         @Override

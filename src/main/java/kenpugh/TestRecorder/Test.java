@@ -11,8 +11,9 @@ class Test {
     MyDateTime datePreviousResult = new MyDateTime();
     MyString filePath = new MyString("File Path Not Specified");
     MyString comments = new MyString("No comment");
-    public void fromDTO(TestDTO testDTO){
-        if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID) ;
+
+    public void fromDTO(TestDTO testDTO) {
+        if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID);
         if (testDTO.name != null) name = new Name(testDTO.name);
         if (testDTO.lastResult != null) lastResult = TestResult.valueOf(testDTO.lastResult);
         if (testDTO.dateLastRun != null) dateLastRun = MyDateTime.parse(testDTO.dateLastRun);
@@ -21,7 +22,8 @@ class Test {
         if (testDTO.comments != null) comments = new MyString(testDTO.comments);
         if (testDTO.runner != null) runner = new Name(testDTO.runner);
     }
-    TestDTO getDTO(){
+
+    TestDTO getDTO() {
         TestDTO testDTO = new TestDTO();
         testDTO.issueID = issueID.toString();
         testDTO.name = name.toString();
@@ -32,6 +34,7 @@ class Test {
         testDTO.comments = comments.toString();
         return testDTO;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,35 +50,26 @@ class Test {
 
     @Override
     public String toString() {
-        return "Test{" +
-                "issueID=" + issueID +
-                ", name=" + name +
-                ", lastResult=" + lastResult +
-                ", runner=" + runner +
-                ", dateLastRun=" + dateLastRun +
-                ", datePreviousResult=" + datePreviousResult +
-                ", filePath='" + filePath + '\'' +
-                ", comments='" + comments + '\'' +
-                '}';
+        return "Test{" + "issueID=" + issueID + ", name=" + name + ", lastResult=" + lastResult + ", runner=" + runner + ", dateLastRun=" + dateLastRun + ", datePreviousResult=" + datePreviousResult + ", filePath='" + filePath + '\'' + ", comments='" + comments + '\'' + '}';
     }
 
 
     public void updateWithTestRun(TestRun tr) {
-        if (!tr.issueID.equals(issueID)){
+        if (tr == null) {
+            System.err.println(" Trying to update null test");
+            return;
+        }
+        if (!tr.issueID.equals(issueID)) {
             System.err.println(" Trying to update wrong test " + issueID + " with " + tr.issueID);
             return;
         }
 
         runner = tr.runner;
         comments = tr.comments;
-        if (tr.testResult == lastResult) {
-            dateLastRun = tr.dateTime;
-        }
-        else {
+        if (tr.testResult != lastResult) {
             datePreviousResult = dateLastRun;
-            dateLastRun = tr.dateTime;
         }
+        dateLastRun = tr.dateTime;
         lastResult = tr.testResult;
-
     }
 }

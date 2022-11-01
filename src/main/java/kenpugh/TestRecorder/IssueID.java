@@ -3,7 +3,7 @@ package kenpugh.TestRecorder;
 import java.util.Objects;
 
 public class IssueID {
-    private String value;
+    private final String value;
 
     @Override
     public boolean equals(Object o) {
@@ -26,7 +26,7 @@ public class IssueID {
         if (value.length() != 5)
             this.value = NOT_SPECIFIED;
         else {
-            if (value.matches("[\\d\\w]+"))
+            if (value.matches("\\w+"))
                 this.value = value;
             else
                 this.value = NOT_SPECIFIED;

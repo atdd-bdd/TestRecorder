@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class MyDateTime {
-    private Date theDate = new Date();
+    private Date theDate;
     static final String NEVER = "Never";
     public MyDateTime()  {
         theDate = getDefaultDate();
@@ -64,7 +64,7 @@ public class MyDateTime {
         if (theDate.equals(getDefaultDate())) {
             return NEVER;
         }
-            String s = DateFormat.getDateTimeInstance().format(theDate);
-             return s;
+            return DateFormat.getDateTimeInstance().format(theDate);
+
     }
 }

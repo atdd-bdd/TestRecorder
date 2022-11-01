@@ -3,8 +3,9 @@ package kenpugh.TestRecorder;
 import java.util.Objects;
 
 public class MyString {
-    private String value;
-    public MyString(){
+    private final String value;
+
+    public MyString() {
         value = "";
     }
 
@@ -23,10 +24,10 @@ public class MyString {
 
     @Override
     public String toString() {
-        return  value;
+        return value;
     }
 
-    public MyString(String value){
+    public MyString(String value) {
         this.value = value;
     }
 }

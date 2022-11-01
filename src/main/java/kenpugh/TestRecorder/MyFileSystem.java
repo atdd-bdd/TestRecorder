@@ -21,14 +21,15 @@ public class MyFileSystem {
             throw new RuntimeException("Cannot access file  " + path);
         }
     }
-        public static String read(MyString filePath) {
-            Path path = Paths.get(Configuration.rootFilePath, filePath.toString());
-            String text = "";
-            try {
-                 text = readString(path);
-            } catch (IOException e) {
-                throw new RuntimeException("Cannot access file  " + path);
-            }
-            return text;
+
+    public static String read(MyString filePath) {
+        Path path = Paths.get(Configuration.rootFilePath, filePath.toString());
+        String text;
+        try {
+            text = readString(path);
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot access file  " + path);
+        }
+        return text;
     }
 }
