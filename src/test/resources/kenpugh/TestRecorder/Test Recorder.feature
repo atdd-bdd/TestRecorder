@@ -31,7 +31,7 @@ Scenario: Domain Term TestDate
 # plus more as desired 
 
 Scenario: Add a test 
-Given tests currently are
+Given tests are empty
 | Issue ID  | Name  | Last Result  | Runner | Date Last Run  | Date Previous Result  | File Path |
 When adding a test 
 | Issue ID   | 12345                    |
@@ -59,9 +59,10 @@ And test run display contains
 Then test is now
   | Issue ID  | Name               | Runner   | Last Result    | Date Last Run                   | Date Previous Result  | File Path                | Comments   |
   | 12345     | Enter test result  | Sam      | Success        | Oct 1, 2022, 12:30:01 AM        | Never                 | EnterTestResult.feature  | Works great              |
-# And test records now contain
-# | Issue ID  | Result   | Date                 | Comment      |
-# | 12345     | Success  | Oct 1, 2022, 12:30:01 AM  | Works great  |
+And test run record is now
+  | Issue ID  | Date Time                 | Result   | Comments     | Runner  |
+  | 12345     | Oct 1, 2022, 12:30:01 AM  | Success  | Works great  | Sam     |
+
 
   Scenario: Run a test unsuccessfully
     Given test exists
@@ -79,4 +80,12 @@ Then test is now
     Then test is now
       | Issue ID  | Name               | Runner    | Last Result    | Date Last Run                   | Date Previous Result  | File Path                | Comments   |
       | 12345     | Enter test result  | Bill      | Failure        | Oct 2, 2022, 12:31:01 AM     | Oct 1, 2022, 12:30:01 AM                    | EnterTestResult.feature  | Something bad                 |
-
+@doing
+    Scenario: Can Store and Load Test from Database
+      Given database is setup
+      When test is stored
+      | Issue ID  | Name               | Runner   | Last Result    | Date Last Run  | Date Previous Result  | File Path                | Comments |
+      | 12345     | Enter test result  | No Name  |Failure         | Never          | Never                 | EnterTestResult.feature  | No Comment |
+      Then test can be loaded
+        | Issue ID  | Name               | Runner   | Last Result    | Date Last Run  | Date Previous Result  | File Path                | Comments |
+        | 12345     | Enter test result  | No Name  |Failure         | Never          | Never                 | EnterTestResult.feature  | No Comment |

@@ -12,7 +12,7 @@ class Test {
     MyString filePath = new MyString("File Path Not Specified");
     MyString comments = new MyString("No comment");
 
-    public void fromDTO(TestDTO testDTO) {
+      public void fromDTO(TestDTO testDTO) {
         if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID);
         if (testDTO.name != null) name = new Name(testDTO.name);
         if (testDTO.lastResult != null) lastResult = TestResult.valueOf(testDTO.lastResult);
@@ -32,6 +32,7 @@ class Test {
         testDTO.datePreviousResult = datePreviousResult.toString();
         testDTO.filePath = filePath.toString();
         testDTO.comments = comments.toString();
+        testDTO.lastResult = lastResult.toString();
         return testDTO;
     }
 
@@ -55,10 +56,8 @@ class Test {
 
 
     public void updateWithTestRun(TestRun tr) {
-        if (tr == null) {
-            System.err.println(" Trying to update null test");
-            return;
-        }
+          System.out.println(" Updating test " + this);
+          System.out.println(" With test run " + tr);
         if (!tr.issueID.equals(issueID)) {
             System.err.println(" Trying to update wrong test " + issueID + " with " + tr.issueID);
             return;
@@ -71,5 +70,6 @@ class Test {
         }
         dateLastRun = tr.dateTime;
         lastResult = tr.testResult;
+        System.out.println(" Test is now " + this);
     }
 }

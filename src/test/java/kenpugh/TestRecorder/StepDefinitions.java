@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +54,19 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
         Test test = new Test();
         test.fromDTO(testDTO);
         return test;
+    }
+    @DataTableType
+    public TestDTO inputTestDTO(Map<String, String> entry) {
+        TestDTO testDTO = new TestDTO();
+        testDTO.issueID = entry.get("Issue ID");
+        testDTO.name = entry.get("Name");
+        testDTO.lastResult = entry.get("Last Result");
+        testDTO.runner = entry.get("Runner");
+        testDTO.dateLastRun = entry.get("Date Last Run");
+        testDTO.datePreviousResult = entry.get("Date Previous Result");
+        testDTO.filePath = entry.get("File Path");
+        testDTO.comments = entry.get("Comments");
+        return testDTO;
     }
 
     @DataTableType
@@ -102,6 +116,12 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
 
     }
 
+    @Given("tests are empty")
+    public void tests_are_empty(List<Test> dataTable) {
+        TestDataAccess.deleteAll();
+    }
+
+
     @Given("tests currently are")
     public void tests_currently_are(List<Test> dataTable) {
     System.out.println("Currently are");
@@ -120,11 +140,6 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
     }
     @Then("tests now are")
     public void tests_now_are(List<Test> dataTable) {
-        System.out.println("Tests are now");
-        for (Test t : TestCollection.getAll()) {
-            System.out.println(t);
-        }
-        System.out.println("End tests are now");
         assertArrayEquals(dataTable.toArray(), TestCollection.getAll().toArray());
     }
     @Given("test exists")
@@ -136,14 +151,11 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
     public void test_is_run(@Transpose List<TestRun> dataTable) {
         TestRun tr = dataTable.get(0);
         currentTest = TestCollection.findTest(tr.issueID);
-        currentTest.updateWithTestRun(tr);
-        TestCollection.updateTest(currentTest);
-        System.out.println(" **** Test Run is " + tr);
+        TestCollection.findTestAndUpdate(tr.issueID, tr);
     }
     @When("test run display contains")
     public void test_is_run_display_contains(@Transpose List<TestRunDisplay> dataTable) {
         String expected = dataTable.get(0).testRunScript;
-        System.out.println(" Display script is " + expected);
         String actual = MyFileSystem.read(currentTest.filePath);
         assertEquals(expected, actual);
       }
@@ -151,10 +163,8 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
     @Then("test is now")
     public void test_is_now(List<Test> dataTable) {
         Test expected = dataTable.get(0);
-        System.out.println(" Test should be " + expected);
         Test actual = TestCollection.findTest(currentTest.issueID);
         assertEquals(expected, actual);
-
     }
 
     static class DomainTermValid {
@@ -212,6 +222,52 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
                 assertEquals(new MyDateTime().toString(), temp.toString());
             }
         }
+    }
+
+    @Then("test run record is now")
+    public void test_run_record_is_now(List<TestRun> dataTable) {
+        for (TestRun tr: dataTable){
+            System.out.println("Test Run " + tr);
+        }
+    }
+
+
+    @Given("database is setup")
+    public void database_is_setup() {
+        DatabaseSetup.setup();
+        DatabaseSetup.removeTables();
+        DatabaseSetup.setupTables();
+
+    }
+    @When("test is stored")
+    public void test_is_stored(List<TestDTO> dataTable) {
+        for (TestDTO tdto: dataTable){
+            System.out.println(tdto);
+        TestDataAccess.addTest(tdto);
+        }
+    }
+
+    @Then("test can be loaded")
+    public void test_can_be_loaded(List<TestDTO> dataTable) {
+        Collection<TestDTO> testDTOs = TestDataAccess.getAll();
+        boolean match = false;
+        for (TestDTO tdto: dataTable){
+            Test e = new Test();
+            e.fromDTO(tdto);
+            match = false;
+            for (TestDTO tdtoo : testDTOs){
+                Test  a = new Test();
+                a.fromDTO(tdtoo);
+                if (e.equals(a)){
+                     match = true;
+                    break;
+                }
+            }
+            if (!match)
+                break;
+        }
+        if (!match )
+            assertTrue(" Loaded do not matched stored", match);
     }
 
 

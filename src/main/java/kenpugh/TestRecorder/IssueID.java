@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class IssueID {
     private final String value;
+    static public final String NOT_SPECIFIED = "00000";
+    public static final IssueID INVALID_ISSUE_ID = new IssueID(NOT_SPECIFIED);
 
     @Override
     public boolean equals(Object o) {
@@ -18,8 +20,7 @@ public class IssueID {
         return Objects.hash(value);
     }
 
-    static public final String NOT_SPECIFIED = "00000";
-    public IssueID(){
+   public IssueID(){
         this.value = NOT_SPECIFIED;
     }
     public IssueID(String value){

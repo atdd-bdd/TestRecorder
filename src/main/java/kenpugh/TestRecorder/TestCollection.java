@@ -1,38 +1,62 @@
 package kenpugh.TestRecorder;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TestCollection {
-    static List<Test> values = new ArrayList<>();  // for initial test
 
     static public void addTest(Test value) {
-        values.add(value);
-
+        TestDTO testDTO = value.getDTO();
+        TestDataAccess.addTest(testDTO);
     }
 
     static public Test findTest(IssueID issueID) {
-        for (Test t : values) {
-            if (t.issueID.equals(issueID)) return t;
+        TestDTO testDTO = TestDataAccess.findByIssueID(issueID);
+        if (testDTO == TestDTO.NOT_FOUND)
+            return null;
+        else {
+            Test test = new Test();
+            test.fromDTO((testDTO));
+            return test;
         }
-        return null;
-    }
+      }
 
     static public List<Test> getAll() {
-        List<Test> list;
-        list = values;
-        return list;
+        List<TestDTO> listTestDTO = TestDataAccess.getAll();
+        List<Test> listTest = new ArrayList<>();
+        for (TestDTO tdto : listTestDTO){
+            Test t = new Test();
+            t.fromDTO((tdto));
+            listTest.add(t);
+        }
+        return listTest;
     }
 
     public static void updateTest(Test updatedTest) {
-        for (Test t : values) {
-            System.out.println(" Checking " + t.issueID + " " + updatedTest.issueID);
-            if (t.issueID.equals(updatedTest.issueID)) {
-                t = updatedTest;
-                return;
-            }
+        TestDTO testDTO = updatedTest.getDTO();
+        TestDataAccess.update(testDTO);
         }
-        System.err.println(" Could not find test to update ");
+
+    @Override
+    public String toString() {
+        String s = "TestCollection{ \n";
+         for (Test t : TestCollection.getAll()) {
+            s += t.toString() + "\n";
+        }
+       s += "}";
+         return s;
+    }
+
+    public static void findTestAndUpdate(IssueID issueID, TestRun tr) {
+        Test t = findTest((issueID));
+        if (t != null) {
+            t.updateWithTestRun(tr);
+            TestDTO testDTO = t.getDTO();
+            TestDataAccess.update(testDTO);
+        }
+        else
+            System.err.println(" Cannot update test - not found " + tr.issueID);
     }
 }
 

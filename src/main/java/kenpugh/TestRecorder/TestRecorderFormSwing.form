@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="kenpugh.TestRecorder.TestRecorderFormSwing">
+  <grid id="27dc6" binding="aPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="7cab2" binding="aTable" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints/>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <component id="8f8" class="javax.swing.JButton" binding="addTest">
+        <constraints/>
+        <properties>
+          <text value="Add Test"/>
+        </properties>
+      </component>
+      <component id="bd593" class="javax.swing.JButton" binding="runTest">
+        <constraints/>
+        <properties>
+          <text value="Run Test"/>
+        </properties>
+      </component>
+      <component id="b7b3c" class="javax.swing.JButton" binding="showHistory">
+        <constraints/>
+        <properties>
+          <text value="Show History"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
