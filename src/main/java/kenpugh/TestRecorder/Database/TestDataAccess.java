@@ -14,7 +14,12 @@ import static kenpugh.TestRecorder.Database.DatabaseSetup.connection;
 public class TestDataAccess {
 
         public static boolean addTest(TestDTO aTest){
-
+            IssueID issueID = new IssueID(aTest.issueID);
+            if (findByIssueID(issueID)!=TestDTO.NOT_FOUND)
+            {
+                System.err.println("Adding duplicate issue id");
+                return false;
+            }
             try {
                 DatabaseSetup.open();
                 Statement statement = connection.createStatement();

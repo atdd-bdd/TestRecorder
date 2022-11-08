@@ -160,7 +160,8 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
     public void adding_a_test(@Transpose List<Test> dataTable) {
         for (Test t: dataTable){
            System.out.println("Adding " + t);
-           TestCollection.addTest(t);
+           if (!TestCollection.addTest(t))
+               fail("Unable to add test");
         }
     }
     @Then("tests now are")
@@ -169,7 +170,11 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
     }
     @Given("test exists")
     public void test_exists(List<Test> dataTable) {
-        TestCollection.addTest(dataTable.get(0));
+        if (!TestCollection.addTest(dataTable.get(0))) {
+            if (!TestCollection.updateTest(dataTable.get(0))){
+                fail("Unable to update existing test");
+            }
+        }
     }
     Test currentTest;
     @When("test is run")
