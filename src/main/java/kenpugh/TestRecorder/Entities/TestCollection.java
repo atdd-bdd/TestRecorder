@@ -40,6 +40,10 @@ public class TestCollection {
             return TestDataAccess.update(testDTO);
             }
 
+    public static void deleteAll() {
+        TestDataAccess.deleteAll();
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("TestCollection{ \n");

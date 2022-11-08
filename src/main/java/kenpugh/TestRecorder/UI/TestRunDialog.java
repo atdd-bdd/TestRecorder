@@ -3,14 +3,17 @@ package kenpugh.TestRecorder.UI;
 import kenpugh.TestRecorder.Entities.TestRun;
 import kenpugh.TestRecorder.Entities.TestRunDTO;
 import kenpugh.TestRecorder.DomainTerms.TestResult;
+import kenpugh.TestRecorder.Services.CurrentUserService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class TestRunDialog extends JDialog {
-    TestRunDTO testRunDTO;
+    TestRunDTO testRunDTO = new TestRunDTO();
     TestRun testRun;
+
+    String scriptText = new String("No script");
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -22,6 +25,7 @@ public class TestRunDialog extends JDialog {
     private JTextArea scriptTextArea;
 
     public TestRunDialog() {
+        initializeData();
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -54,6 +58,14 @@ public class TestRunDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    private void initializeData() {
+        runnerTextField.setText(CurrentUserService.getCurrentUser().toString());
+        commentsTextArea.setText("");
+        successRadioButton.setSelected(false);
+        failureRadioButton.setSelected(true);
+        scriptTextArea.setText(scriptText);
+    }
+
     private void onOK() {
         // add your code here
         // Update testDTO
@@ -65,13 +77,13 @@ public class TestRunDialog extends JDialog {
             testRunDTO.testResult = TestResult.Failure.toString();
         else
             System.err.println("Test Run test result is not set");
-        testRun.fromDTO(testRunDTO);
+        testRun = TestRun.TestRunFromDTO(testRunDTO);
         System.out.println(testRun);
         dispose();
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        testRun = null;
         dispose();
     }
      private static void setUIFont(javax.swing.plaf.FontUIResource f)

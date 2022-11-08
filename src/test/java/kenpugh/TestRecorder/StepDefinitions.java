@@ -11,6 +11,7 @@ import kenpugh.TestRecorder.DomainTerms.*;
 import kenpugh.TestRecorder.Entities.*;
 import kenpugh.TestRecorder.Services.CurrentDateTimeService;
 import kenpugh.TestRecorder.Services.CurrentUserService;
+import kenpugh.TestRecorder.UI.TestRecorderFormSwing;
 
 import java.util.Collection;
 import java.util.List;
@@ -180,7 +181,14 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
             }
         }
     }
-    Test currentTest;
+    @Given("tests are")
+    public void tests_are(List<Test>  dataTable) {
+        TestCollection.deleteAll();
+        for (Test test : dataTable){
+            TestCollection.addTest(test);
+        }
+    }
+        Test currentTest;
     @When("test is run")
     public void test_is_run(@Transpose List<TestRun> dataTable) {
         TestRun tr = dataTable.get(0);
@@ -308,8 +316,15 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
 
     @When("test table swing is shown")
     public void test_table_swing_is_shown() {
-       new TestTableSwingTest().show();
-       System.out.println("Showing the table");
+       //new TestTableSwingTest().show();
+
+        TestRecorderFormSwing.main(null);
+        try {
+            Thread.sleep(100000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Showing the table");
     }
     @Then("test table should show that data")
     public void test_table_should_show_that_data() {

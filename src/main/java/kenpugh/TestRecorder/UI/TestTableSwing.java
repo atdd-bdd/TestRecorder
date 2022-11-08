@@ -8,18 +8,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.Vector;
 
 public class TestTableSwing extends JPanel {
-    private boolean DEBUG = false;
     JTable table;
     List<Test> tests;
   //  List<TestDTO> testDTOs;
-
+    DefaultTableModel tableModel = new DefaultTableModel();
     public TestTableSwing() {
         super(new GridLayout(1,0));
 
@@ -32,35 +31,18 @@ public class TestTableSwing extends JPanel {
                 "File Path ",
                 "Comments"
                 };
-//| Issue ID  | Name               | Runner   | Last Result     | Date Last Run  | Date Previous Result  | File Path                |
-//| 12345     | Enter test result  | No Name  | Failure         | Never          | Never                 | EnterTestResult.feature  |
-
-        Object[][] data = {
-                {"12345", "Enter test result",
-                        "No Name","Failure", "Never", "Never","EnterTestResult.feature ", "No comment" }
-          };
-
-        table = new JTable(data, columnNames);
+        Vector<String> columnHeaders = new Vector<>(List.of(columnNames));
+        tableModel.setColumnIdentifiers(columnHeaders);
+        table = new JTable(tableModel);
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         table.setFillsViewportHeight(true);
 
-        if (DEBUG) {
-            table.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                    printDebugData(table);
-                }
-            });
-        }
 
-        //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(table);
-
-        //Add the scroll pane to this panel.
         add(scrollPane);
     }
     public void updateData () {
-        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-        for (Test test : tests) {
+         for (Test test : tests) {
             TestDTO testDTO = test.getDTO();
             String[] data = new String[8];
             data[0] = testDTO.issueID;
@@ -72,25 +54,9 @@ public class TestTableSwing extends JPanel {
             data[6] = testDTO.filePath;
             data[7] = testDTO.comments;
 
-            tableModel.addRow(data);
+            this.tableModel.addRow(data);
         }
-        table.setModel(tableModel);
         tableModel.fireTableDataChanged();
-    }
-    private void printDebugData(JTable table) {
-        int numRows = table.getRowCount();
-        int numCols = table.getColumnCount();
-        javax.swing.table.TableModel model = table.getModel();
-
-        System.out.println("Value of data: ");
-        for (int i=0; i < numRows; i++) {
-            System.out.print("    row " + i + ":");
-            for (int j=0; j < numCols; j++) {
-                System.out.print("  " + model.getValueAt(i, j));
-            }
-            System.out.println();
-        }
-        System.out.println("--------------------------");
     }
 
     /**
