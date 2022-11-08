@@ -3,14 +3,15 @@ package kenpugh.TestRecorder;
 import java.util.Objects;
 
 class Test {
-    IssueID issueID = new IssueID();
+    IssueID issueID = IssueID.INVALID_ISSUE_ID;
     Name name = new Name();
     TestResult lastResult = TestResult.Failure;
     Name runner = new Name();
-    MyDateTime dateLastRun = new MyDateTime();
+    MyDateTime dateLastRun  = new MyDateTime();
     MyDateTime datePreviousResult = new MyDateTime();
     MyString filePath = new MyString("File Path Not Specified");
     MyString comments = new MyString("No comment");
+    static Test NOT_FOUND = new Test();
 
       public void fromDTO(TestDTO testDTO) {
         if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID);
@@ -22,7 +23,11 @@ class Test {
         if (testDTO.comments != null) comments = new MyString(testDTO.comments);
         if (testDTO.runner != null) runner = new Name(testDTO.runner);
     }
-
+    static public Test testFromDTO(TestDTO testDTO){
+          Test result = new Test();
+          result.fromDTO((testDTO));
+          return result;
+    }
     TestDTO getDTO() {
         TestDTO testDTO = new TestDTO();
         testDTO.issueID = issueID.toString();

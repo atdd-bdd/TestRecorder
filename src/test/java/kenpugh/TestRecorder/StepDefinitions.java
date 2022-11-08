@@ -51,9 +51,7 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
         testDTO.datePreviousResult = entry.get("Date Previous Result");
         testDTO.filePath = entry.get("File Path");
         testDTO.comments = entry.get("Comments");
-        Test test = new Test();
-        test.fromDTO(testDTO);
-        return test;
+        return Test.testFromDTO(testDTO);
     }
     @DataTableType
     public TestDTO inputTestDTO(Map<String, String> entry) {
@@ -77,18 +75,38 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
         testRunDTO.dateTime= entry.get("Date Time");
         testRunDTO.comments = entry.get("Comments");
         testRunDTO.testResult = entry.get("Result");
-        TestRun testRun = new TestRun();
-        testRun.fromDTO(testRunDTO);
-        return testRun;
+        return TestRun.TestRunFromDTO(testRunDTO);
     }
 
     @Given("configuration values are:")
     public void configuration_values_are(List<ConfigurationValue> dataTable) {
     for (ConfigurationValue cv : dataTable){
         System.out.println(" Configuration " + cv.variable + " " + cv.value);
-        Configuration.setValue(cv.variable, cv.value);
+        ConfigurationDTO.values.put(cv.variable, cv.value);
     }
+    Configuration.fromDTO();
     }
+
+
+    @When("configuration is saved")
+    public void configuration_is_saved() {
+ Configuration.saveToFile();
+    }
+    @When("configuration is loaded")
+    public void configuration_is_loaded() {
+    Configuration.valueTestDoubleForRunner = new Name("Should not be this");
+ Configuration.loadFromFile();
+    }
+    @Then("configuration values now are:")
+    public void configuration_values_now_are(List<ConfigurationValue> dataTable) {
+        for (ConfigurationValue cv : dataTable){
+            System.out.println(" Configuration " + cv.variable + " " + cv.value);
+           String value = ConfigurationDTO.values.get(cv.variable);
+                    assertEquals(cv.value, value);
+
+        }
+    }
+
     @Given("file exists")
     public void file_exists(List<FileExistsValue> dataTable) {
         for (FileExistsValue fev : dataTable){
@@ -118,6 +136,7 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
 
     @Given("tests are empty")
     public void tests_are_empty(List<Test> dataTable) {
+        System.out.println(dataTable);
         TestDataAccess.deleteAll();
     }
 
@@ -151,6 +170,8 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
     public void test_is_run(@Transpose List<TestRun> dataTable) {
         TestRun tr = dataTable.get(0);
         currentTest = TestCollection.findTest(tr.issueID);
+        tr.dateTime = CurrentDateTimeService.getCurrentDateTime();
+        tr.runner = CurrentUserService.getCurrentUser();
         TestCollection.findTestAndUpdate(tr.issueID, tr);
     }
     @When("test run display contains")
@@ -241,9 +262,9 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
     }
     @When("test is stored")
     public void test_is_stored(List<TestDTO> dataTable) {
-        for (TestDTO tdto: dataTable){
-            System.out.println(tdto);
-        TestDataAccess.addTest(tdto);
+        for (TestDTO tDTO: dataTable){
+            System.out.println(tDTO);
+        TestDataAccess.addTest(tDTO);
         }
     }
 
@@ -252,12 +273,12 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
         Collection<TestDTO> testDTOs = TestDataAccess.getAll();
         boolean match = false;
         for (TestDTO tdto: dataTable){
-            Test e = new Test();
-            e.fromDTO(tdto);
+            Test e = Test.testFromDTO(tdto);
+
             match = false;
             for (TestDTO tdtoo : testDTOs){
-                Test  a = new Test();
-                a.fromDTO(tdtoo);
+
+                Test  a = Test.testFromDTO(tdtoo);
                 if (e.equals(a)){
                      match = true;
                     break;
@@ -267,8 +288,19 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
                 break;
         }
         if (!match )
-            assertTrue(" Loaded do not matched stored", match);
+            fail(" Loaded do not matched stored");
     }
+
+    @When("test table swing is shown")
+    public void test_table_swing_is_shown() {
+       new TestTableSwingTest().show();
+       System.out.println("Showing the table");
+    }
+    @Then("test table should show that data")
+    public void test_table_should_show_that_data() {
+       System.out.println("Look as the table");
+    }
+
 
 
 }

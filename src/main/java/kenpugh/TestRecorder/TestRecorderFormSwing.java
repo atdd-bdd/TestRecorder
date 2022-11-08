@@ -13,15 +13,30 @@ public class TestRecorderFormSwing {
     private JButton showHistory;
 
     public static void main(String[] args) {
+        getData();
         JFrame frame = new JFrame("TestRecorderFormSwing");
-        frame.setContentPane(new TestRecorderFormSwing().aPanel);
+        TestRecorderFormSwing testRecorderFormSwing = new TestRecorderFormSwing();
+        frame.setContentPane(testRecorderFormSwing.aPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
+    static private void getData() {
+            DatabaseSetup.open();
+            List<Test> tests = TestCollection.getAll();
+            /*
+            TestTableSwing testTableSwing = (TestTableSwing) testRecorderFormSwing.aTable;
+            testTableSwing.tests = tests;
+            testTableSwing.updateData();
+            */
+        }
+
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
         this.aTable = new TestTableSwing();
+        /*
+
+         */
     }
 }

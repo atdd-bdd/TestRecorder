@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
@@ -12,8 +13,9 @@ import java.util.List;
 
 public class TestTableSwing extends JPanel {
     private boolean DEBUG = false;
+    JTable table;
     List<Test> tests;
-    List<TestDTO> testDTOs;
+  //  List<TestDTO> testDTOs;
 
     public TestTableSwing() {
         super(new GridLayout(1,0));
@@ -35,7 +37,7 @@ public class TestTableSwing extends JPanel {
                         "No Name","Failure", "Never", "Never","EnterTestResult.feature ", "No comment" }
           };
 
-        final JTable table = new JTable(data, columnNames);
+        table = new JTable(data, columnNames);
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         table.setFillsViewportHeight(true);
 
@@ -53,7 +55,25 @@ public class TestTableSwing extends JPanel {
         //Add the scroll pane to this panel.
         add(scrollPane);
     }
+    public void updateData () {
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+        for (Test test : tests) {
+            TestDTO testDTO = test.getDTO();
+            String[] data = new String[8];
+            data[0] = testDTO.issueID;
+            data[1] = testDTO.name;
+            data[2] = testDTO.runner;
+            data[3] = testDTO.lastResult;
+            data[4] = testDTO.datePreviousResult;
+            data[5] = testDTO.dateLastRun;
+            data[6] = testDTO.filePath;
+            data[7] = testDTO.comments;
 
+            tableModel.addRow(data);
+        }
+        table.setModel(tableModel);
+        tableModel.fireTableDataChanged();
+    }
     private void printDebugData(JTable table) {
         int numRows = table.getRowCount();
         int numCols = table.getColumnCount();
@@ -75,7 +95,7 @@ public class TestTableSwing extends JPanel {
      * this method should be invoked from the
      * event-dispatching thread.
      */
-    private static void createAndShowGUI() {
+    public  static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("SimpleTableDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,6 +118,7 @@ public class TestTableSwing extends JPanel {
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+
     }
 
     public static void main(String[] args) {

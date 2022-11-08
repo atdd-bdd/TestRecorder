@@ -1,5 +1,5 @@
 package kenpugh.TestRecorder;
-
+/*
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class TestCollectionWithList {
             for (Test t : values) {
                 if (t.issueID.equals(issueID)) return t;
             }
-            return null;
+            return Test.NOT_FOUND;
         }
 
         static public List<Test> getAll() {
@@ -57,3 +57,4 @@ public class TestCollectionWithList {
 
 
 
+*/

@@ -12,7 +12,7 @@ import static java.nio.file.Files.readString;
 
 public class MyFileSystem {
     public static void create(MyString filePath, String contents) {
-        Path path = Paths.get(Configuration.rootFilePath, filePath.toString());
+        Path path = Paths.get(Configuration.rootFilePath.toString(), filePath.toString());
         try {
             FileWriter fw = new FileWriter(path.toString());
             fw.write(contents);
@@ -23,7 +23,7 @@ public class MyFileSystem {
     }
 
     public static String read(MyString filePath) {
-        Path path = Paths.get(Configuration.rootFilePath, filePath.toString());
+        Path path = Paths.get(Configuration.rootFilePath.toString(), filePath.toString());
         String text;
         try {
             text = readString(path);

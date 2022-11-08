@@ -51,4 +51,9 @@ public class TestRun {
         if (testRunDTO.testResult != null) testResult = TestResult.valueOf(testRunDTO.testResult);
         System.out.println("*** TestRun is " + this);
     }
+    static public TestRun TestRunFromDTO(TestRunDTO testRunDTO) {
+        TestRun result = new TestRun();
+        result.fromDTO(testRunDTO);
+        return result;
+    }
 }

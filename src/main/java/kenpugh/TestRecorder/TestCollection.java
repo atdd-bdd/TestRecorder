@@ -14,10 +14,9 @@ public class TestCollection {
     static public Test findTest(IssueID issueID) {
         TestDTO testDTO = TestDataAccess.findByIssueID(issueID);
         if (testDTO == TestDTO.NOT_FOUND)
-            return null;
+            return Test.NOT_FOUND;
         else {
-            Test test = new Test();
-            test.fromDTO((testDTO));
+            Test test = Test.testFromDTO(testDTO);
             return test;
         }
       }
@@ -25,9 +24,8 @@ public class TestCollection {
     static public List<Test> getAll() {
         List<TestDTO> listTestDTO = TestDataAccess.getAll();
         List<Test> listTest = new ArrayList<>();
-        for (TestDTO tdto : listTestDTO){
-            Test t = new Test();
-            t.fromDTO((tdto));
+        for (TestDTO tDTO : listTestDTO){
+            Test t = Test.testFromDTO(tDTO);
             listTest.add(t);
         }
         return listTest;
@@ -40,17 +38,18 @@ public class TestCollection {
 
     @Override
     public String toString() {
-        String s = "TestCollection{ \n";
+        StringBuilder s = new StringBuilder("TestCollection{ \n");
          for (Test t : TestCollection.getAll()) {
-            s += t.toString() + "\n";
+            s.append(t.toString());
+            s.append("\n");
         }
-       s += "}";
-         return s;
+       s.append("}");
+         return s.toString();
     }
 
     public static void findTestAndUpdate(IssueID issueID, TestRun tr) {
         Test t = findTest((issueID));
-        if (t != null) {
+        if (t != Test.NOT_FOUND) {
             t.updateWithTestRun(tr);
             TestDTO testDTO = t.getDTO();
             TestDataAccess.update(testDTO);
