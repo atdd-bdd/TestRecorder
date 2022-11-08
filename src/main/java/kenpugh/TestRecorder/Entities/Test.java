@@ -1,17 +1,23 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.Entities;
+
+import kenpugh.TestRecorder.DomainTerms.IssueID;
+import kenpugh.TestRecorder.DomainTerms.MyDateTime;
+import kenpugh.TestRecorder.DomainTerms.MyString;
+import kenpugh.TestRecorder.DomainTerms.Name;
+import kenpugh.TestRecorder.DomainTerms.TestResult;
 
 import java.util.Objects;
 
-class Test {
-    IssueID issueID = IssueID.INVALID_ISSUE_ID;
+public class Test {
+    public IssueID issueID = IssueID.INVALID_ISSUE_ID;
     Name name = new Name();
     TestResult lastResult = TestResult.Failure;
     Name runner = new Name();
     MyDateTime dateLastRun  = new MyDateTime();
     MyDateTime datePreviousResult = new MyDateTime();
-    MyString filePath = new MyString("File Path Not Specified");
+   public MyString filePath = new MyString("File Path Not Specified");
     MyString comments = new MyString("No comment");
-    static Test NOT_FOUND = new Test();
+    public static Test NOT_FOUND = new Test();
 
       public void fromDTO(TestDTO testDTO) {
         if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID);
@@ -28,7 +34,7 @@ class Test {
           result.fromDTO((testDTO));
           return result;
     }
-    TestDTO getDTO() {
+    public TestDTO getDTO() {
         TestDTO testDTO = new TestDTO();
         testDTO.issueID = issueID.toString();
         testDTO.name = name.toString();

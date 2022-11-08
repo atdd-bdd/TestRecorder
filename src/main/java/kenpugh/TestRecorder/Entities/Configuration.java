@@ -1,4 +1,9 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.Entities;
+
+import kenpugh.TestRecorder.DomainTerms.MyDateTime;
+import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
+import kenpugh.TestRecorder.DomainTerms.MyString;
+import kenpugh.TestRecorder.DomainTerms.Name;
 
 public class Configuration {
     static public MyString rootFilePath = new MyString();
@@ -6,7 +11,7 @@ public class Configuration {
     static public boolean useTestDoubleForRunner = false;
     static public MyDateTime valueTestDoubleForDateTime = new MyDateTime();
     static public Name valueTestDoubleForRunner = new Name();
-    static void fromDTO(){
+    public static void fromDTO(){
         String s = ConfigurationDTO.values.get("rootFilePath");
         if (s != null) rootFilePath = new MyString(s);
         s = ConfigurationDTO.values.get("useTestDoubleForDateTime");

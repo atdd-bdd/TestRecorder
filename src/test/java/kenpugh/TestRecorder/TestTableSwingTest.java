@@ -1,7 +1,9 @@
 package kenpugh.TestRecorder;
 
+import kenpugh.TestRecorder.UI.TestTableSwing;
+
 public class TestTableSwingTest {
-    public  TestTableSwing  testTableSwing;
+    public TestTableSwing testTableSwing;
     public void show(){
         /*
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

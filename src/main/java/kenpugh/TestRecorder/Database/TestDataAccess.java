@@ -1,11 +1,15 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.Database;
+
+
+import kenpugh.TestRecorder.DomainTerms.IssueID;
+import kenpugh.TestRecorder.Entities.TestDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 import java.util.List;
 
-import static kenpugh.TestRecorder.DatabaseSetup.connection;
+import static kenpugh.TestRecorder.Database.DatabaseSetup.connection;
 
 public class TestDataAccess {
 
@@ -34,17 +38,16 @@ public class TestDataAccess {
         }
         public static TestDTO  findByIssueID(IssueID anIssueID)
         {
-
             String selectString = "select * from TESTS where IssueID = '" + anIssueID.toString() + "';";
             try {
+                DatabaseSetup.open();
                 Statement s  = connection.createStatement();
                 ResultSet rs = s.executeQuery(selectString);
                 if (rs.next()) {
                     return createTestDTO(rs);
                 }
                 s.close();
-                TestDTO not_found = TestDTO.NOT_FOUND;
-                return not_found;
+                return TestDTO.NOT_FOUND;
 
             } catch(SQLException ex) {
                 System.err.println("SQLException: " + ex.getMessage());
@@ -54,7 +57,7 @@ public class TestDataAccess {
         }
         public static List<TestDTO> getAll()
         {
-            List<TestDTO> list = new ArrayList<TestDTO>();
+            List<TestDTO> list = new ArrayList<>();
             String selectString = "select * from TestS;";
             try {
                 DatabaseSetup.open();

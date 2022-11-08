@@ -1,9 +1,9 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.DomainTerms;
 
 import java.util.Objects;
 
 public class Name {
-    private String value;
+    private final String value;
     public final String NOT_SPECIFIED = "No Name";
 
     @Override

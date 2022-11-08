@@ -5,6 +5,12 @@ import io.cucumber.java.Transpose;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import kenpugh.TestRecorder.Database.DatabaseSetup;
+import kenpugh.TestRecorder.Database.TestDataAccess;
+import kenpugh.TestRecorder.DomainTerms.*;
+import kenpugh.TestRecorder.Entities.*;
+import kenpugh.TestRecorder.Services.CurrentDateTimeService;
+import kenpugh.TestRecorder.Services.CurrentUserService;
 
 import java.util.Collection;
 import java.util.List;
@@ -272,13 +278,13 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
     public void test_can_be_loaded(List<TestDTO> dataTable) {
         Collection<TestDTO> testDTOs = TestDataAccess.getAll();
         boolean match = false;
-        for (TestDTO tdto: dataTable){
-            Test e = Test.testFromDTO(tdto);
+        for (TestDTO tDTO: dataTable){
+            Test e = Test.testFromDTO(tDTO);
 
             match = false;
-            for (TestDTO tdtoo : testDTOs){
+            for (TestDTO tDTOOther : testDTOs){
 
-                Test  a = Test.testFromDTO(tdtoo);
+                Test  a = Test.testFromDTO(tDTOOther);
                 if (e.equals(a)){
                      match = true;
                     break;

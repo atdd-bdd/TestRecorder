@@ -1,5 +1,7 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.DomainTerms;
 
+
+import kenpugh.TestRecorder.Entities.Configuration;
 
 import java.io.FileWriter;
 import java.io.IOException;

@@ -1,13 +1,13 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.Entities;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigurationDTO {
-    static Map<String, String> values = new HashMap<>();
+    public static Map<String, String> values = new HashMap<>();
 
     public static String toSaveString() {
-        StringBuilder out = new StringBuilder("");
+        StringBuilder out = new StringBuilder();
         for (Map.Entry<String, String> entry : values.entrySet()) {
             out.append(entry.getKey());
             out.append("|");

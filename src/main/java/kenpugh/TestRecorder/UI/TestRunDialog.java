@@ -1,4 +1,8 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.UI;
+
+import kenpugh.TestRecorder.Entities.TestRun;
+import kenpugh.TestRecorder.Entities.TestRunDTO;
+import kenpugh.TestRecorder.DomainTerms.TestResult;
 
 import javax.swing.*;
 import java.awt.*;

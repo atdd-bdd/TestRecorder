@@ -1,13 +1,19 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.Entities;
+
+import kenpugh.TestRecorder.DomainTerms.IssueID;
+import kenpugh.TestRecorder.DomainTerms.MyDateTime;
+import kenpugh.TestRecorder.DomainTerms.MyString;
+import kenpugh.TestRecorder.DomainTerms.Name;
+import kenpugh.TestRecorder.DomainTerms.TestResult;
 
 import java.util.Objects;
 
 public class TestRun {
-    IssueID issueID = new IssueID();
-    MyDateTime dateTime = new MyDateTime();
+    public IssueID issueID = new IssueID();
+    public MyDateTime dateTime = new MyDateTime();
     TestResult testResult = TestResult.Failure;
     MyString comments = new MyString();
-    Name runner = new Name();
+    public Name runner = new Name();
 
     public TestRunDTO getDTO() {
         TestRunDTO testRunDTO = new TestRunDTO();

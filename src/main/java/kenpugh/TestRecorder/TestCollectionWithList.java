@@ -39,7 +39,7 @@ public class TestCollectionWithList {
         @Override
         public String toString() {
             String s = "TestCollection{ \n";
-            for (Test t : kenpugh.TestRecorder.TestCollection.getAll()) {
+            for (Test t : kenpugh.TestRecorder.Entities.TestCollection.getAll()) {
                 s += t.toString() + "\n";
             }
             s += "}";

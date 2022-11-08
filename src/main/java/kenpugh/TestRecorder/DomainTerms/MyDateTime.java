@@ -1,4 +1,4 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.DomainTerms;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class MyDateTime {
     private Date theDate;
-    static final String NEVER = "Never";
+    public static final String NEVER = "Never";
     public MyDateTime()  {
         theDate = getDefaultDate();
     }

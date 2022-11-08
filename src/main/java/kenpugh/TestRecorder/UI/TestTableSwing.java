@@ -1,4 +1,7 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.UI;
+
+import kenpugh.TestRecorder.Entities.Test;
+import kenpugh.TestRecorder.Entities.TestDTO;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

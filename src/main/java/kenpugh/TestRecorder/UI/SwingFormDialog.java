@@ -1,4 +1,4 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.UI;
 
 
 import javax.swing.*;

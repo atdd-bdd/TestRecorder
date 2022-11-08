@@ -1,5 +1,8 @@
-package kenpugh.TestRecorder;
+package kenpugh.TestRecorder.Entities;
 
+
+import kenpugh.TestRecorder.DomainTerms.IssueID;
+import kenpugh.TestRecorder.Database.TestDataAccess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +19,7 @@ public class TestCollection {
         if (testDTO == TestDTO.NOT_FOUND)
             return Test.NOT_FOUND;
         else {
-            Test test = Test.testFromDTO(testDTO);
-            return test;
+            return Test.testFromDTO(testDTO);
         }
       }
 
@@ -31,11 +33,13 @@ public class TestCollection {
         return listTest;
     }
 
-    public static void updateTest(Test updatedTest) {
+/*
+ When updates to tests be allowed?
+ public static void updateTest(Test updatedTest) {
         TestDTO testDTO = updatedTest.getDTO();
         TestDataAccess.update(testDTO);
         }
-
+*/
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("TestCollection{ \n");
