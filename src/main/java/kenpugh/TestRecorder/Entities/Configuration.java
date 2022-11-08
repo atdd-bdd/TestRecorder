@@ -1,36 +1,56 @@
 package kenpugh.TestRecorder.Entities;
 
-import kenpugh.TestRecorder.DomainTerms.MyDateTime;
-import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
-import kenpugh.TestRecorder.DomainTerms.MyString;
-import kenpugh.TestRecorder.DomainTerms.Name;
+import kenpugh.TestRecorder.DomainTerms.*;
 
 public class Configuration {
+    public enum ConfigurationVariables { rootFilePath, useTestDoubleForDateTime,
+        useTestDoubleForRunner, valueTestDoubleForDateTime, valueTestDoubleForRunner};
+    public static boolean isValidVariable(String variable){
+        int count = ConfigurationVariables.values().length;
+        try {
+            ConfigurationVariables cv = ConfigurationVariables.valueOf(variable);
+        }
+            catch (IllegalArgumentException e) {
+                System.out.println(" Invalid configuration variable ");
+                return false;
+            }
+    return true;
+    }
+
+    static String rootFilePathString = ConfigurationVariables.rootFilePath.toString();
+
+    static String useTestDoubleForDateTimeString = ConfigurationVariables.useTestDoubleForDateTime.toString();
+
+    static String useTestDoubleForRunnerString = ConfigurationVariables.useTestDoubleForRunner.toString();
+
+    static String valueTestDoubleForDateTimeString = ConfigurationVariables.valueTestDoubleForDateTime.toString();
+    static String valueTestDoubleForRunnerString = ConfigurationVariables.valueTestDoubleForRunner.toString();
     static public MyString rootFilePath = new MyString();
     static public boolean useTestDoubleForDateTime = false;
     static public boolean useTestDoubleForRunner = false;
+
     static public MyDateTime valueTestDoubleForDateTime = new MyDateTime();
     static public Name valueTestDoubleForRunner = new Name();
     public static void fromDTO(){
-        String s = ConfigurationDTO.values.get("rootFilePath");
+        String s = ConfigurationDTO.values.get(rootFilePathString);
         if (s != null) rootFilePath = new MyString(s);
-        s = ConfigurationDTO.values.get("useTestDoubleForDateTime");
+        s = ConfigurationDTO.values.get(useTestDoubleForDateTimeString);
         if (s!= null) useTestDoubleForDateTime = Boolean.parseBoolean(s);
-        s = ConfigurationDTO.values.get("useTestDoubleForRunner");
+        s = ConfigurationDTO.values.get(useTestDoubleForRunnerString);
         if (s!= null) useTestDoubleForRunner = Boolean.parseBoolean(s);
-        s = ConfigurationDTO.values.get("valueTestDoubleForDateTime");
+        s = ConfigurationDTO.values.get(valueTestDoubleForDateTimeString);
         if (s!=null) valueTestDoubleForDateTime = new MyDateTime(s);
-        s= ConfigurationDTO.values.get("valueTestDoubleForRunner");
+        s= ConfigurationDTO.values.get(valueTestDoubleForRunnerString);
         if (s!=null) valueTestDoubleForRunner = new Name(s);
     }
     static void toDTO()
     {
         ConfigurationDTO.values.clear();
-        ConfigurationDTO.values.put("rootFilePath", rootFilePath.toString());
-        ConfigurationDTO.values.put("useTestDoubleForDateTime", Boolean.toString(useTestDoubleForDateTime));
-        ConfigurationDTO.values.put("useTestDoubleForRunner", Boolean.toString(useTestDoubleForRunner));
-        ConfigurationDTO.values.put("valueTestDoubleForDateTime", valueTestDoubleForDateTime.toString());
-        ConfigurationDTO.values.put("valueTestDoubleForRunner", valueTestDoubleForRunner.toString());
+        ConfigurationDTO.values.put(rootFilePathString, rootFilePath.toString());
+        ConfigurationDTO.values.put(useTestDoubleForDateTimeString, Boolean.toString(useTestDoubleForDateTime));
+        ConfigurationDTO.values.put(useTestDoubleForRunnerString, Boolean.toString(useTestDoubleForRunner));
+        ConfigurationDTO.values.put(valueTestDoubleForDateTimeString, valueTestDoubleForDateTime.toString());
+        ConfigurationDTO.values.put(valueTestDoubleForRunnerString, valueTestDoubleForRunner.toString());
     }
     static private final MyString  configurationFileName = new MyString("C:\\Users\\KenV1\\IdeaProjects\\TestRecorder\\target\\configuration.txt");
     static public void saveToFile() {

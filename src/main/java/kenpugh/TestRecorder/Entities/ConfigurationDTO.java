@@ -5,7 +5,9 @@ import java.util.Map;
 
 public class ConfigurationDTO {
     public static Map<String, String> values = new HashMap<>();
-
+    public static void addToMap(String variable, String value){
+        values.put(variable, value);
+    }
     public static String toSaveString() {
         StringBuilder out = new StringBuilder();
         for (Map.Entry<String, String> entry : values.entrySet()) {

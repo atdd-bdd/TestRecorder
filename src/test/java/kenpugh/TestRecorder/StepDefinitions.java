@@ -34,6 +34,9 @@ static class TestRunDisplay {
 public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
     ConfigurationValue crv = new ConfigurationValue();
     crv.variable = entry.get("Variable");
+    if (!Configuration.isValidVariable(crv.variable)) {
+        fail(" Bad configuration variable");
+    }
     crv.value = entry.get("Value");
     return crv;
 }
@@ -88,7 +91,8 @@ public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
     public void configuration_values_are(List<ConfigurationValue> dataTable) {
     for (ConfigurationValue cv : dataTable){
         System.out.println(" Configuration " + cv.variable + " " + cv.value);
-        ConfigurationDTO.values.put(cv.variable, cv.value);
+        ConfigurationDTO.addToMap(cv.variable, cv.value);
+
     }
     Configuration.fromDTO();
     }
