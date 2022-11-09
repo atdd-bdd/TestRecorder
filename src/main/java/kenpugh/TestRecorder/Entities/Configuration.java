@@ -4,11 +4,11 @@ import kenpugh.TestRecorder.DomainTerms.*;
 
 public class Configuration {
     public enum ConfigurationVariables { rootFilePath, useTestDoubleForDateTime,
-        useTestDoubleForRunner, valueTestDoubleForDateTime, valueTestDoubleForRunner};
+        useTestDoubleForRunner, valueTestDoubleForDateTime,
+        valueTestDoubleForRunner, formNotCloseOnExit}
     public static boolean isValidVariable(String variable){
-        int count = ConfigurationVariables.values().length;
         try {
-            ConfigurationVariables cv = ConfigurationVariables.valueOf(variable);
+            ConfigurationVariables.valueOf(variable);
         }
             catch (IllegalArgumentException e) {
                 System.out.println(" Invalid configuration variable ");
@@ -17,17 +17,19 @@ public class Configuration {
     return true;
     }
 
-    static String rootFilePathString = ConfigurationVariables.rootFilePath.toString();
+    public static String rootFilePathString = ConfigurationVariables.rootFilePath.toString();
 
-    static String useTestDoubleForDateTimeString = ConfigurationVariables.useTestDoubleForDateTime.toString();
+    public static String useTestDoubleForDateTimeString = ConfigurationVariables.useTestDoubleForDateTime.toString();
 
-    static String useTestDoubleForRunnerString = ConfigurationVariables.useTestDoubleForRunner.toString();
+    public static String useTestDoubleForRunnerString = ConfigurationVariables.useTestDoubleForRunner.toString();
 
-    static String valueTestDoubleForDateTimeString = ConfigurationVariables.valueTestDoubleForDateTime.toString();
-    static String valueTestDoubleForRunnerString = ConfigurationVariables.valueTestDoubleForRunner.toString();
-    static public MyString rootFilePath = new MyString();
-    static public boolean useTestDoubleForDateTime = false;
+    public static String valueTestDoubleForDateTimeString = ConfigurationVariables.valueTestDoubleForDateTime.toString();
+    public static String valueTestDoubleForRunnerString = ConfigurationVariables.valueTestDoubleForRunner.toString();
+    public static String formNotCloseOnExitString = ConfigurationVariables.formNotCloseOnExit.toString();
+    public static MyString rootFilePath = new MyString();
+    public static boolean useTestDoubleForDateTime = false;
     static public boolean useTestDoubleForRunner = false;
+    static public boolean formNotCloseOnExit = false;
 
     static public MyDateTime valueTestDoubleForDateTime = new MyDateTime();
     static public Name valueTestDoubleForRunner = new Name();
@@ -42,6 +44,9 @@ public class Configuration {
         if (s!=null) valueTestDoubleForDateTime = new MyDateTime(s);
         s= ConfigurationDTO.values.get(valueTestDoubleForRunnerString);
         if (s!=null) valueTestDoubleForRunner = new Name(s);
+        s= ConfigurationDTO.values.get(formNotCloseOnExitString);
+        if (s!=null) formNotCloseOnExit = Boolean.parseBoolean(s);
+
     }
     static void toDTO()
     {
@@ -51,6 +56,7 @@ public class Configuration {
         ConfigurationDTO.values.put(useTestDoubleForRunnerString, Boolean.toString(useTestDoubleForRunner));
         ConfigurationDTO.values.put(valueTestDoubleForDateTimeString, valueTestDoubleForDateTime.toString());
         ConfigurationDTO.values.put(valueTestDoubleForRunnerString, valueTestDoubleForRunner.toString());
+        ConfigurationDTO.values.put(formNotCloseOnExitString, Boolean.toString(formNotCloseOnExit));
     }
     static private final MyString  configurationFileName = new MyString("C:\\Users\\KenV1\\IdeaProjects\\TestRecorder\\target\\configuration.txt");
     static public void saveToFile() {
@@ -78,6 +84,7 @@ public class Configuration {
         return "Configuration{ " + "rootFilePath=" + rootFilePath + " " + "useTestDoubleForDateTime="+
                 useTestDoubleForDateTime + " " + "useTestDoubleForRunner=" + useTestDoubleForRunner + " " +
                 "valueTestDoubleForDateTime=" + valueTestDoubleForDateTime + " " + "valueTestDoubleForRunner=" +
-                valueTestDoubleForRunner +" }";
+                valueTestDoubleForRunner +
+                formNotCloseOnExitString +"="  + formNotCloseOnExit + " " + "}";
       }
 }

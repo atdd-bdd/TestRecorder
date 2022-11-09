@@ -33,6 +33,15 @@ public class TestCollection {
         }
         return listTest;
     }
+    static public List<TestDTO> listTestDTOfromListTest(List<Test> tests){
+        List<TestDTO> testDTOs = new ArrayList<>();
+        for (Test test : tests)
+        {
+            TestDTO temp = test.getDTO();
+            testDTOs.add(temp);
+        }
+        return testDTOs;
+    }
 
 
      public static boolean updateTest(Test updatedTest) {

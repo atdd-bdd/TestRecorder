@@ -30,13 +30,14 @@ Feature: Test Recorder
       | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:01 AM |
       | valueTestDoubleForRunner   | Sam                      |
   # Test is run by bringing up a dialog box, entering appropriate information, and saving
-    When test is run
+   When test is selected
       | Issue ID | 12345       |
+    When test is run
       | Result   | Success     |
       | Comments | Works great |
-    And test run display contains
+    Then test run display contains
       | Test Script | Select test \n Run it \n Check result |
-    Then test is now
+    And test is now
       | Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
       | 12345    | Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
     And test run record is now
@@ -55,11 +56,12 @@ Feature: Test Recorder
       | valueTestDoubleForRunner   | Bill                     |
 
   #Test is run by bringing up a dialog box, entering appropriate information, and saving
-    When test is run
-      | Issue ID | 12345         |
+    When test is selected
+      | Issue ID | 12345       |
+    And test is run
       | Result   | Failure       |
       | Comments | Something bad |
-    And test run display contains
+    Then test run display contains
       | Test Script | Select test \n Run it \n Check result |
     Then test is now
       | Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result     | File Path               | Comments      |

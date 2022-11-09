@@ -1,1 +1,1 @@
-rootFilePath|C:\Users\KenV1\IdeaProjects\TestRecorder\target$useTestDoubleForDateTime|false$valueTestDoubleForDateTime|Oct 1, 2022, 12:30:02 AM$useTestDoubleForRunner|true$valueTestDoubleForRunner|Jane$
+formNotCloseOnExit|true$rootFilePath|C:\Users\KenV1\IdeaProjects\TestRecorder\target$useTestDoubleForDateTime|false$valueTestDoubleForDateTime|Oct 1, 2022, 12:30:02 AM$useTestDoubleForRunner|true$valueTestDoubleForRunner|Jane$

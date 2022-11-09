@@ -8,6 +8,7 @@ Given configuration values are:
 | useTestDoubleForRunner   | true  |
 | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:02 AM |
 | valueTestDoubleForRunner | Jane |
+  |formNotCloseOnExit        | true |
 When configuration is saved
 And configuration is loaded
 Then configuration values now are:
@@ -17,8 +18,9 @@ Then configuration values now are:
 | useTestDoubleForRunner   | true  |
 | valueTestDoubleForDateTime |Oct 1, 2022, 12:30:02 AM |
 | valueTestDoubleForRunner | Jane |
+| formNotCloseOnExit        | true |
 
-Scenario: Can Store and Load Test from Database
+  Scenario: Can Store and Load Test from Database
     Given database is setup
     When test is stored
       | Issue ID  | Name               | Runner   | Last Result    | Date Last Run  | Date Previous Result  | File Path                | Comments |

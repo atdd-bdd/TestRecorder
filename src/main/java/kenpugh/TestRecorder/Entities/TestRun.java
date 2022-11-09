@@ -5,15 +5,25 @@ import kenpugh.TestRecorder.DomainTerms.MyDateTime;
 import kenpugh.TestRecorder.DomainTerms.MyString;
 import kenpugh.TestRecorder.DomainTerms.Name;
 import kenpugh.TestRecorder.DomainTerms.TestResult;
+import kenpugh.TestRecorder.Services.CurrentDateTimeService;
+import kenpugh.TestRecorder.Services.CurrentUserService;
 
 import java.util.Objects;
 
 public class TestRun {
     public IssueID issueID = new IssueID();
     public MyDateTime dateTime = new MyDateTime();
-    TestResult testResult = TestResult.Failure;
-    MyString comments = new MyString();
+    public TestResult testResult = TestResult.Failure;
+    public MyString comments = new MyString();
     public Name runner = new Name();
+
+    public static TestRun getBaseTestRun(IssueID issueID ){
+        TestRun result = new TestRun();
+        result.issueID = issueID;
+        result.dateTime = CurrentDateTimeService.getCurrentDateTime();
+        result.runner = CurrentUserService.getCurrentUser();
+        return result;
+    }
 
     public TestRunDTO getDTO() {
         TestRunDTO testRunDTO = new TestRunDTO();
