@@ -5,8 +5,8 @@ import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
 import kenpugh.TestRecorder.DomainTerms.MyString;
 import kenpugh.TestRecorder.DomainTerms.Name;
 
-public class Configuration {
-    public enum ConfigurationVariables {
+public class MyConfiguration {
+    public enum MyConfigurationVariables {
         rootFilePath, useTestDoubleForDateTime,
         useTestDoubleForRunner, valueTestDoubleForDateTime,
         valueTestDoubleForRunner, formNotCloseOnExit
@@ -14,7 +14,7 @@ public class Configuration {
 
     public static boolean isValidVariable(String variable) {
         try {
-            ConfigurationVariables.valueOf(variable);
+            MyConfigurationVariables.valueOf(variable);
         } catch (IllegalArgumentException e) {
             System.out.println(" Invalid configuration variable ");
             return false;
@@ -22,15 +22,15 @@ public class Configuration {
         return true;
     }
 
-    public static final String rootFilePathString = ConfigurationVariables.rootFilePath.toString();
+    public static final String rootFilePathString = MyConfigurationVariables.rootFilePath.toString();
 
-    public static final String useTestDoubleForDateTimeString = ConfigurationVariables.useTestDoubleForDateTime.toString();
+    public static final String useTestDoubleForDateTimeString = MyConfigurationVariables.useTestDoubleForDateTime.toString();
 
-    public static final String useTestDoubleForRunnerString = ConfigurationVariables.useTestDoubleForRunner.toString();
+    public static final String useTestDoubleForRunnerString = MyConfigurationVariables.useTestDoubleForRunner.toString();
 
-    public static final String valueTestDoubleForDateTimeString = ConfigurationVariables.valueTestDoubleForDateTime.toString();
-    public static final String valueTestDoubleForRunnerString = ConfigurationVariables.valueTestDoubleForRunner.toString();
-    public static final String formNotCloseOnExitString = ConfigurationVariables.formNotCloseOnExit.toString();
+    public static final String valueTestDoubleForDateTimeString = MyConfigurationVariables.valueTestDoubleForDateTime.toString();
+    public static final String valueTestDoubleForRunnerString = MyConfigurationVariables.valueTestDoubleForRunner.toString();
+    public static final String formNotCloseOnExitString = MyConfigurationVariables.formNotCloseOnExit.toString();
     public static MyString rootFilePath = new MyString();
     public static boolean useTestDoubleForDateTime = false;
     static public boolean useTestDoubleForRunner = false;
@@ -40,36 +40,36 @@ public class Configuration {
     static public Name valueTestDoubleForRunner = new Name();
 
     public static void fromDTO() {
-        String s = ConfigurationDTO.values.get(rootFilePathString);
+        String s = MyConfigurationDTO.values.get(rootFilePathString);
         if (s != null) rootFilePath = new MyString(s);
-        s = ConfigurationDTO.values.get(useTestDoubleForDateTimeString);
+        s = MyConfigurationDTO.values.get(useTestDoubleForDateTimeString);
         if (s != null) useTestDoubleForDateTime = Boolean.parseBoolean(s);
-        s = ConfigurationDTO.values.get(useTestDoubleForRunnerString);
+        s = MyConfigurationDTO.values.get(useTestDoubleForRunnerString);
         if (s != null) useTestDoubleForRunner = Boolean.parseBoolean(s);
-        s = ConfigurationDTO.values.get(valueTestDoubleForDateTimeString);
+        s = MyConfigurationDTO.values.get(valueTestDoubleForDateTimeString);
         if (s != null) valueTestDoubleForDateTime = new MyDateTime(s);
-        s = ConfigurationDTO.values.get(valueTestDoubleForRunnerString);
+        s = MyConfigurationDTO.values.get(valueTestDoubleForRunnerString);
         if (s != null) valueTestDoubleForRunner = new Name(s);
-        s = ConfigurationDTO.values.get(formNotCloseOnExitString);
+        s = MyConfigurationDTO.values.get(formNotCloseOnExitString);
         if (s != null) formNotCloseOnExit = Boolean.parseBoolean(s);
 
     }
 
     static void toDTO() {
-        ConfigurationDTO.values.clear();
-        ConfigurationDTO.values.put(rootFilePathString, rootFilePath.toString());
-        ConfigurationDTO.values.put(useTestDoubleForDateTimeString, Boolean.toString(useTestDoubleForDateTime));
-        ConfigurationDTO.values.put(useTestDoubleForRunnerString, Boolean.toString(useTestDoubleForRunner));
-        ConfigurationDTO.values.put(valueTestDoubleForDateTimeString, valueTestDoubleForDateTime.toString());
-        ConfigurationDTO.values.put(valueTestDoubleForRunnerString, valueTestDoubleForRunner.toString());
-        ConfigurationDTO.values.put(formNotCloseOnExitString, Boolean.toString(formNotCloseOnExit));
+        MyConfigurationDTO.values.clear();
+        MyConfigurationDTO.values.put(rootFilePathString, rootFilePath.toString());
+        MyConfigurationDTO.values.put(useTestDoubleForDateTimeString, Boolean.toString(useTestDoubleForDateTime));
+        MyConfigurationDTO.values.put(useTestDoubleForRunnerString, Boolean.toString(useTestDoubleForRunner));
+        MyConfigurationDTO.values.put(valueTestDoubleForDateTimeString, valueTestDoubleForDateTime.toString());
+        MyConfigurationDTO.values.put(valueTestDoubleForRunnerString, valueTestDoubleForRunner.toString());
+        MyConfigurationDTO.values.put(formNotCloseOnExitString, Boolean.toString(formNotCloseOnExit));
     }
 
     static private final MyString configurationFileName = new MyString("C:\\Users\\KenV1\\IdeaProjects\\TestRecorder\\target\\configuration.txt");
 
     static public void saveToFile() {
         toDTO();
-        String out = ConfigurationDTO.toSaveString();
+        String out = MyConfigurationDTO.toSaveString();
         System.out.println("*** Saving configuration " + out);
         // Need to use blank root, so can read without rootFilePath being set
         MyString rootFilePathSaved = rootFilePath;
@@ -82,7 +82,7 @@ public class Configuration {
         rootFilePath = new MyString("");
         String in = MyFileSystem.read(configurationFileName);
         System.out.println("Loading configuration " + in);
-        ConfigurationDTO.fromSaveString(in);
+        MyConfigurationDTO.fromSaveString(in);
         fromDTO();
 
 

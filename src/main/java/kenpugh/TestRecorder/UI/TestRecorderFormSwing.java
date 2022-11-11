@@ -103,12 +103,12 @@ public class TestRecorderFormSwing {
     }
 
     public static void main(String[] args) {
-        Configuration.loadFromFile();
+        MyConfiguration.loadFromFile();
         setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
         JFrame frame = new JFrame("TestRecorderFormSwing");
         testRecorderFormSwing = new TestRecorderFormSwing();
         frame.setContentPane(testRecorderFormSwing.aPanel);
-        if (!kenpugh.TestRecorder.Entities.Configuration.formNotCloseOnExit) {
+        if (!MyConfiguration.formNotCloseOnExit) {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
         frame.pack();

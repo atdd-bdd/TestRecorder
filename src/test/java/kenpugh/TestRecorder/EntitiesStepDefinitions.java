@@ -36,10 +36,10 @@ public class EntitiesStepDefinitions {
     }
 
     @DataTableType
-    public ConfigurationValue inputConfigurationValue(Map<String, String> entry) {
-        ConfigurationValue crv = new ConfigurationValue();
+    public MyConfigurationValue inputConfigurationValue(Map<String, String> entry) {
+        MyConfigurationValue crv = new MyConfigurationValue();
         crv.variable = entry.get("Variable");
-        if (!Configuration.isValidVariable(crv.variable)) {
+        if (!MyConfiguration.isValidVariable(crv.variable)) {
             fail(" Bad configuration variable");
         }
         crv.value = entry.get("Value");
@@ -55,31 +55,31 @@ public class EntitiesStepDefinitions {
     }
 
     @Given("configuration values are:")
-    public void configuration_values_are(List<ConfigurationValue> dataTable) {
-        for (ConfigurationValue cv : dataTable) {
+    public void configuration_values_are(List<MyConfigurationValue> dataTable) {
+        for (MyConfigurationValue cv : dataTable) {
             System.out.println(" Configuration " + cv.variable + " " + cv.value);
-            ConfigurationDTO.addToMap(cv.variable, cv.value);
+            MyConfigurationDTO.addToMap(cv.variable, cv.value);
 
         }
-        Configuration.fromDTO();
+        MyConfiguration.fromDTO();
     }
 
 
     @When("configuration is saved")
     public void configuration_is_saved() {
-        Configuration.saveToFile();
+        MyConfiguration.saveToFile();
     }
 
     @When("configuration is loaded")
     public void configuration_is_loaded() {
-        Configuration.valueTestDoubleForRunner = new Name("Should not be this");
-        Configuration.loadFromFile();
+        MyConfiguration.valueTestDoubleForRunner = new Name("Should not be this");
+        MyConfiguration.loadFromFile();
     }
 
     @Then("configuration values now are:")
-    public void configuration_values_now_are(List<ConfigurationValue> dataTable) {
-        for (ConfigurationValue cv : dataTable) {
-            String value = ConfigurationDTO.values.get(cv.variable);
+    public void configuration_values_now_are(List<MyConfigurationValue> dataTable) {
+        for (MyConfigurationValue cv : dataTable) {
+            String value = MyConfigurationDTO.values.get(cv.variable);
             assertEquals(cv.value, value);
 
         }

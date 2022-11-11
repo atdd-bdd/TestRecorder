@@ -1,6 +1,6 @@
 package kenpugh.TestRecorder;
 
-class ConfigurationValue {
+class MyConfigurationValue {
     String variable;
     String value;
 }

@@ -1,6 +1,6 @@
 package kenpugh.TestRecorder.UI;
 
-import kenpugh.TestRecorder.Entities.Configuration;
+import kenpugh.TestRecorder.Entities.MyConfiguration;
 import kenpugh.TestRecorder.Entities.TestDTO;
 
 import javax.swing.*;
@@ -62,7 +62,7 @@ public class TestEntryDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("**** Browse button");
-                String rootFathString = Configuration.rootFilePath.toString();
+                String rootFathString = MyConfiguration.rootFilePath.toString();
                 System.out.println(" Root is " +  rootFathString );
                 JFileChooser jfc =
                         new JFileChooser(rootFathString);
