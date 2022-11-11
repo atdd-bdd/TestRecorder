@@ -1,0 +1,71 @@
+* check getting the current date
+* check configuration - set up with a configuration scenario
+
+Do an add test with the same issue id -
+    return a message ( enum Error IssueIDAlreadyExists
+
+    Do the history -  save the testrun in a database on the return
+
+** Remove java 14 - change JAVA_HOME
+
+Show a flow
+    Given empty
+    When add test
+    When add test
+    When add test
+    Then
+
+Business Rule - how to update
+
+*** Add TestDTO to Test -  runner not set, success not see.  is the default name NO Name?
+
+test  not manual or not manualalternative
+
+Rename configuration to MyConfiguration
+
+Scenario to execute program - e.g. java .... with everything
+
+How to know how many columns on input table and therefore which columns to check
+
+     Have a DTO that is initialized to all nulls.
+     Fill it in from the input table.
+     Must have some way of getting the value.
+     static FieldsSupplied = all nulls
+     set it up with booleans
+     pass it the dataTable - it checks each field
+     (if entry.get("ID") != null) fieldsupplied = true;
+     boolean FieldsSupplied.check (Test a, Test b) ;
+
+
+-- Check mastadon - for messages
+-- Check pickleball instructors
+
+
+** turn csv into | | |
+c++ program = read csv,  write | | |
+
+* click on link - stupid versus code
+    Automade everything
+
+    Technology - arrognance   assume everyone is at the same level
+
+    System O/S level,  hardware - etc.
+
+    Reasonble versus unreesonable
+    Parking app track inforation - where and when
+    Delete after X days
+    Google auto - why use google maps   , but I've got a GPS in my car.
+    Write google - 10,000 every time you do this
+
+    TestCollection
+        could write the collection to a file for persistence
+
+Boilerplate
+validate - right format,  verify - thing exists
+Exists - check if there, if not add it
+Contains - should be there
+Are - list of all of them
+Now Are - checks that all are there and no others
+Now contains - checks that is there
+
+doc -Alias for program files does not work

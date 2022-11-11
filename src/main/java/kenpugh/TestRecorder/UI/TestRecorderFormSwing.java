@@ -58,18 +58,22 @@ public class TestRecorderFormSwing {
                 if (dialog.added) {
                     testRun = TestRun.TestRunFromDTO(dialog.testRunDTO);
                     TestCollection.findTestAndUpdate(testRun.issueID, testRun);
+                    testRecorderFormSwing.updateData();
                 }
 
             }
         });
         addTest.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e the event to be processed
-             */
+
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                TestEntryDialog dialog = new TestEntryDialog();
+                dialog.pack();
+                dialog.setVisible(true);
+                Test test = Test.testFromDTO(dialog.testDTO);
+                TestCollection.addTest(test);
+                testRecorderFormSwing.updateData();
 
             }
         });
@@ -101,7 +105,7 @@ public class TestRecorderFormSwing {
     }
 
     public static void main(String[] args) {
-
+        Configuration.loadFromFile();
         setUIFont (new javax.swing.plaf.FontUIResource(new Font("MS Mincho",Font.PLAIN, 16)));
         JFrame frame = new JFrame("TestRecorderFormSwing");
         testRecorderFormSwing = new TestRecorderFormSwing();
@@ -119,6 +123,7 @@ public class TestRecorderFormSwing {
                 "Issue ID",
                 "Name",
                 "Runner",
+                "Last Result",
                 "Date Last Run",
                 "Date Previous Result",
                 "File Path ",
@@ -132,10 +137,10 @@ public class TestRecorderFormSwing {
         testTable.setFillsViewportHeight(true);
 
     }
-     private void updateData() {
+     public void updateData() {
         List<Test> tests = TestCollection.getAll();
         testDTOs = TestCollection.listTestDTOfromListTest(tests);
-
+        tableModel.setNumRows(0);
          for (TestDTO testDTO : testDTOs) {
              String[] data = new String[8];
              data[0] = testDTO.issueID;

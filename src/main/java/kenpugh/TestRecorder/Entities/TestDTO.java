@@ -3,16 +3,17 @@ package kenpugh.TestRecorder.Entities;
 
 import kenpugh.TestRecorder.DomainTerms.IssueID;
 import kenpugh.TestRecorder.DomainTerms.MyDateTime;
+import kenpugh.TestRecorder.DomainTerms.Name;
 import kenpugh.TestRecorder.DomainTerms.TestResult;
 
 public class TestDTO {
     public String issueID  = IssueID.NOT_SPECIFIED;
-    public String  name = "NO NAME";
+    public String  name = Name.NOT_SPECIFIED;
     public String  lastResult = TestResult.Failure.toString();
-    public String runner = "NO NAME";
+    public String runner = Name.NOT_SPECIFIED;
     public String dateLastRun = MyDateTime.NEVER;
     public String datePreviousResult = MyDateTime.NEVER;
-    public String filePath = "NO PATH";
-    public String comments = "NO COMMENTs";
+    public String filePath = "File Path Not Specified";
+    public String comments = "";
     public static TestDTO NOT_FOUND = new TestDTO();
     }

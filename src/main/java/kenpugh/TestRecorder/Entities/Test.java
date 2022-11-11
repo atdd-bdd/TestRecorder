@@ -10,9 +10,9 @@ import java.util.Objects;
 
 public class Test {
     public IssueID issueID = IssueID.INVALID_ISSUE_ID;
-    Name name = new Name();
+    Name name = new Name(Name.NOT_SPECIFIED);
     TestResult lastResult = TestResult.Failure;
-    Name runner = new Name();
+    Name runner = new Name(Name.NOT_SPECIFIED);
     MyDateTime dateLastRun  = new MyDateTime();
     MyDateTime datePreviousResult = new MyDateTime();
    public MyString filePath = new MyString("File Path Not Specified");
@@ -22,7 +22,7 @@ public class Test {
       public void fromDTO(TestDTO testDTO) {
         if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID);
         if (testDTO.name != null) name = new Name(testDTO.name);
-        if (testDTO.lastResult != null) lastResult = TestResult.valueOf(testDTO.lastResult);
+        if (testDTO.lastResult != null) lastResult = TestResult.parse(testDTO.lastResult);
         if (testDTO.dateLastRun != null) dateLastRun = MyDateTime.parse(testDTO.dateLastRun);
         if (testDTO.datePreviousResult != null) datePreviousResult = MyDateTime.parse(testDTO.datePreviousResult);
         if (testDTO.filePath != null) filePath = new MyString(testDTO.filePath);
@@ -67,11 +67,17 @@ public class Test {
 
 
     public void updateWithTestRun(TestRun tr) {
+
           System.out.println(" Updating test " + this);
           System.out.println(" With test run " + tr);
+        TestUpdatedFromTestRun(tr);
+        System.out.println(" Test is now " + this);
+    }
+
+    public void  TestUpdatedFromTestRun(TestRun tr) {
         if (!tr.issueID.equals(issueID)) {
             System.err.println(" Trying to update wrong test " + issueID + " with " + tr.issueID);
-            return;
+            return ;
         }
 
         runner = tr.runner;
@@ -81,6 +87,6 @@ public class Test {
         }
         dateLastRun = tr.dateTime;
         lastResult = tr.testResult;
-        System.out.println(" Test is now " + this);
+        return ;
     }
 }

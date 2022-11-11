@@ -23,22 +23,6 @@ static class TestRunDisplay {
     String testRunScript = "";
 }
 
-    @Given("Test Results are")
-    public void test_results_are(List<String> dataTable) {
-         int count = TestResult.values().length;
-         if (dataTable.size() != count)
-             assertFalse("Count of enums did not match ", false);
-        for (String cv : dataTable){
-             try {
-                TestResult tr = TestResult.valueOf(cv);
-                assertEquals(cv, tr.toString());
-            }
-            catch (IllegalArgumentException e) {
-                assertFalse(" Value " + cv, false);
-            }
-        }
-
-    }
 
     @Given("tests are empty")
     public void tests_are_empty(List<Test> ignoredDataTable) {

@@ -37,6 +37,8 @@ public class DatabaseSetup {
 
         } catch(java.lang.ClassNotFoundException e) {
             System.err.println(e.getMessage());
+            System.err.println("Did not find driver class");
+            System.exit(1);
         }
 
         try {
@@ -44,7 +46,10 @@ public class DatabaseSetup {
         } catch(SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage() + " Setup");
         }
-
+        if (connection==null){
+            System.err.println("Cannot make connection to database");
+            System.exit(0);
+        }
     }
     public static void setupTables()
     {

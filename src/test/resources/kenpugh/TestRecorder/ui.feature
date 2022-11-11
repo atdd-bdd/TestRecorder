@@ -1,6 +1,6 @@
 Feature: UI
 
-  @manual-no
+  @manual
   Scenario: Display Test Table
     Given tests are
       | Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
@@ -16,7 +16,7 @@ Feature: UI
     And  configuration values are:
       | Variable                   | Value                    |
       |formNotCloseOnExit        | false |
-    And test table swing is shown for 10 seconds
+    And test table swing is shown for 5 seconds
     Then test table should show that data
 
 @manual

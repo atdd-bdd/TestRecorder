@@ -11,7 +11,12 @@ public class MyDateTime {
     public MyDateTime()  {
         theDate = getDefaultDate();
     }
-     static private Date getDefaultDate(){
+
+    public MyDateTime(Date date) {
+        theDate = date;
+    }
+
+    static private Date getDefaultDate(){
         Date def;
          try {
              def = DateFormat.getDateTimeInstance().parse("Jan 1, 1970, 0:0:0 AM");

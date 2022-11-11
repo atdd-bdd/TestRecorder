@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Name {
     private final String value;
-    public final String NOT_SPECIFIED = "No Name";
+    public static final String NOT_SPECIFIED = "No Name";
 
     @Override
     public boolean equals(Object o) {
