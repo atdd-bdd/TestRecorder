@@ -5,14 +5,14 @@ import kenpugh.TestRecorder.DomainTerms.*;
 import java.util.Objects;
 
 public class Test {
-    public IssueID issueID = IssueID.INVALID_ISSUE_ID;
-    Name name = new Name(Name.NOT_SPECIFIED);
-    TestResult lastResult = TestResult.Failure;
-    Name runner = new Name("");
-    MyDateTime dateLastRun = new MyDateTime();
-    MyDateTime datePreviousResult = new MyDateTime();
-    public MyString filePath = new MyString("File Path Not Specified");
-    MyString comments = new MyString("No comment");
+    private IssueID issueID = IssueID.INVALID_ISSUE_ID;
+   private Name name = new Name(Name.NOT_SPECIFIED);
+    private TestResult lastResult = TestResult.Failure;
+    private Name runner = new Name("");
+    private MyDateTime dateLastRun = new MyDateTime();
+    private MyDateTime datePreviousResult = new MyDateTime();
+    private MyString filePath = new MyString("File Path Not Specified");
+    private MyString comments = new MyString("No comment");
     public final static Test NOT_FOUND = new Test();
 
     public void fromDTO(TestDTO testDTO) {
@@ -66,24 +66,25 @@ public class Test {
 
     public void updateWithTestRun(TestRun tr) {
 
-        System.out.println(" Updating test " + this);
-        System.out.println(" With test run " + tr);
         TestUpdatedFromTestRun(tr);
-        System.out.println(" Test is now " + this);
     }
 
     public void TestUpdatedFromTestRun(TestRun tr) {
-        if (!tr.issueID.equals(issueID)) {
-            System.err.println(" Trying to update wrong test " + issueID + " with " + tr.issueID);
+        if (!tr.getIssueID().equals(issueID)) {
+            System.err.println(" Trying to update wrong test " + issueID + " with " + tr.getIssueID());
             return;
         }
 
-        runner = tr.runner;
-        comments = tr.comments;
-        if (tr.testResult != lastResult) {
+        runner = tr.getRunner();
+        comments = tr.getComments();
+        if (tr.getTestResult() != lastResult) {
             datePreviousResult = dateLastRun;
         }
-        dateLastRun = tr.dateTime;
-        lastResult = tr.testResult;
+        dateLastRun = tr.getDateTime();
+        lastResult = tr.getTestResult();
+    }
+
+    public MyString getFilePath() {
+        return filePath;
     }
 }

@@ -32,7 +32,6 @@ public class TestDataAccess {
                     aTest.datePreviousResult + "', '" +
                     aTest.filePath + "', '" +
                     aTest.comments + "' );";
-            System.out.println(s);
             statement.execute(s);
             return true;
         } catch (SQLException ex) {
@@ -104,8 +103,7 @@ public class TestDataAccess {
                     "filePath='" + testDTO.filePath + "'," +
                     "comments='" + testDTO.comments + "' " +
                     "WHERE issueID='" + testDTO.issueID + "';";
-            System.out.println(s);
-            statement.execute(s);
+              statement.execute(s);
             return true;
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage() + " Update");

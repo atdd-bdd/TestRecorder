@@ -25,7 +25,6 @@ public class DomainTermStepDefinitions {
     public void issue_id_must_be_five_characters_and_digits_without_spaces
             (List<DomainTermValid> dataTable) {
         for (DomainTermValid dtv : dataTable) {
-            System.out.println(dtv);
             IssueID temp = new IssueID(dtv.value);
             if (dtv.valid.equals("Yes")) {
                 assertEquals(dtv.notes, dtv.value, temp.toString());
@@ -40,9 +39,7 @@ public class DomainTermStepDefinitions {
     public void test_date_must_have_valid_format
             (List<DomainTermValid> dataTable) {
         for (DomainTermValid dtv : dataTable) {
-            System.out.println("**** " + dtv);
             MyDateTime temp = MyDateTime.parse(dtv.value);
-            System.out.println("*** " + temp);
 
             if (dtv.valid.equals("Yes")) {
                 assertEquals(dtv.value, temp.toStringWithNever());

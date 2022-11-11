@@ -1,5 +1,7 @@
 package kenpugh.TestRecorder.UI;
 
+import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
+import kenpugh.TestRecorder.DomainTerms.MyString;
 import kenpugh.TestRecorder.Entities.MyConfiguration;
 import kenpugh.TestRecorder.Entities.TestDTO;
 
@@ -61,19 +63,16 @@ public class TestEntryDialog extends JDialog {
         browseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("**** Browse button");
                 String rootFathString = MyConfiguration.rootFilePath.toString();
-                System.out.println(" Root is " +  rootFathString );
                 JFileChooser jfc =
                         new JFileChooser(rootFathString);
                 jfc.setDialogTitle("Choose the manual script file: ");
                 jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                int returnValue = jfc.showOpenDialog(null);
+                int returnValue = jfc.showOpenDialog(TestRecorderFormSwing.frame);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     String filename = String.valueOf(jfc.getSelectedFile());
                     String filename1 = filename.replace(rootFathString,"");
                     filePathTextField.setText(filename1);
-                    System.out.println("file is " + filename1);
 
                 }
 
@@ -91,7 +90,13 @@ public class TestEntryDialog extends JDialog {
         testDTO.datePreviousResult = datePreviousResultTextField.getText();
         testDTO.runner = runnerTextField.getText();
         testDTO.lastResult = lastResultTextField.getText();
-                  dispose();
+        MyString filePathString = new MyString(testDTO.filePath);
+        if (!MyFileSystem.checkReadabiity(filePathString)) {
+            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                    "File " + filePathString + " is not readable");
+            testDTO = null;
+        }
+        dispose();
     }
 
 

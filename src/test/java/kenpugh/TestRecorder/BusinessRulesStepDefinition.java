@@ -85,7 +85,6 @@ public class BusinessRulesStepDefinition {
     @Given("Update Test from Test Run")
     public void update_test_from_test_run(List<UpdateTestFromTestRunBusinessRuleDTO> dataTable) {
         for (UpdateTestFromTestRunBusinessRuleDTO upftrbr : dataTable) {
-            System.out.println(upftrbr);
             TestDTO oldTestDTO = getoldTestDTO(upftrbr);
             TestRunDTO testRunDTO = getTestRunDTO(upftrbr);
             TestDTO newTestDTO = getnewTestDTO(upftrbr);

@@ -7,11 +7,11 @@ import kenpugh.TestRecorder.Services.CurrentUserService;
 import java.util.Objects;
 
 public class TestRun {
-    public IssueID issueID = new IssueID();
-    public MyDateTime dateTime = new MyDateTime();
-    public TestResult testResult = TestResult.Failure;
-    public MyString comments = new MyString();
-    public Name runner = new Name();
+    private IssueID issueID = new IssueID();
+    private MyDateTime dateTime = new MyDateTime();
+    private TestResult testResult = TestResult.Failure;
+    private MyString comments = new MyString();
+    private Name runner = new Name();
 
     public static TestRun getBaseTestRun(IssueID issueID) {
         TestRun result = new TestRun();
@@ -61,12 +61,43 @@ public class TestRun {
         if (testRunDTO.dateTime != null) dateTime = new MyDateTime(testRunDTO.dateTime);
         if (testRunDTO.runner != null) runner = new Name(testRunDTO.runner);
         if (testRunDTO.testResult != null) testResult = TestResult.valueOf(testRunDTO.testResult);
-        System.out.println("*** TestRun is " + this);
     }
 
     static public TestRun TestRunFromDTO(TestRunDTO testRunDTO) {
         TestRun result = new TestRun();
         result.fromDTO(testRunDTO);
         return result;
+    }
+
+    public TestResult getTestResult() {
+        return testResult;
+    }
+
+    public MyDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public IssueID getIssueID() {
+        return issueID;
+    }
+
+    public Name getRunner() {
+        return runner;
+    }
+
+    public MyString getComments() {
+        return comments;
+    }
+
+    public void setRunner(Name runner) {
+        this.runner = runner;
+    }
+
+    public void setDateTime(MyDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setIssueID(IssueID issueID) {
+        this.issueID = issueID;
     }
 }

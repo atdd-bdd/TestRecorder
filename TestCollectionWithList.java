@@ -27,7 +27,7 @@ public class TestCollectionWithList {
 
         public static void updateTest(Test updatedTest) {
             for (Test t : values) {
-                System.out.println(" Checking " + t.issueID + " " + updatedTest.issueID);
+ updatedTest.issueID);
                 if (t.issueID.equals(updatedTest.issueID)) {
                     t = updatedTest;
                     return;

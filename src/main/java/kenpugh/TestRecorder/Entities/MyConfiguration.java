@@ -16,7 +16,7 @@ public class MyConfiguration {
         try {
             MyConfigurationVariables.valueOf(variable);
         } catch (IllegalArgumentException e) {
-            System.out.println(" Invalid configuration variable ");
+            System.err.println(" Invalid configuration variable ");
             return false;
         }
         return true;
@@ -70,7 +70,6 @@ public class MyConfiguration {
     static public void saveToFile() {
         toDTO();
         String out = MyConfigurationDTO.toSaveString();
-        System.out.println("*** Saving configuration " + out);
         // Need to use blank root, so can read without rootFilePath being set
         MyString rootFilePathSaved = rootFilePath;
         rootFilePath = new MyString("");
@@ -81,7 +80,6 @@ public class MyConfiguration {
     static public void loadFromFile() {
         rootFilePath = new MyString("");
         String in = MyFileSystem.read(configurationFileName);
-        System.out.println("Loading configuration " + in);
         MyConfigurationDTO.fromSaveString(in);
         fromDTO();
 

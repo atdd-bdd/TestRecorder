@@ -10,5 +10,6 @@
         </list>
       </option>
     </inspection_tool>
+    <inspection_tool class="MissingMnemonic" enabled="true" level="INFORMATION" enabled_by_default="true" editorAttributes="INFORMATION_ATTRIBUTES" />
   </profile>
 </component>

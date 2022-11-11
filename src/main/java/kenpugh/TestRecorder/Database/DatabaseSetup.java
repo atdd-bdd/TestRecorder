@@ -42,7 +42,6 @@ public class DatabaseSetup {
         try {
 
             Statement statement = connection.createStatement();
-            System.out.println(" Creating first one");
             statement.execute("CREATE TABLE TESTS (issueID CHAR(5), name CHAR(50), runner CHAR(20), lastResult CHAR(10), dateLastRun CHAR(30), " +
                     "datePreviousResult CHAR(30), filePath CHAR(200), comments VARCHAR(1000));");
             setupComplete = true;

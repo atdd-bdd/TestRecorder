@@ -57,11 +57,11 @@ public class EntitiesStepDefinitions {
     @Given("configuration values are:")
     public void configuration_values_are(List<MyConfigurationValue> dataTable) {
         for (MyConfigurationValue cv : dataTable) {
-            System.out.println(" Configuration " + cv.variable + " " + cv.value);
             MyConfigurationDTO.addToMap(cv.variable, cv.value);
 
         }
         MyConfiguration.fromDTO();
+        MyConfiguration.saveToFile();
     }
 
 
@@ -88,6 +88,7 @@ public class EntitiesStepDefinitions {
     @Given("file exists")
     public void file_exists(List<FileExistsValue> dataTable) {
         for (FileExistsValue fev : dataTable) {
+            System.out.println(fev.contents + " " + fev.filePath);
             MyFileSystem.create(fev.filePath, fev.contents);
             String result = MyFileSystem.read(fev.filePath);
             assertEquals(fev.contents, result);

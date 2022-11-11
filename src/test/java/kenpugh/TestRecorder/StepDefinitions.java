@@ -29,9 +29,7 @@ public class StepDefinitions {
 
     @Given("tests currently are")
     public void tests_currently_are(List<Test> dataTable) {
-        for (Test t : dataTable) {
-            System.out.println(t);
-        }
+
         assertArrayEquals(dataTable.toArray(), TestCollection.getAll().toArray());
     }
 
@@ -41,6 +39,11 @@ public class StepDefinitions {
             if (!TestCollection.addTest(t))
                 fail("Unable to add test");
         }
+    }
+    @When("adding a test that already exists")
+    public void adding_a_test_that_already_exists(@Transpose List<Test> dataTable) {
+            TestCollection.addTest(dataTable.get(0));
+
     }
 
     @Then("tests now are")
@@ -68,23 +71,23 @@ public class StepDefinitions {
     @When("test is selected")
     public void test_is_selected(@Transpose List<TestRun> dataTable) {
         TestRun tr = dataTable.get(0);
-        currentIssueID = tr.issueID;
+        currentIssueID = tr.getIssueID();
     }
 
     @When("test is run")
     public void test_is_run(@Transpose List<TestRun> dataTable) {
         TestRun tr = dataTable.get(0);
-        tr.issueID = currentIssueID;
-        tr.dateTime = CurrentDateTimeService.getCurrentDateTime();
-        tr.runner = CurrentUserService.getCurrentUser();
-        TestCollection.findTestAndUpdate(tr.issueID, tr);
+        tr.setIssueID(currentIssueID);
+        tr.setDateTime(CurrentDateTimeService.getCurrentDateTime());
+        tr.setRunner(CurrentUserService.getCurrentUser());
+        TestCollection.findTestAndUpdate(tr.getIssueID(), tr);
     }
 
     @When("test run display contains")
     public void test_is_run_display_contains(@Transpose List<TestRunDisplay> dataTable) {
         String expected = dataTable.get(0).testRunScript;
         Test test = TestCollection.findTest(currentIssueID);
-        String actual = MyFileSystem.read(test.filePath);
+        String actual = MyFileSystem.read(test.getFilePath());
         assertEquals(expected, actual);
     }
 

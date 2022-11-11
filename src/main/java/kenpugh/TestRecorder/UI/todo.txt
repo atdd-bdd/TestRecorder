@@ -1,29 +1,10 @@
-* check getting the current date
-* check configuration - set up with a configuration scenario
-
-Do an add test with the same issue id -
-    return a message ( enum Error IssueIDAlreadyExists
 
     Do the history -  save the testrun in a database on the return
 
-** Remove java 14 - change JAVA_HOME
 
-Show a flow
-    Given empty
-    When add test
-    When add test
-    When add test
-    Then
 
-Business Rule - how to update
 
-*** Add TestDTO to Test -  runner not set, success not see.  is the default name NO Name?
 
-test  not manual or not manualalternative
-
-Rename configuration to MyConfiguration
-
-Scenario to execute program - e.g. java .... with everything
 
 How to know how many columns on input table and therefore which columns to check
 

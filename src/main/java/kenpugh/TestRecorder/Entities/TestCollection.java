@@ -72,7 +72,7 @@ public class TestCollection {
             if (!TestDataAccess.update(testDTO))
                 System.err.println("Error in updating test");
         } else
-            System.err.println(" Cannot update test - not found " + tr.issueID);
+            System.err.println(" Cannot update test - not found " + tr.getIssueID());
     }
 }
 

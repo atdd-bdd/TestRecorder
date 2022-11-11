@@ -21,7 +21,7 @@ public class TestRecorderFormSwing {
     private JPanel aPanel;
     private JPanel aTable;
     private JButton addTest;
-    private JButton runTest;
+    private JButton runTestButton;
     private JButton showHistory;
     private JScrollPane aScrollPaneForTable;
     private JTable testTable;
@@ -31,7 +31,7 @@ public class TestRecorderFormSwing {
     List<TestDTO> testDTOs;
 
     public TestRecorderFormSwing() {
-        runTest.addActionListener(new ActionListener() {
+        runTestButton.addActionListener(new ActionListener() {
             /**
              * Invoked when an action occurs.
              *
@@ -56,7 +56,7 @@ public class TestRecorderFormSwing {
                 dialog.setVisible(true);
                 if (dialog.added) {
                     testRun = TestRun.TestRunFromDTO(dialog.testRunDTO);
-                    TestCollection.findTestAndUpdate(testRun.issueID, testRun);
+                    TestCollection.findTestAndUpdate(testRun.getIssueID(), testRun);
                     testRecorderFormSwing.updateData();
                 }
 
@@ -101,11 +101,11 @@ public class TestRecorderFormSwing {
             }
         }
     }
-
+public static JFrame frame;
     public static void main(String[] args) {
         MyConfiguration.loadFromFile();
         setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
-        JFrame frame = new JFrame("TestRecorderFormSwing");
+         frame = new JFrame("TestRecorderFormSwing");
         testRecorderFormSwing = new TestRecorderFormSwing();
         frame.setContentPane(testRecorderFormSwing.aPanel);
         if (!MyConfiguration.formNotCloseOnExit) {

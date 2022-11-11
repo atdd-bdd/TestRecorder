@@ -15,7 +15,6 @@ public class UIStepDefinitions {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Showing the table");
     }
 
     @When("test table swing is shown")
@@ -28,7 +27,10 @@ public class UIStepDefinitions {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Showing the table");
+    }
+    @When("run the program")
+    public void run_the_program() {
+        TestRecorderFormSwing.main(null);
     }
 
     @Then("test table should show that data")

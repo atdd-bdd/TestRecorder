@@ -17,7 +17,7 @@ public class TestRunDialog extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JPanel valuesPanel;
-    private JTextField runnerTextField;
+    private JTextField runnerTextFielda;
     private JRadioButton successRadioButton;
     private JRadioButton failureRadioButton;
     private JTextArea commentsTextArea;
@@ -62,7 +62,7 @@ public class TestRunDialog extends JDialog {
     }
 
     public void initializeData() {
-        runnerTextField.setText(testRunDTO.runner);
+        runnerTextFielda.setText(testRunDTO.runner);
         commentsTextArea.setText(testRunDTO.comments);
         dateTimeTextField.setText(testRunDTO.dateTime);
         issueIDTextField.setText(testRunDTO.issueID);
@@ -106,7 +106,6 @@ public class TestRunDialog extends JDialog {
         dialog.testRun = new TestRun();
         dialog.testRunDTO = dialog.testRun.getDTO();
 
-        System.out.println(dialog.testRun);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
