@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigurationDTO {
-    public static Map<String, String> values = new HashMap<>();
+    public static final Map<String, String> values = new HashMap<>();
 
     public static void addToMap(String variable, String value) {
         values.put(variable, value);

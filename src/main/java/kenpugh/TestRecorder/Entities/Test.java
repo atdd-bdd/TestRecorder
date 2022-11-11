@@ -13,7 +13,7 @@ public class Test {
     MyDateTime datePreviousResult = new MyDateTime();
     public MyString filePath = new MyString("File Path Not Specified");
     MyString comments = new MyString("No comment");
-    public static Test NOT_FOUND = new Test();
+    public final static Test NOT_FOUND = new Test();
 
     public void fromDTO(TestDTO testDTO) {
         if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID);

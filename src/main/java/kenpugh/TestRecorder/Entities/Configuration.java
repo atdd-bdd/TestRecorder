@@ -22,15 +22,15 @@ public class Configuration {
         return true;
     }
 
-    public static String rootFilePathString = ConfigurationVariables.rootFilePath.toString();
+    public static final String rootFilePathString = ConfigurationVariables.rootFilePath.toString();
 
-    public static String useTestDoubleForDateTimeString = ConfigurationVariables.useTestDoubleForDateTime.toString();
+    public static final String useTestDoubleForDateTimeString = ConfigurationVariables.useTestDoubleForDateTime.toString();
 
-    public static String useTestDoubleForRunnerString = ConfigurationVariables.useTestDoubleForRunner.toString();
+    public static final String useTestDoubleForRunnerString = ConfigurationVariables.useTestDoubleForRunner.toString();
 
-    public static String valueTestDoubleForDateTimeString = ConfigurationVariables.valueTestDoubleForDateTime.toString();
-    public static String valueTestDoubleForRunnerString = ConfigurationVariables.valueTestDoubleForRunner.toString();
-    public static String formNotCloseOnExitString = ConfigurationVariables.formNotCloseOnExit.toString();
+    public static final String valueTestDoubleForDateTimeString = ConfigurationVariables.valueTestDoubleForDateTime.toString();
+    public static final String valueTestDoubleForRunnerString = ConfigurationVariables.valueTestDoubleForRunner.toString();
+    public static final String formNotCloseOnExitString = ConfigurationVariables.formNotCloseOnExit.toString();
     public static MyString rootFilePath = new MyString();
     public static boolean useTestDoubleForDateTime = false;
     static public boolean useTestDoubleForRunner = false;

@@ -15,5 +15,5 @@ public class TestDTO {
     public String datePreviousResult = MyDateTime.NEVER;
     public String filePath = "File Path Not Specified";
     public String comments = "";
-    public static TestDTO NOT_FOUND = new TestDTO();
+    public final static TestDTO NOT_FOUND = new TestDTO();
 }

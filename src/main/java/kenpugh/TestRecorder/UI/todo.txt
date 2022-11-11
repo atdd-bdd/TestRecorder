@@ -54,14 +54,14 @@ c++ program = read csv,  write | | |
     Reasonble versus unreesonable
     Parking app track inforation - where and when
     Delete after X days
-    Google auto - why use google maps   , but I've got a GPS in my car.
+    Google auto - why use Google Maps   , but I've got a GPS in my car.
     Write google - 10,000 every time you do this
 
     TestCollection
         could write the collection to a file for persistence
 
 Boilerplate
-validate - right format,  verify - thing exists
+validate - right format,  verify - thing exists.
 Exists - check if there, if not add it
 Contains - should be there
 Are - list of all of them
