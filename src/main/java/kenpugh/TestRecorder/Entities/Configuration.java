@@ -1,20 +1,25 @@
 package kenpugh.TestRecorder.Entities;
 
-import kenpugh.TestRecorder.DomainTerms.*;
+import kenpugh.TestRecorder.DomainTerms.MyDateTime;
+import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
+import kenpugh.TestRecorder.DomainTerms.MyString;
+import kenpugh.TestRecorder.DomainTerms.Name;
 
 public class Configuration {
-    public enum ConfigurationVariables { rootFilePath, useTestDoubleForDateTime,
+    public enum ConfigurationVariables {
+        rootFilePath, useTestDoubleForDateTime,
         useTestDoubleForRunner, valueTestDoubleForDateTime,
-        valueTestDoubleForRunner, formNotCloseOnExit}
-    public static boolean isValidVariable(String variable){
+        valueTestDoubleForRunner, formNotCloseOnExit
+    }
+
+    public static boolean isValidVariable(String variable) {
         try {
             ConfigurationVariables.valueOf(variable);
+        } catch (IllegalArgumentException e) {
+            System.out.println(" Invalid configuration variable ");
+            return false;
         }
-            catch (IllegalArgumentException e) {
-                System.out.println(" Invalid configuration variable ");
-                return false;
-            }
-    return true;
+        return true;
     }
 
     public static String rootFilePathString = ConfigurationVariables.rootFilePath.toString();
@@ -33,23 +38,24 @@ public class Configuration {
 
     static public MyDateTime valueTestDoubleForDateTime = new MyDateTime();
     static public Name valueTestDoubleForRunner = new Name();
-    public static void fromDTO(){
+
+    public static void fromDTO() {
         String s = ConfigurationDTO.values.get(rootFilePathString);
         if (s != null) rootFilePath = new MyString(s);
         s = ConfigurationDTO.values.get(useTestDoubleForDateTimeString);
-        if (s!= null) useTestDoubleForDateTime = Boolean.parseBoolean(s);
+        if (s != null) useTestDoubleForDateTime = Boolean.parseBoolean(s);
         s = ConfigurationDTO.values.get(useTestDoubleForRunnerString);
-        if (s!= null) useTestDoubleForRunner = Boolean.parseBoolean(s);
+        if (s != null) useTestDoubleForRunner = Boolean.parseBoolean(s);
         s = ConfigurationDTO.values.get(valueTestDoubleForDateTimeString);
-        if (s!=null) valueTestDoubleForDateTime = new MyDateTime(s);
-        s= ConfigurationDTO.values.get(valueTestDoubleForRunnerString);
-        if (s!=null) valueTestDoubleForRunner = new Name(s);
-        s= ConfigurationDTO.values.get(formNotCloseOnExitString);
-        if (s!=null) formNotCloseOnExit = Boolean.parseBoolean(s);
+        if (s != null) valueTestDoubleForDateTime = new MyDateTime(s);
+        s = ConfigurationDTO.values.get(valueTestDoubleForRunnerString);
+        if (s != null) valueTestDoubleForRunner = new Name(s);
+        s = ConfigurationDTO.values.get(formNotCloseOnExitString);
+        if (s != null) formNotCloseOnExit = Boolean.parseBoolean(s);
 
     }
-    static void toDTO()
-    {
+
+    static void toDTO() {
         ConfigurationDTO.values.clear();
         ConfigurationDTO.values.put(rootFilePathString, rootFilePath.toString());
         ConfigurationDTO.values.put(useTestDoubleForDateTimeString, Boolean.toString(useTestDoubleForDateTime));
@@ -58,9 +64,11 @@ public class Configuration {
         ConfigurationDTO.values.put(valueTestDoubleForRunnerString, valueTestDoubleForRunner.toString());
         ConfigurationDTO.values.put(formNotCloseOnExitString, Boolean.toString(formNotCloseOnExit));
     }
-    static private final MyString  configurationFileName = new MyString("C:\\Users\\KenV1\\IdeaProjects\\TestRecorder\\target\\configuration.txt");
+
+    static private final MyString configurationFileName = new MyString("C:\\Users\\KenV1\\IdeaProjects\\TestRecorder\\target\\configuration.txt");
+
     static public void saveToFile() {
-         toDTO();
+        toDTO();
         String out = ConfigurationDTO.toSaveString();
         System.out.println("*** Saving configuration " + out);
         // Need to use blank root, so can read without rootFilePath being set
@@ -69,9 +77,10 @@ public class Configuration {
         MyFileSystem.create(configurationFileName, out);
         rootFilePath = rootFilePathSaved;
     }
+
     static public void loadFromFile() {
         rootFilePath = new MyString("");
-        String in =  MyFileSystem.read(configurationFileName);
+        String in = MyFileSystem.read(configurationFileName);
         System.out.println("Loading configuration " + in);
         ConfigurationDTO.fromSaveString(in);
         fromDTO();
@@ -81,10 +90,10 @@ public class Configuration {
 
     @Override
     public String toString() {
-        return "Configuration{ " + "rootFilePath=" + rootFilePath + " " + "useTestDoubleForDateTime="+
+        return "Configuration{ " + "rootFilePath=" + rootFilePath + " " + "useTestDoubleForDateTime=" +
                 useTestDoubleForDateTime + " " + "useTestDoubleForRunner=" + useTestDoubleForRunner + " " +
                 "valueTestDoubleForDateTime=" + valueTestDoubleForDateTime + " " + "valueTestDoubleForRunner=" +
                 valueTestDoubleForRunner +
-                formNotCloseOnExitString +"="  + formNotCloseOnExit + " " + "}";
-      }
+                formNotCloseOnExitString + "=" + formNotCloseOnExit + " " + "}";
+    }
 }

@@ -1,5 +1,6 @@
 package kenpugh.TestRecorder.UI;
 
+import kenpugh.TestRecorder.Entities.Configuration;
 import kenpugh.TestRecorder.Entities.TestDTO;
 
 import javax.swing.*;
@@ -18,13 +19,19 @@ public class TestEntryDialog extends JDialog {
     private JLabel IssueIDLabel;
     private JTextField runnerTextField;
     private JTextField filePathTextField;
+    private JButton browseButton;
     public TestDTO testDTO;
 
     public TestEntryDialog() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-
+        issueIDTextField.setInputVerifier(new IssueIDInputVerifier());
+        issueIDTextField.setVerifyInputWhenFocusTarget(true);
+        filePathTextField.setInputVerifier(new NameInputVerifier());
+        filePathTextField.setVerifyInputWhenFocusTarget(true);
+        nameTextField.setInputVerifier(new NameInputVerifier());
+        nameTextField.setVerifyInputWhenFocusTarget(true);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -51,6 +58,27 @@ public class TestEntryDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        browseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("**** Browse button");
+                String rootFathString = Configuration.rootFilePath.toString();
+                System.out.println(" Root is " +  rootFathString );
+                JFileChooser jfc =
+                        new JFileChooser(rootFathString);
+                jfc.setDialogTitle("Choose the manual script file: ");
+                jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                int returnValue = jfc.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    String filename = String.valueOf(jfc.getSelectedFile());
+                    String filename1 = filename.replace(rootFathString,"");
+                    filePathTextField.setText(filename1);
+                    System.out.println("file is " + filename1);
+
+                }
+
+            }
+        });
     }
 
     private void onOK() {
@@ -63,8 +91,9 @@ public class TestEntryDialog extends JDialog {
         testDTO.datePreviousResult = datePreviousResultTextField.getText();
         testDTO.runner = runnerTextField.getText();
         testDTO.lastResult = lastResultTextField.getText();
-        dispose();
+                  dispose();
     }
+
 
     private void onCancel() {
         // add your code here if necessary

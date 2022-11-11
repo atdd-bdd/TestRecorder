@@ -20,10 +20,11 @@ public class IssueID {
         return Objects.hash(value);
     }
 
-   public IssueID(){
+    public IssueID() {
         this.value = NOT_SPECIFIED;
     }
-    public IssueID(String value){
+
+    public IssueID(String value) {
         if (value.length() != 5)
             this.value = NOT_SPECIFIED;
         else {
@@ -33,8 +34,9 @@ public class IssueID {
                 this.value = NOT_SPECIFIED;
         }
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return value;
     }
 }

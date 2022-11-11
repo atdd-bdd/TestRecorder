@@ -10,19 +10,19 @@ Feature: Test Recorder
 
   Scenario: Add a test
     Given tests are empty
-      | Issue ID | Name | Last Result | Runner | Date Last Run | Date Previous Result | File Path |
+      | Issue ID | Name | Last Result | Runner | Date Last Run | Date Previous Result | File Path | Comments |
     When adding a test
       | Issue ID  | 12345                   |
       | Name      | Enter test result       |
       | File Path | EnterTestResult.feature |
     Then tests now are
-      | Issue ID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               |
-      | 12345    | Enter test result | No Name | Failure     | Never         | Never                | EnterTestResult.feature |
+      | Issue ID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               | Comments |
+      | 12345    | Enter test result |         | Failure     | Never         | Never                | EnterTestResult.feature |          |
 
   Scenario: Run a test successfully
     Given test exists
-      | Issue ID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               |
-      | 12345    | Enter test result | No Name | Failure     | Never         | Never                | EnterTestResult.feature |
+      | Issue ID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               | Comments |
+      | 12345    | Enter test result |         | Failure     | Never         | Never                | EnterTestResult.feature |          |
     And  configuration values are:
       | Variable                   | Value                    |
       | useTestDoubleForDateTime   | true                     |

@@ -1,10 +1,6 @@
 package kenpugh.TestRecorder.Entities;
 
-import kenpugh.TestRecorder.DomainTerms.IssueID;
-import kenpugh.TestRecorder.DomainTerms.MyDateTime;
-import kenpugh.TestRecorder.DomainTerms.MyString;
-import kenpugh.TestRecorder.DomainTerms.Name;
-import kenpugh.TestRecorder.DomainTerms.TestResult;
+import kenpugh.TestRecorder.DomainTerms.*;
 
 import java.util.Objects;
 
@@ -12,14 +8,14 @@ public class Test {
     public IssueID issueID = IssueID.INVALID_ISSUE_ID;
     Name name = new Name(Name.NOT_SPECIFIED);
     TestResult lastResult = TestResult.Failure;
-    Name runner = new Name(Name.NOT_SPECIFIED);
-    MyDateTime dateLastRun  = new MyDateTime();
+    Name runner = new Name("");
+    MyDateTime dateLastRun = new MyDateTime();
     MyDateTime datePreviousResult = new MyDateTime();
-   public MyString filePath = new MyString("File Path Not Specified");
+    public MyString filePath = new MyString("File Path Not Specified");
     MyString comments = new MyString("No comment");
     public static Test NOT_FOUND = new Test();
 
-      public void fromDTO(TestDTO testDTO) {
+    public void fromDTO(TestDTO testDTO) {
         if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID);
         if (testDTO.name != null) name = new Name(testDTO.name);
         if (testDTO.lastResult != null) lastResult = TestResult.parse(testDTO.lastResult);
@@ -29,11 +25,13 @@ public class Test {
         if (testDTO.comments != null) comments = new MyString(testDTO.comments);
         if (testDTO.runner != null) runner = new Name(testDTO.runner);
     }
-    static public Test testFromDTO(TestDTO testDTO){
-          Test result = new Test();
-          result.fromDTO((testDTO));
-          return result;
+
+    static public Test testFromDTO(TestDTO testDTO) {
+        Test result = new Test();
+        result.fromDTO((testDTO));
+        return result;
     }
+
     public TestDTO getDTO() {
         TestDTO testDTO = new TestDTO();
         testDTO.issueID = issueID.toString();
@@ -68,16 +66,16 @@ public class Test {
 
     public void updateWithTestRun(TestRun tr) {
 
-          System.out.println(" Updating test " + this);
-          System.out.println(" With test run " + tr);
+        System.out.println(" Updating test " + this);
+        System.out.println(" With test run " + tr);
         TestUpdatedFromTestRun(tr);
         System.out.println(" Test is now " + this);
     }
 
-    public void  TestUpdatedFromTestRun(TestRun tr) {
+    public void TestUpdatedFromTestRun(TestRun tr) {
         if (!tr.issueID.equals(issueID)) {
             System.err.println(" Trying to update wrong test " + issueID + " with " + tr.issueID);
-            return ;
+            return;
         }
 
         runner = tr.runner;
@@ -87,6 +85,5 @@ public class Test {
         }
         dateLastRun = tr.dateTime;
         lastResult = tr.testResult;
-        return ;
     }
 }

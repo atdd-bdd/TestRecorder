@@ -8,7 +8,8 @@ import java.util.Objects;
 public class MyDateTime {
     private Date theDate;
     public static final String NEVER = "Never";
-    public MyDateTime()  {
+
+    public MyDateTime() {
         theDate = getDefaultDate();
     }
 
@@ -16,15 +17,16 @@ public class MyDateTime {
         theDate = date;
     }
 
-    static private Date getDefaultDate(){
+    static private Date getDefaultDate() {
         Date def;
-         try {
-             def = DateFormat.getDateTimeInstance().parse("Jan 1, 1970, 0:0:0 AM");
-         } catch (ParseException e) {
-             throw new RuntimeException(e);
-         }
+        try {
+            def = DateFormat.getDateTimeInstance().parse("Jan 1, 1970, 0:0:0 AM");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         return def;
     }
+
     public MyDateTime(String value) {
         try {
             theDate = DateFormat.getDateTimeInstance().parse(value);
@@ -33,8 +35,9 @@ public class MyDateTime {
             theDate = getDefaultDate();
         }
     }
-    static public MyDateTime parse(String value){
-         if (value.equals(NEVER))
+
+    static public MyDateTime parse(String value) {
+        if (value.equals(NEVER) || value.isEmpty() || value.isBlank())
             return new MyDateTime();
         MyDateTime mdt;
         mdt = new MyDateTime();
@@ -61,15 +64,15 @@ public class MyDateTime {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return DateFormat.getDateTimeInstance().format(theDate);
     }
+
     public String toStringWithNever() {
         if (theDate.equals(getDefaultDate())) {
             return NEVER;
         }
-            return DateFormat.getDateTimeInstance().format(theDate);
+        return DateFormat.getDateTimeInstance().format(theDate);
 
     }
 }

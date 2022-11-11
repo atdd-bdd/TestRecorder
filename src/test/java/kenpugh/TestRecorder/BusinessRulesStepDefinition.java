@@ -7,7 +7,6 @@ import kenpugh.TestRecorder.Entities.TestDTO;
 import kenpugh.TestRecorder.Entities.TestRun;
 import kenpugh.TestRecorder.Entities.TestRunDTO;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +38,33 @@ class UpdateTestFromTestRunBusinessRuleDTO {
                 '}';
     }
 }
+
 public class BusinessRulesStepDefinition {
+    Test oldTestForSequence;
+
+    private static TestDTO getoldTestDTO(UpdateTestFromTestRunBusinessRuleDTO upftrbr) {
+        TestDTO oldTestDTO = new TestDTO();
+        oldTestDTO.lastResult = upftrbr.oldLastResult;
+        oldTestDTO.dateLastRun = upftrbr.oldDateLastRun;
+        oldTestDTO.datePreviousResult = upftrbr.oldDatePreviousResult;
+        return oldTestDTO;
+    }
+
+    private static TestDTO getnewTestDTO(UpdateTestFromTestRunBusinessRuleDTO upftrbr) {
+        TestDTO newTestDTO = new TestDTO();
+        newTestDTO.lastResult = upftrbr.newLastResult;
+        newTestDTO.dateLastRun = upftrbr.newDateLastRun;
+        newTestDTO.datePreviousResult = upftrbr.newDatePreviousResult;
+        return newTestDTO;
+    }
+
+    private static TestRunDTO getTestRunDTO(UpdateTestFromTestRunBusinessRuleDTO upftrbr) {
+        TestRunDTO testRunDTO = new TestRunDTO();
+        testRunDTO.testResult = upftrbr.result;
+        testRunDTO.dateTime = upftrbr.dateTime;
+        return testRunDTO;
+    }
+
     @DataTableType
     public UpdateTestFromTestRunBusinessRuleDTO
     inputUpdateTestFromTestRunBusinessRuleDTO(Map<String, String> entry) {
@@ -48,7 +73,7 @@ public class BusinessRulesStepDefinition {
 
         upftrbr.oldLastResult = entry.get("Old Last Result");
         upftrbr.oldDateLastRun = entry.get("Old Date Last Run");
-        upftrbr.oldDatePreviousResult = entry.get ("Old Date Previous Result");
+        upftrbr.oldDatePreviousResult = entry.get("Old Date Previous Result");
         upftrbr.result = entry.get("Result");
         upftrbr.dateTime = entry.get("Date Time");
         upftrbr.newLastResult = entry.get("New Last Result");
@@ -72,45 +97,22 @@ public class BusinessRulesStepDefinition {
         }
     }
 
-    private static TestDTO getoldTestDTO(UpdateTestFromTestRunBusinessRuleDTO upftrbr) {
-        TestDTO oldTestDTO = new TestDTO();
-        oldTestDTO.lastResult= upftrbr.oldLastResult;
-        oldTestDTO.dateLastRun = upftrbr.oldDateLastRun;
-        oldTestDTO.datePreviousResult = upftrbr.oldDatePreviousResult;
-        return oldTestDTO;
-    }
-
-    private static TestDTO getnewTestDTO(UpdateTestFromTestRunBusinessRuleDTO upftrbr) {
-        TestDTO newTestDTO = new TestDTO();
-        newTestDTO.lastResult= upftrbr.newLastResult;
-        newTestDTO.dateLastRun = upftrbr.newDateLastRun;
-        newTestDTO.datePreviousResult = upftrbr.newDatePreviousResult;
-        return newTestDTO;
-    }
-
-    private static TestRunDTO getTestRunDTO(UpdateTestFromTestRunBusinessRuleDTO upftrbr) {
-        TestRunDTO testRunDTO = new TestRunDTO();
-        testRunDTO.testResult = upftrbr.result;
-        testRunDTO.dateTime = upftrbr.dateTime;
-        return testRunDTO;
-    }
-
-    Test oldTestForSequence;
     @Given("test exists with")
     public void test_exists_with(List<Test> dataTable) {
         oldTestForSequence = dataTable.get(0);
     }
+
     @Given("Update Test from Test Run Sequence")
     public void update_test_from_test_run_sequence(List<UpdateTestFromTestRunBusinessRuleDTO> dataTable) {
-            for (UpdateTestFromTestRunBusinessRuleDTO upftrbr : dataTable) {
-                TestRunDTO testRunDTO = getTestRunDTO(upftrbr);
-                TestDTO newTestDTO = getnewTestDTO(upftrbr);
-                Test expectedNewTest = Test.testFromDTO(newTestDTO);
-                TestRun testRun = TestRun.TestRunFromDTO(testRunDTO);
-                oldTestForSequence.TestUpdatedFromTestRun(testRun);
-                assertEquals(expectedNewTest, oldTestForSequence);
+        for (UpdateTestFromTestRunBusinessRuleDTO upftrbr : dataTable) {
+            TestRunDTO testRunDTO = getTestRunDTO(upftrbr);
+            TestDTO newTestDTO = getnewTestDTO(upftrbr);
+            Test expectedNewTest = Test.testFromDTO(newTestDTO);
+            TestRun testRun = TestRun.TestRunFromDTO(testRunDTO);
+            oldTestForSequence.TestUpdatedFromTestRun(testRun);
+            assertEquals(expectedNewTest, oldTestForSequence);
 
-            }
+        }
     }
 
 }

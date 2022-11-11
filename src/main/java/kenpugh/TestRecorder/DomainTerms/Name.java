@@ -22,12 +22,14 @@ public class Name {
     public Name() {
         this.value = NOT_SPECIFIED;
     }
+
     public Name
-            (String value){
+            (String value) {
         this.value = value;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return value;
     }
 }

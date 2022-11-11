@@ -5,9 +5,11 @@ import java.util.Map;
 
 public class ConfigurationDTO {
     public static Map<String, String> values = new HashMap<>();
-    public static void addToMap(String variable, String value){
+
+    public static void addToMap(String variable, String value) {
         values.put(variable, value);
     }
+
     public static String toSaveString() {
         StringBuilder out = new StringBuilder();
         for (Map.Entry<String, String> entry : values.entrySet()) {
@@ -20,10 +22,10 @@ public class ConfigurationDTO {
     }
 
     public static void fromSaveString(String in) {
-        String [] lines = in.split("\\$");
-        for (String l : lines){
+        String[] lines = in.split("\\$");
+        for (String l : lines) {
             System.out.println("line is " + l);
-            String [] words = l.split("\\|");
+            String[] words = l.split("\\|");
             values.put(words[0], words[1]);
         }
     }

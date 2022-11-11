@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
 
 public class EntitiesStepDefinitions {
     @Given("Test Results are")
@@ -25,12 +24,11 @@ public class EntitiesStepDefinitions {
         int count = TestResult.values().length;
         if (dataTable.size() != count)
             assertFalse("Count of enums did not match ", false);
-        for (String cv : dataTable){
+        for (String cv : dataTable) {
             try {
                 TestResult tr = TestResult.valueOf(cv);
                 assertEquals(cv, tr.toString());
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 assertFalse(" Value " + cv, false);
             }
         }
@@ -47,6 +45,7 @@ public class EntitiesStepDefinitions {
         crv.value = entry.get("Value");
         return crv;
     }
+
     @DataTableType
     public FileExistsValue inputFileExistsValue(Map<String, String> entry) {
         FileExistsValue fev = new FileExistsValue();
@@ -57,7 +56,7 @@ public class EntitiesStepDefinitions {
 
     @Given("configuration values are:")
     public void configuration_values_are(List<ConfigurationValue> dataTable) {
-        for (ConfigurationValue cv : dataTable){
+        for (ConfigurationValue cv : dataTable) {
             System.out.println(" Configuration " + cv.variable + " " + cv.value);
             ConfigurationDTO.addToMap(cv.variable, cv.value);
 
@@ -70,14 +69,16 @@ public class EntitiesStepDefinitions {
     public void configuration_is_saved() {
         Configuration.saveToFile();
     }
+
     @When("configuration is loaded")
     public void configuration_is_loaded() {
         Configuration.valueTestDoubleForRunner = new Name("Should not be this");
         Configuration.loadFromFile();
     }
+
     @Then("configuration values now are:")
     public void configuration_values_now_are(List<ConfigurationValue> dataTable) {
-        for (ConfigurationValue cv : dataTable){
+        for (ConfigurationValue cv : dataTable) {
             String value = ConfigurationDTO.values.get(cv.variable);
             assertEquals(cv.value, value);
 
@@ -86,18 +87,20 @@ public class EntitiesStepDefinitions {
 
     @Given("file exists")
     public void file_exists(List<FileExistsValue> dataTable) {
-        for (FileExistsValue fev : dataTable){
+        for (FileExistsValue fev : dataTable) {
             MyFileSystem.create(fev.filePath, fev.contents);
             String result = MyFileSystem.read(fev.filePath);
             assertEquals(fev.contents, result);
         }
     }
+
     @DataTableType
     public StepDefinitions.TestRunDisplay inputTestRunDisplay(Map<String, String> entry) {
         StepDefinitions.TestRunDisplay trd = new StepDefinitions.TestRunDisplay();
         trd.testRunScript = entry.get("Test Script");
         return trd;
     }
+
     // | Issue ID  | Name  | Last Result  | Runner | Date Last Run  | Date Previous Result  | File Path |
     @DataTableType
     public Test inputTest(Map<String, String> entry) {
@@ -112,6 +115,7 @@ public class EntitiesStepDefinitions {
         testDTO.comments = entry.get("Comments");
         return Test.testFromDTO(testDTO);
     }
+
     @DataTableType
     public TestDTO inputTestDTO(Map<String, String> entry) {
         TestDTO testDTO = new TestDTO();
@@ -131,11 +135,12 @@ public class EntitiesStepDefinitions {
         TestRunDTO testRunDTO = new TestRunDTO();
         testRunDTO.issueID = entry.get("Issue ID");
         testRunDTO.runner = entry.get("Runner");
-        testRunDTO.dateTime= entry.get("Date Time");
+        testRunDTO.dateTime = entry.get("Date Time");
         testRunDTO.comments = entry.get("Comments");
         testRunDTO.testResult = entry.get("Result");
         return TestRun.TestRunFromDTO(testRunDTO);
     }
+
     @Given("database is setup")
     public void database_is_setup() {
         DatabaseSetup.setup();
@@ -143,18 +148,19 @@ public class EntitiesStepDefinitions {
         DatabaseSetup.setupTables();
 
     }
+
     @Then("test can be loaded")
     public void test_can_be_loaded(List<TestDTO> dataTable) {
         Collection<TestDTO> testDTOs = TestDataAccess.getAll();
         boolean match = false;
-        for (TestDTO tDTO: dataTable){
+        for (TestDTO tDTO : dataTable) {
             Test e = Test.testFromDTO(tDTO);
 
             match = false;
-            for (TestDTO tDTOOther : testDTOs){
+            for (TestDTO tDTOOther : testDTOs) {
 
-                Test  a = Test.testFromDTO(tDTOOther);
-                if (e.equals(a)){
+                Test a = Test.testFromDTO(tDTOOther);
+                if (e.equals(a)) {
                     match = true;
                     break;
                 }
@@ -162,12 +168,13 @@ public class EntitiesStepDefinitions {
             if (!match)
                 break;
         }
-        if (!match )
+        if (!match)
             fail(" Loaded do not matched stored");
     }
+
     @When("test is stored")
     public void test_is_stored(List<TestDTO> dataTable) {
-        for (TestDTO tDTO: dataTable){
+        for (TestDTO tDTO : dataTable) {
             TestDataAccess.addTest(tDTO);
         }
     }

@@ -1,15 +1,18 @@
 package kenpugh.TestRecorder.Database;
 
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class DatabaseSetup {
 
     public static Connection connection = null;
     public static boolean setupComplete = false;
-    static public void setup()
-    {
+
+    static public void setup() {
 /*
 
         try {
@@ -28,14 +31,14 @@ public class DatabaseSetup {
 
 */
 
-        String userid="SA";
+        String userid = "SA";
         String password = "";
         String url = "jdbc:hsqldb:hsql://localhost";
         String jdbcDriver = "org.hsqldb.jdbcDriver";
         try {
             Class.forName(jdbcDriver);
 
-        } catch(java.lang.ClassNotFoundException e) {
+        } catch (java.lang.ClassNotFoundException e) {
             System.err.println(e.getMessage());
             System.err.println("Did not find driver class");
             System.exit(1);
@@ -43,16 +46,16 @@ public class DatabaseSetup {
 
         try {
             connection = DriverManager.getConnection(url, userid, password);
-        } catch(SQLException ex) {
+        } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage() + " Setup");
         }
-        if (connection==null){
+        if (connection == null) {
             System.err.println("Cannot make connection to database");
             System.exit(0);
         }
     }
-    public static void setupTables()
-    {
+
+    public static void setupTables() {
         try {
 
             Statement statement = connection.createStatement();
@@ -62,28 +65,26 @@ public class DatabaseSetup {
  /*         System.out.println("Creating second one");
             statement.execute("CREATE TABLE TESTRUNS (issueID CHAR(5), dateTime CHAR(20), runner CHAR(20), testResult CHAR(10));") ;
  */
-            setupComplete= true;
-        }
-        catch(SQLException ex) {
+            setupComplete = true;
+        } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage() + " Create Tables");
         }
 
     }
-    public static void removeTables()
-    {
+
+    public static void removeTables() {
         try {
             Statement statement = connection.createStatement();
             statement.execute("DROP TABLE TESTS;");
-          //   statement.execute("DROP TABLE TESTRUNS ;");
-            setupComplete= true;
-        }
-        catch(SQLException ex) {
+            //   statement.execute("DROP TABLE TESTRUNS ;");
+            setupComplete = true;
+        } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage() + " RemoveTables");
         }
 
     }
-    static public void open()
-    {
+
+    static public void open() {
         if (connection == null)
             setup();
     }

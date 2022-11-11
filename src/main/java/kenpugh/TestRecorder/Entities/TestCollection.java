@@ -1,8 +1,8 @@
 package kenpugh.TestRecorder.Entities;
 
 
-import kenpugh.TestRecorder.DomainTerms.IssueID;
 import kenpugh.TestRecorder.Database.TestDataAccess;
+import kenpugh.TestRecorder.DomainTerms.IssueID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +33,10 @@ public class TestCollection {
         }
         return listTest;
     }
-    static public List<TestDTO> listTestDTOfromListTest(List<Test> tests){
+
+    static public List<TestDTO> listTestDTOfromListTest(List<Test> tests) {
         List<TestDTO> testDTOs = new ArrayList<>();
-        for (Test test : tests)
-        {
+        for (Test test : tests) {
             TestDTO temp = test.getDTO();
             testDTOs.add(temp);
         }
@@ -44,10 +44,10 @@ public class TestCollection {
     }
 
 
-     public static boolean updateTest(Test updatedTest) {
-            TestDTO testDTO = updatedTest.getDTO();
-            return TestDataAccess.update(testDTO);
-            }
+    public static boolean updateTest(Test updatedTest) {
+        TestDTO testDTO = updatedTest.getDTO();
+        return TestDataAccess.update(testDTO);
+    }
 
     public static void deleteAll() {
         TestDataAccess.deleteAll();

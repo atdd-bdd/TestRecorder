@@ -17,6 +17,7 @@ public class UIStepDefinitions {
         }
         System.out.println("Showing the table");
     }
+
     @When("test table swing is shown")
     public void test_table_swing_is_shown() {
         //new TestTableSwingTest().show();
@@ -29,6 +30,7 @@ public class UIStepDefinitions {
         }
         System.out.println("Showing the table");
     }
+
     @Then("test table should show that data")
     public void test_table_should_show_that_data() {
         System.out.println("Look as the table");

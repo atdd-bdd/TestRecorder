@@ -3,7 +3,7 @@
   <grid id="cbd77" binding="contentPane" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="48" y="54" width="454" height="418"/>
+      <xy x="48" y="54" width="465" height="418"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -196,6 +196,14 @@
               </grid>
             </constraints>
             <properties/>
+          </component>
+          <component id="b1419" class="javax.swing.JButton" binding="browseButton">
+            <constraints>
+              <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="2" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Browse..."/>
+            </properties>
           </component>
         </children>
       </grid>

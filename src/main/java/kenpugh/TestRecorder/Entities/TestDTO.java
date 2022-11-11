@@ -7,13 +7,13 @@ import kenpugh.TestRecorder.DomainTerms.Name;
 import kenpugh.TestRecorder.DomainTerms.TestResult;
 
 public class TestDTO {
-    public String issueID  = IssueID.NOT_SPECIFIED;
-    public String  name = Name.NOT_SPECIFIED;
-    public String  lastResult = TestResult.Failure.toString();
+    public String issueID = IssueID.NOT_SPECIFIED;
+    public String name = Name.NOT_SPECIFIED;
+    public String lastResult = TestResult.Failure.toString();
     public String runner = Name.NOT_SPECIFIED;
     public String dateLastRun = MyDateTime.NEVER;
     public String datePreviousResult = MyDateTime.NEVER;
     public String filePath = "File Path Not Specified";
     public String comments = "";
     public static TestDTO NOT_FOUND = new TestDTO();
-    }
+}

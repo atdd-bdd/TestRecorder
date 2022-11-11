@@ -1,8 +1,8 @@
 package kenpugh.TestRecorder.UI;
 
+import kenpugh.TestRecorder.DomainTerms.TestResult;
 import kenpugh.TestRecorder.Entities.TestRun;
 import kenpugh.TestRecorder.Entities.TestRunDTO;
-import kenpugh.TestRecorder.DomainTerms.TestResult;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ public class TestRunDialog extends JDialog {
     TestRunDTO testRunDTO = new TestRunDTO();
     TestRun testRun;
     boolean added = false;
-    String scriptText ="No script";
+    String scriptText = "No script";
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -65,12 +65,12 @@ public class TestRunDialog extends JDialog {
         runnerTextField.setText(testRunDTO.runner);
         commentsTextArea.setText(testRunDTO.comments);
         dateTimeTextField.setText(testRunDTO.dateTime);
-       issueIDTextField.setText(testRunDTO.issueID);
+        issueIDTextField.setText(testRunDTO.issueID);
         successRadioButton.setSelected(false);
         failureRadioButton.setSelected(true);
 
         scriptTextArea.setText(scriptText);
-        }
+    }
 
     private void onOK() {
         testRunDTO.comments = commentsTextArea.getText();
@@ -88,24 +88,22 @@ public class TestRunDialog extends JDialog {
         added = false;
         dispose();
     }
-     private static void setUIFont(javax.swing.plaf.FontUIResource f)
-    {
+
+    private static void setUIFont(javax.swing.plaf.FontUIResource f) {
         java.util.Enumeration<Object> keys = UIManager.getDefaults().keys();
-        while (keys.hasMoreElements())
-        {
+        while (keys.hasMoreElements()) {
             Object key = keys.nextElement();
             Object value = UIManager.get(key);
-            if (value instanceof javax.swing.plaf.FontUIResource)
-            {
+            if (value instanceof javax.swing.plaf.FontUIResource) {
                 UIManager.put(key, f);
             }
         }
     }
 
     public static void main(String[] args) {
-        setUIFont (new javax.swing.plaf.FontUIResource(new Font("MS Mincho",Font.PLAIN, 16)));
+        setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
         TestRunDialog dialog = new TestRunDialog();
-       dialog.testRun = new TestRun();
+        dialog.testRun = new TestRun();
         dialog.testRunDTO = dialog.testRun.getDTO();
 
         System.out.println(dialog.testRun);

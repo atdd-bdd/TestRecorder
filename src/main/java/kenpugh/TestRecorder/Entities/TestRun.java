@@ -1,10 +1,6 @@
 package kenpugh.TestRecorder.Entities;
 
-import kenpugh.TestRecorder.DomainTerms.IssueID;
-import kenpugh.TestRecorder.DomainTerms.MyDateTime;
-import kenpugh.TestRecorder.DomainTerms.MyString;
-import kenpugh.TestRecorder.DomainTerms.Name;
-import kenpugh.TestRecorder.DomainTerms.TestResult;
+import kenpugh.TestRecorder.DomainTerms.*;
 import kenpugh.TestRecorder.Services.CurrentDateTimeService;
 import kenpugh.TestRecorder.Services.CurrentUserService;
 
@@ -17,7 +13,7 @@ public class TestRun {
     public MyString comments = new MyString();
     public Name runner = new Name();
 
-    public static TestRun getBaseTestRun(IssueID issueID ){
+    public static TestRun getBaseTestRun(IssueID issueID) {
         TestRun result = new TestRun();
         result.issueID = issueID;
         result.dateTime = CurrentDateTimeService.getCurrentDateTime();
@@ -67,6 +63,7 @@ public class TestRun {
         if (testRunDTO.testResult != null) testResult = TestResult.valueOf(testRunDTO.testResult);
         System.out.println("*** TestRun is " + this);
     }
+
     static public TestRun TestRunFromDTO(TestRunDTO testRunDTO) {
         TestRun result = new TestRun();
         result.fromDTO(testRunDTO);
