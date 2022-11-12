@@ -2,6 +2,9 @@ Feature: UI
 
   @manual
   Scenario: Display Test Table
+    Given configuration values are:
+      | Variable                  | Value |
+      | formNotCloseOnExit        | true  |
     Given tests are
       | Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
       | 12345    | Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
@@ -40,7 +43,7 @@ Then test is now
    | Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
     | 12345    | Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
 
-  @manual
+  @manual @setuprun
   Scenario: Run the program
     Given tests are
       | Issue ID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               |

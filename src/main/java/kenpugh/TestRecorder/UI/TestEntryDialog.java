@@ -17,8 +17,7 @@ public class TestEntryDialog extends JDialog {
     private JTextField lastResultTextField;
     private JTextField dateResultTextField;
     private JTextField datePreviousResultTextField;
-    private JTextField commentsTextField;
-    private JLabel IssueIDLabel;
+    private JTextArea commentsTextField;
     private JTextField runnerTextField;
     private JTextField filePathTextField;
     private JButton browseButton;
