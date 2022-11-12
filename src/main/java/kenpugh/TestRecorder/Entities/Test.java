@@ -4,6 +4,7 @@ import kenpugh.TestRecorder.DomainTerms.*;
 
 import java.util.Objects;
 
+
 public class Test {
     private IssueID issueID = IssueID.INVALID_ISSUE_ID;
    private Name name = new Name(Name.NOT_SPECIFIED);
@@ -14,7 +15,23 @@ public class Test {
     private MyString filePath = new MyString("File Path Not Specified");
     private MyString comments = new MyString("No comment");
     public final static Test NOT_FOUND = new Test();
+    public boolean selectiveEquals(Object o, TestForEquals testForEquals) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Test test = (Test) o;
 
+        boolean result = (issueID.equals(test.issueID) || !testForEquals.issueIDCheck)
+                && (name.equals(test.name) || !testForEquals.nameCheck)
+                && (lastResult == test.lastResult || !testForEquals.lastResultCheck)
+                && (runner.equals(test.runner)  || !testForEquals.runnerCheck)
+                && (dateLastRun.equals(test.dateLastRun)  || !testForEquals.dateLastRunCheck)
+                && (datePreviousResult.equals(test.datePreviousResult) || !testForEquals.datePreviousResultCheck)
+                && (filePath.equals(test.filePath) || !testForEquals.filePathCheck)
+                && (comments.equals(test.comments) || !testForEquals.commentsCheck);
+    if (!result)
+            System.out.println("Selective equal values " + result + " for " + this + " == " + test + " selections: " +testForEquals );
+    return result;
+    }
     public void fromDTO(TestDTO testDTO) {
         if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID);
         if (testDTO.name != null) name = new Name(testDTO.name);

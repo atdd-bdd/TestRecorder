@@ -8,7 +8,6 @@ Feature: Flow feature
       | File Path                 | Contents |
       | Different test.feature    | Not used |
 
-    @doing
   Scenario: Add a test that already exists does not change it
     Given tests are
       | Issue ID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               | Comments |

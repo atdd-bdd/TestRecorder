@@ -19,6 +19,7 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class EntitiesStepDefinitions {
+    static public TestForEquals testForEquals = new TestForEquals();
     @Given("Test Results are")
     public void test_results_are(List<String> dataTable) {
         int count = TestResult.values().length;
@@ -114,6 +115,7 @@ public class EntitiesStepDefinitions {
         testDTO.datePreviousResult = entry.get("Date Previous Result");
         testDTO.filePath = entry.get("File Path");
         testDTO.comments = entry.get("Comments");
+        EntitiesStepDefinitions.testForEquals.setFromTestDTO(testDTO);
         return Test.testFromDTO(testDTO);
     }
 
@@ -179,4 +181,17 @@ public class EntitiesStepDefinitions {
             TestDataAccess.addTest(tDTO);
         }
     }
+
+    @Then("test is equal when selectively compared to")
+    public void test_is_equal_when_selectively_compared_to(List<Test> dataTable) {
+        Test compare = dataTable.get(0);
+        List<Test> actuals = TestCollection.getAll();
+        // can change any value in testDTO to test comparison
+        TestDTO testDTO = actuals.get(0).getDTO();
+        Test actual = Test.testFromDTO(testDTO);
+        assertTrue(compare.selectiveEquals(actual, testForEquals));
+
+
+    }
+
 }
