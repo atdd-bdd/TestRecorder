@@ -19,7 +19,7 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class EntitiesStepDefinitions {
-    static public TestForEquals testForEquals = new TestForEquals();
+    static public final TestForEquals testForEquals = new TestForEquals();
     @Given("Test Results are")
     public void test_results_are(List<String> dataTable) {
         int count = TestResult.values().length;

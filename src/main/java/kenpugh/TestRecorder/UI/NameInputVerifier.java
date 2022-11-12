@@ -13,10 +13,7 @@ public class NameInputVerifier extends InputVerifier {
         Name name = new Name(text);
         String empty = "";
         String nameString = name.toString();
-        if (!nameString.equals(Name.NOT_SPECIFIED) && !nameString.equals(empty)) {
-            return true;
-        } else
-            return false;
+        return !nameString.equals(Name.NOT_SPECIFIED) && !nameString.equals(empty);
 
     }
 }

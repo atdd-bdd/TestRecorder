@@ -23,11 +23,9 @@ public class MyFileSystem {
         }
     }
     public static boolean checkReadabiity(MyString filePath) {
-        boolean result = false;
         Path path = Paths.get(MyConfiguration.rootFilePath.toString(), filePath.toString());
-        String text;
         try {
-            text = readString(path);
+            readString(path);
             return true;
         } catch (IOException e) {
             return false;

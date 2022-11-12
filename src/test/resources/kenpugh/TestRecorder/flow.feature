@@ -36,7 +36,7 @@ Feature: Flow feature
       | Issue ID | 12345       |
     When test is run
       | Result   | Success     |
-      | Comments | OK Sutff       |
+      | Comments | OK Stuff       |
     When  configuration values are:
       | Variable                   | Value                    |
       | useTestDoubleForDateTime   | true                     |

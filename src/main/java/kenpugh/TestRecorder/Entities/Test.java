@@ -29,7 +29,8 @@ public class Test {
                 && (filePath.equals(test.filePath) || !testForEquals.filePathCheck)
                 && (comments.equals(test.comments) || !testForEquals.commentsCheck);
     if (!result)
-            System.out.println("Selective equal values " + result + " for " + this + " == " + test + " selections: " +testForEquals );
+            System.out.println("Selective equal values " + " for " + this + " == " + test + " selections: "
+                    + testForEquals );
     return result;
     }
     public void fromDTO(TestDTO testDTO) {

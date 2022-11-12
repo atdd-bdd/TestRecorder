@@ -42,52 +42,52 @@ class UpdateTestFromTestRunBusinessRuleDTO {
 public class BusinessRulesStepDefinition {
     Test oldTestForSequence;
 
-    private static TestDTO getoldTestDTO(UpdateTestFromTestRunBusinessRuleDTO upftrbr) {
+    private static TestDTO getOldTestDTO(UpdateTestFromTestRunBusinessRuleDTO update) {
         TestDTO oldTestDTO = new TestDTO();
-        oldTestDTO.lastResult = upftrbr.oldLastResult;
-        oldTestDTO.dateLastRun = upftrbr.oldDateLastRun;
-        oldTestDTO.datePreviousResult = upftrbr.oldDatePreviousResult;
+        oldTestDTO.lastResult = update.oldLastResult;
+        oldTestDTO.dateLastRun = update.oldDateLastRun;
+        oldTestDTO.datePreviousResult = update.oldDatePreviousResult;
         return oldTestDTO;
     }
 
-    private static TestDTO getnewTestDTO(UpdateTestFromTestRunBusinessRuleDTO upftrbr) {
+    private static TestDTO getNewTestDTO(UpdateTestFromTestRunBusinessRuleDTO update) {
         TestDTO newTestDTO = new TestDTO();
-        newTestDTO.lastResult = upftrbr.newLastResult;
-        newTestDTO.dateLastRun = upftrbr.newDateLastRun;
-        newTestDTO.datePreviousResult = upftrbr.newDatePreviousResult;
+        newTestDTO.lastResult = update.newLastResult;
+        newTestDTO.dateLastRun = update.newDateLastRun;
+        newTestDTO.datePreviousResult = update.newDatePreviousResult;
         return newTestDTO;
     }
 
-    private static TestRunDTO getTestRunDTO(UpdateTestFromTestRunBusinessRuleDTO upftrbr) {
+    private static TestRunDTO getTestRunDTO(UpdateTestFromTestRunBusinessRuleDTO update) {
         TestRunDTO testRunDTO = new TestRunDTO();
-        testRunDTO.testResult = upftrbr.result;
-        testRunDTO.dateTime = upftrbr.dateTime;
+        testRunDTO.testResult = update.result;
+        testRunDTO.dateTime = update.dateTime;
         return testRunDTO;
     }
 
     @DataTableType
     public UpdateTestFromTestRunBusinessRuleDTO
     inputUpdateTestFromTestRunBusinessRuleDTO(Map<String, String> entry) {
-        UpdateTestFromTestRunBusinessRuleDTO upftrbr =
+        UpdateTestFromTestRunBusinessRuleDTO update =
                 new UpdateTestFromTestRunBusinessRuleDTO();
 
-        upftrbr.oldLastResult = entry.get("Old Last Result");
-        upftrbr.oldDateLastRun = entry.get("Old Date Last Run");
-        upftrbr.oldDatePreviousResult = entry.get("Old Date Previous Result");
-        upftrbr.result = entry.get("Result");
-        upftrbr.dateTime = entry.get("Date Time");
-        upftrbr.newLastResult = entry.get("New Last Result");
-        upftrbr.newDateLastRun = entry.get("New Date Last Run");
-        upftrbr.newDatePreviousResult = entry.get("New Date Previous Result");
-        return upftrbr;
+        update.oldLastResult = entry.get("Old Last Result");
+        update.oldDateLastRun = entry.get("Old Date Last Run");
+        update.oldDatePreviousResult = entry.get("Old Date Previous Result");
+        update.result = entry.get("Result");
+        update.dateTime = entry.get("Date Time");
+        update.newLastResult = entry.get("New Last Result");
+        update.newDateLastRun = entry.get("New Date Last Run");
+        update.newDatePreviousResult = entry.get("New Date Previous Result");
+        return update;
     }
 
     @Given("Update Test from Test Run")
     public void update_test_from_test_run(List<UpdateTestFromTestRunBusinessRuleDTO> dataTable) {
-        for (UpdateTestFromTestRunBusinessRuleDTO upftrbr : dataTable) {
-            TestDTO oldTestDTO = getoldTestDTO(upftrbr);
-            TestRunDTO testRunDTO = getTestRunDTO(upftrbr);
-            TestDTO newTestDTO = getnewTestDTO(upftrbr);
+        for (UpdateTestFromTestRunBusinessRuleDTO update : dataTable) {
+            TestDTO oldTestDTO = getOldTestDTO(update);
+            TestRunDTO testRunDTO = getTestRunDTO(update);
+            TestDTO newTestDTO = getNewTestDTO(update);
             Test oldTest = Test.testFromDTO(oldTestDTO);
             Test expectedNewTest = Test.testFromDTO(newTestDTO);
             TestRun testRun = TestRun.TestRunFromDTO(testRunDTO);
@@ -103,9 +103,9 @@ public class BusinessRulesStepDefinition {
 
     @Given("Update Test from Test Run Sequence")
     public void update_test_from_test_run_sequence(List<UpdateTestFromTestRunBusinessRuleDTO> dataTable) {
-        for (UpdateTestFromTestRunBusinessRuleDTO upftrbr : dataTable) {
-            TestRunDTO testRunDTO = getTestRunDTO(upftrbr);
-            TestDTO newTestDTO = getnewTestDTO(upftrbr);
+        for (UpdateTestFromTestRunBusinessRuleDTO update : dataTable) {
+            TestRunDTO testRunDTO = getTestRunDTO(update);
+            TestDTO newTestDTO = getNewTestDTO(update);
             Test expectedNewTest = Test.testFromDTO(newTestDTO);
             TestRun testRun = TestRun.TestRunFromDTO(testRunDTO);
             oldTestForSequence.TestUpdatedFromTestRun(testRun);

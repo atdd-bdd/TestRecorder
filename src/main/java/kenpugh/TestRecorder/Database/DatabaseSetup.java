@@ -55,7 +55,7 @@ public class DatabaseSetup {
         try {
             Statement statement = connection.createStatement();
             statement.execute("DROP TABLE TESTS;");
-            //   statement.execute("DROP TABLE TESTRUNS ;");
+            //   statement.execute("DROP TABLE TEST_RUNS ;");
             setupComplete = true;
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage() + " RemoveTables");
@@ -64,7 +64,7 @@ public class DatabaseSetup {
     }
 
     static public void open() {
-        if (connection == null)
+        if (connection == null || !setupComplete)
             setup();
     }
 }

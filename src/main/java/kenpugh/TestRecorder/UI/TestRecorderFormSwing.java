@@ -19,7 +19,7 @@ public class TestRecorderFormSwing {
 
 
     private JPanel aPanel;
-    private JPanel aTable;
+
     private JButton addTest;
     private JButton runTestButton;
     private JButton showHistory;
