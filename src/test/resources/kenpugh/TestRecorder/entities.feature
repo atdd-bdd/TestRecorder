@@ -28,7 +28,7 @@ Then configuration values now are:
     Then test can be loaded
       | Issue ID  | Name               | Runner   | Last Result    | Date Last Run  | Date Previous Result  | File Path                | Comments |
       | 12345     | Enter test result  | No Name  |Failure         | Never          | Never                 | EnterTestResult.feature  | No Comment |
-@doing
+
     Scenario: Check Selective Equals Operation
       Given tests are
         | Issue ID  | Name               | Runner   | Last Result    | Date Last Run  | Date Previous Result  | File Path                | Comments |

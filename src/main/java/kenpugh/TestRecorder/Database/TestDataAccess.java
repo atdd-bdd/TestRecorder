@@ -3,6 +3,7 @@ package kenpugh.TestRecorder.Database;
 
 import kenpugh.TestRecorder.DomainTerms.IssueID;
 import kenpugh.TestRecorder.Entities.TestDTO;
+import kenpugh.TestRecorder.Log.Log;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ public class TestDataAccess {
     public static boolean addTest(TestDTO aTest) {
         IssueID issueID = new IssueID(aTest.issueID);
         if (findByIssueID(issueID) != TestDTO.NOT_FOUND) {
-            System.err.println("Adding duplicate issue id");
+            Log.write(Log.Level.Info, "Adding duplicate issue id", issueID.toString() );
             return false;
         }
         try {

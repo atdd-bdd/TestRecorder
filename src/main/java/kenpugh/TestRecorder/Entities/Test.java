@@ -1,6 +1,7 @@
 package kenpugh.TestRecorder.Entities;
 
 import kenpugh.TestRecorder.DomainTerms.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -10,8 +11,8 @@ public class Test {
    private Name name = new Name(Name.NOT_SPECIFIED);
     private TestResult lastResult = TestResult.Failure;
     private Name runner = new Name("");
-    private MyDateTime dateLastRun = new MyDateTime();
-    private MyDateTime datePreviousResult = new MyDateTime();
+    private MyDateTime dateLastRun = MyDateTime.NEVER_DATETIME;
+    private MyDateTime datePreviousResult = MyDateTime.NEVER_DATETIME;
     private MyString filePath = new MyString("File Path Not Specified");
     private MyString comments = new MyString("No comment");
     public final static Test NOT_FOUND = new Test();
@@ -33,7 +34,7 @@ public class Test {
                     + testForEquals );
     return result;
     }
-    public void fromDTO(TestDTO testDTO) {
+    public void fromDTO(@NotNull TestDTO testDTO) {
         if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID);
         if (testDTO.name != null) name = new Name(testDTO.name);
         if (testDTO.lastResult != null) lastResult = TestResult.parse(testDTO.lastResult);

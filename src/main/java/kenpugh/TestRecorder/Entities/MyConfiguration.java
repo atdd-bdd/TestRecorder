@@ -4,6 +4,9 @@ import kenpugh.TestRecorder.DomainTerms.MyDateTime;
 import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
 import kenpugh.TestRecorder.DomainTerms.MyString;
 import kenpugh.TestRecorder.DomainTerms.Name;
+import kenpugh.TestRecorder.OS.EnvironmentVariables;
+
+import static kenpugh.TestRecorder.OS.EnvironmentVariables.NOT_FOUND;
 
 public class MyConfiguration {
     public enum MyConfigurationVariables {
@@ -65,21 +68,33 @@ public class MyConfiguration {
         MyConfigurationDTO.values.put(formNotCloseOnExitString, Boolean.toString(formNotCloseOnExit));
     }
 
-    static private final MyString configurationFileName = new MyString("C:\\Users\\KenV1\\IdeaProjects\\TestRecorder\\target\\configuration.txt");
-
+     static private MyString getConfigurationFileName ()
+    {
+        String environmentVariableName = "TEST_RECORDER_CONFIGURATION_PATH";
+        MyString configurationFileName;
+        String value = EnvironmentVariables.getenv(environmentVariableName);
+         if (value.equals(EnvironmentVariables.NOT_FOUND))
+         configurationFileName =  new MyString("C:\\Users\\KenV1\\IdeaProjects\\TestRecorder\\target\\configuration.txt");
+        else
+         {
+             configurationFileName = new MyString(value);
+         }
+         return configurationFileName;
+    }
     static public void saveToFile() {
         toDTO();
         String out = MyConfigurationDTO.toSaveString();
         // Need to use blank root, so can read without rootFilePath being set
         MyString rootFilePathSaved = rootFilePath;
         rootFilePath = new MyString("");
-        MyFileSystem.create(configurationFileName, out);
+        MyFileSystem.create(getConfigurationFileName(),out);
+
         rootFilePath = rootFilePathSaved;
     }
 
     static public void loadFromFile() {
         rootFilePath = new MyString("");
-        String in = MyFileSystem.read(configurationFileName);
+        String in = MyFileSystem.read(getConfigurationFileName());
         MyConfigurationDTO.fromSaveString(in);
         fromDTO();
 

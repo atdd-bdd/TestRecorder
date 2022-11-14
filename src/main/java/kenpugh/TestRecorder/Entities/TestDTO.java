@@ -11,8 +11,8 @@ public class TestDTO {
     public String name = Name.NOT_SPECIFIED;
     public String lastResult = TestResult.Failure.toString();
     public String runner = Name.NOT_SPECIFIED;
-    public String dateLastRun = MyDateTime.NEVER;
-    public String datePreviousResult = MyDateTime.NEVER;
+    public String dateLastRun = MyDateTime.NEVER_STRING;
+    public String datePreviousResult = MyDateTime.NEVER_STRING;
     public String filePath = "File Path Not Specified";
     public String comments = "";
     public final static TestDTO NOT_FOUND = new TestDTO();

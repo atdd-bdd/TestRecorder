@@ -42,7 +42,7 @@ public class DomainTermStepDefinitions {
             MyDateTime temp = MyDateTime.parse(dtv.value);
 
             if (dtv.valid.equals("Yes")) {
-                assertEquals(dtv.value, temp.toStringWithNever());
+                assertEquals(dtv.value, temp.toStringWithSymbols());
             } else {
                 assertEquals(new MyDateTime().toString(), temp.toString());
             }

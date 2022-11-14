@@ -38,7 +38,7 @@ Feature: Flow feature
       | Result   | Success     |
       | Comments | OK Stuff       |
     When Configuration test double value for current date is
-    |  Oct 1, 2022, 12:30:02 AM \
+    |  Oct 1, 2022, 12:30:02 AM |
       #   When  configuration values are:
       # | Variable                   | Value                    |
       # | useTestDoubleForDateTime   | true                     |

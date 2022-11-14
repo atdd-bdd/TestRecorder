@@ -89,7 +89,7 @@ public class EntitiesStepDefinitions {
     public void configuration_test_double_value_for_current_date_is(List<String> dataTable) {
         String currentDateValueString = dataTable.get(0);
         MyDateTime value = MyDateTime.parse(currentDateValueString);
-        MyDateTime invalid = MyDateTime.parse(MyDateTime.NEVER);
+        MyDateTime invalid = MyDateTime.parse(MyDateTime.NEVER_STRING);
         if (value.equals(invalid))
             Log.write(Log.Level.Info, "Bad time ", currentDateValueString);
         else {
