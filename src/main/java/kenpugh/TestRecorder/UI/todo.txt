@@ -2,6 +2,22 @@
     Do the history -  save the testrun in a database on the return
 
 
+ 
+
+*** Use environment variable for configuraion location 
+
+Scan for data in tables, rather than in words  ***
+
+Diagram showing the DTOs on both sides of the context 
+
+Diagram showing the test doubles,  with configuration selecting them -    how else - use separate jars and load at run time.    
+
+Tests -   add a status (Active Inactive NoLongerRelevant)
+
+Add a filter on display -  show only active, inactive, all 
+	Date last run - after this date time  with a date dialog. 
+	Edit test to set status - active / inactive /    
+
 
 
 

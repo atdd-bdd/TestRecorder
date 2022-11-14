@@ -37,10 +37,12 @@ Feature: Flow feature
     When test is run
       | Result   | Success     |
       | Comments | OK Stuff       |
-    When  configuration values are:
-      | Variable                   | Value                    |
-      | useTestDoubleForDateTime   | true                     |
-      | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:02 AM |
+    When Configuration test double value for current date is
+    |  Oct 1, 2022, 12:30:02 AM \
+      #   When  configuration values are:
+      # | Variable                   | Value                    |
+      # | useTestDoubleForDateTime   | true                     |
+      #| valueTestDoubleForDateTime | Oct 1, 2022, 12:30:02 AM |
     And test is run
       | Result   | Failure     |
       | Comments | Bad stuff   |

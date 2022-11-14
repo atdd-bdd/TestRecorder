@@ -6,11 +6,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import kenpugh.TestRecorder.Database.DatabaseSetup;
 import kenpugh.TestRecorder.Database.TestDataAccess;
-import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
-import kenpugh.TestRecorder.DomainTerms.MyString;
-import kenpugh.TestRecorder.DomainTerms.Name;
-import kenpugh.TestRecorder.DomainTerms.TestResult;
+import kenpugh.TestRecorder.DomainTerms.*;
 import kenpugh.TestRecorder.Entities.*;
+import kenpugh.TestRecorder.Log.Log;
 
 import java.util.Collection;
 import java.util.List;
@@ -85,6 +83,23 @@ public class EntitiesStepDefinitions {
 
         }
     }
+
+
+    @When("Configuration test double value for current date is")
+    public void configuration_test_double_value_for_current_date_is(List<String> dataTable) {
+        String currentDateValueString = dataTable.get(0);
+        MyDateTime value = MyDateTime.parse(currentDateValueString);
+        MyDateTime invalid = MyDateTime.parse(MyDateTime.NEVER);
+        if (value.equals(invalid))
+            Log.write(Log.Level.Info, "Bad time ", currentDateValueString);
+        else {
+            MyConfiguration.valueTestDoubleForDateTime = value;
+            MyConfiguration.saveToFile();
+        }
+
+
+    }
+
 
     @Given("file exists")
     public void file_exists(List<FileExistsValue> dataTable) {

@@ -5,6 +5,7 @@ import kenpugh.TestRecorder.DomainTerms.IssueID;
 import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
 import kenpugh.TestRecorder.DomainTerms.MyString;
 import kenpugh.TestRecorder.Entities.*;
+import kenpugh.TestRecorder.Log.Log;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,15 +16,15 @@ import java.util.List;
 import java.util.Vector;
 
 
-public class TestRecorderFormSwing {
 
+public class TestRecorderFormSwing {
+    static public boolean inProgress = false;
 
     private JPanel aPanel;
 
     private JButton addTest;
     private JButton runTestButton;
     private JButton showHistory;
-    private JScrollPane aScrollPaneForTable;
     private JTable testTable;
     private DefaultTableModel tableModel;
     static TestRecorderFormSwing testRecorderFormSwing;
@@ -41,7 +42,7 @@ public class TestRecorderFormSwing {
             public void actionPerformed(ActionEvent e) {
                 int row = testTable.getSelectedRow();
                 if (row < 0) {
-                    System.err.println("Bad selection");
+                    Log.write(Log.Level.Info, "Bad selection ", e.toString());
                     return;
                 }
 
@@ -105,16 +106,33 @@ public static JFrame frame;
     public static void main(String[] args) {
         MyConfiguration.loadFromFile();
         setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
-         frame = new JFrame("TestRecorderFormSwing");
+        frame = new JFrame("TestRecorderFormSwing");
+        TestRecorderFormSwing.inProgress = true;
         testRecorderFormSwing = new TestRecorderFormSwing();
         frame.setContentPane(testRecorderFormSwing.aPanel);
         if (!MyConfiguration.formNotCloseOnExit) {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
+
+
         frame.pack();
         frame.setVisible(true);
         testRecorderFormSwing.updateData();
+        setWindowListener();
+
     }
+
+    private static void setWindowListener() {
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                System.err.println("Window is closing");
+                TestRecorderFormSwing.inProgress = false;
+            }
+        });
+
+}
+
 
     private void setUpTable() {
         //  super(new GridLayout(1,0));

@@ -22,10 +22,12 @@ public class UIStepDefinitions {
         //new TestTableSwingTest().show();
 
         TestRecorderFormSwing.main(null);
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        while (TestRecorderFormSwing.inProgress) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     @When("run the program")

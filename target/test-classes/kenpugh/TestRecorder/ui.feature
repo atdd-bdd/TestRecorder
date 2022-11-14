@@ -2,9 +2,6 @@ Feature: UI
 
   @manual
   Scenario: Display Test Table
-    Given configuration values are:
-      | Variable                  | Value |
-      | formNotCloseOnExit        | true  |
     Given tests are
       | Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
       | 12345    | Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
@@ -17,8 +14,8 @@ Feature: UI
       | 12352    | Enter test result | Bill   | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
     And  configuration values are:
       | Variable                   | Value                    |
-      |formNotCloseOnExit        | false |
-    And test table swing is shown for 5 seconds
+      |formNotCloseOnExit        | true |
+    And test table swing is shown
     Then test table should show that data
 
 @manual
@@ -33,11 +30,11 @@ Scenario: Run a test successfully
     | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:01 AM |
     | valueTestDoubleForRunner   | Sam                      |
     | rootFilePath               | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
-    | formNotCloseOnExit        | true |
+    | formNotCloseOnExit         | true |
   When test is selected
     | Issue ID | 12345       |
-  And test table swing is shown for 20 seconds
- #  | Result   | Success     |
+  And test table swing is shown
+  #  | Result   | Success     |
   # | Comments | Works great |
 Then test is now
    | Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
@@ -54,4 +51,4 @@ Then test is now
       | useTestDoubleForRunner     | false                    |
       | rootFilePath               | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
       | formNotCloseOnExit         | false |
-    When run the program
+    When test table swing is shown

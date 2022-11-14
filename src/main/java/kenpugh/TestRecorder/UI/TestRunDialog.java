@@ -3,6 +3,7 @@ package kenpugh.TestRecorder.UI;
 import kenpugh.TestRecorder.DomainTerms.TestResult;
 import kenpugh.TestRecorder.Entities.TestRun;
 import kenpugh.TestRecorder.Entities.TestRunDTO;
+import kenpugh.TestRecorder.Log.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -78,8 +79,9 @@ public class TestRunDialog extends JDialog {
             testRunDTO.testResult = TestResult.Success.toString();
         else if (failureRadioButton.isSelected())
             testRunDTO.testResult = TestResult.Failure.toString();
+
         else
-            System.err.println("Test Run test result is not set");
+            Log.write(Log.Level.Severe, "Test Run test result is not set", "");
         added = true;
         dispose();
     }
