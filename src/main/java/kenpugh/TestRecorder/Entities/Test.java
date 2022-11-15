@@ -16,22 +16,22 @@ public class Test {
     private MyString filePath = new MyString("File Path Not Specified");
     private MyString comments = new MyString("No comment");
     public final static Test NOT_FOUND = new Test();
-    public boolean selectiveEquals(Object o, TestForEquals testForEquals) {
+    public boolean selectiveEquals(Object o, TestUseFields testUseFields) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Test test = (Test) o;
 
-        boolean result = (issueID.equals(test.issueID) || !testForEquals.issueID)
-                && (name.equals(test.name) || !testForEquals.name)
-                && (lastResult == test.lastResult || !testForEquals.lastResult)
-                && (runner.equals(test.runner)  || !testForEquals.runner)
-                && (dateLastRun.equals(test.dateLastRun)  || !testForEquals.dateLastRun)
-                && (datePreviousResult.equals(test.datePreviousResult) || !testForEquals.datePreviousResult)
-                && (filePath.equals(test.filePath) || !testForEquals.filePath)
-                && (comments.equals(test.comments) || !testForEquals.comments);
+        boolean result = (issueID.equals(test.issueID) || !testUseFields.issueID)
+                && (name.equals(test.name) || !testUseFields.name)
+                && (lastResult == test.lastResult || !testUseFields.lastResult)
+                && (runner.equals(test.runner)  || !testUseFields.runner)
+                && (dateLastRun.equals(test.dateLastRun)  || !testUseFields.dateLastRun)
+                && (datePreviousResult.equals(test.datePreviousResult) || !testUseFields.datePreviousResult)
+                && (filePath.equals(test.filePath) || !testUseFields.filePath)
+                && (comments.equals(test.comments) || !testUseFields.comments);
     if (!result)
             System.out.println("Selective equal values " + " for " + this + " == " + test + " selections: "
-                    + testForEquals );
+                    + testUseFields );
     return result;
     }
     public void fromDTO(@NotNull TestDTO testDTO) {

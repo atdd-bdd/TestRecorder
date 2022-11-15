@@ -10,8 +10,8 @@ import java.util.List;
 
 public class TestRunCollection {
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    static public boolean addTestRun(TestRun value) {
+    @SuppressWarnings({"BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
+    static public boolean addTestRun(@NotNull TestRun value) {
         TestRunDTO TestRunDTO = value.getDTO();
         return TestRunDataAccess.addTestRun(TestRunDTO);
     }
@@ -32,6 +32,7 @@ public class TestRunCollection {
         return listTestRun;
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     static public List<TestRunDTO> listTestRunDTOfromListTestRun(List<TestRun> testRuns) {
         List<TestRunDTO> testRunDTOs = new ArrayList<>();
         for (TestRun testRun : testRuns) {

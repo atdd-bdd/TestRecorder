@@ -18,7 +18,8 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class EntitiesStepDefinitions {
-    static public final TestForEquals testForEquals = new TestForEquals();
+    static public final TestUseFields testUseFields
+            = new TestUseFields();
 
     @Given("Test Results are")
     public void test_results_are(List<String> dataTable) {
@@ -180,11 +181,11 @@ public class EntitiesStepDefinitions {
         @Then("test is equal when selectively compared to")
         public void test_is_equal_when_selectively_compared_to (List < Test > dataTable) {
             Test compare = dataTable.get(0);
-            List<Test> actuals = TestCollection.getAll();
+            @SuppressWarnings("SpellCheckingInspection") List<Test> actuals = TestCollection.getAll();
             // can change any value in testDTO to test comparison
             TestDTO testDTO = actuals.get(0).getDTO();
             Test actual = Test.testFromDTO(testDTO);
-            assertTrue(compare.selectiveEquals(actual, testForEquals));
+            assertTrue(compare.selectiveEquals(actual, testUseFields));
 
 
         }

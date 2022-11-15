@@ -189,7 +189,7 @@ public static JFrame frame;
             testTable.setRowSelectionInterval(0, 0);
         }
 
-        TableRowSorter tableRowSorter = new TableRowSorter(tableModel);
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(tableModel);
         testTable.setRowSorter(tableRowSorter);
         tableRowSorter.setComparator(5, new Comparator<String>() {
 

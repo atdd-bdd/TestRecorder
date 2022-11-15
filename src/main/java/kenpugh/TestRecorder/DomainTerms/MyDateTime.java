@@ -31,6 +31,7 @@ public class MyDateTime {
     public MyDateTime() {
         theDate = NEVER_DATETIME.theDate;
     }
+    @SuppressWarnings("SameParameterValue")
     private MyDateTime(String dateTime, boolean exit){
         // Use for static variables
         try {

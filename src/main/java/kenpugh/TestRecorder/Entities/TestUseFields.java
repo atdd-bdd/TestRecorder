@@ -1,6 +1,7 @@
 package kenpugh.TestRecorder.Entities;
 
-public class TestForEquals {
+@SuppressWarnings("CanBeFinal")
+public class TestUseFields {
     public boolean issueID = false;
     public boolean name = false;
     public boolean lastResult = false;
