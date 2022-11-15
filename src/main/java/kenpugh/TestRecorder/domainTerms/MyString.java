@@ -1,4 +1,4 @@
-package kenpugh.TestRecorder.DomainTerms;
+package kenpugh.TestRecorder.domainTerms;
 
 import java.util.Objects;
 

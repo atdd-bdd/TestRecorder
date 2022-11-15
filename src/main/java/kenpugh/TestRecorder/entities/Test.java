@@ -1,6 +1,6 @@
-package kenpugh.TestRecorder.Entities;
+package kenpugh.TestRecorder.entities;
 
-import kenpugh.TestRecorder.DomainTerms.*;
+import kenpugh.TestRecorder.domainTerms.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

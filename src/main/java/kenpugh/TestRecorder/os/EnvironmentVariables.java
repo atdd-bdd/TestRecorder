@@ -1,6 +1,6 @@
-package kenpugh.TestRecorder.OS;
+package kenpugh.TestRecorder.os;
 
-import kenpugh.TestRecorder.Log.Log;
+import kenpugh.TestRecorder.log.Log;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,10 +1,10 @@
-package kenpugh.TestRecorder.Entities;
+package kenpugh.TestRecorder.entities;
 // | Issue ID  | Name  | Last Result  | Runner | Date Last Run  | Date Previous Result  | File Path |
 
-import kenpugh.TestRecorder.DomainTerms.IssueID;
-import kenpugh.TestRecorder.DomainTerms.MyDateTime;
-import kenpugh.TestRecorder.DomainTerms.Name;
-import kenpugh.TestRecorder.DomainTerms.TestResult;
+import kenpugh.TestRecorder.domainTerms.IssueID;
+import kenpugh.TestRecorder.domainTerms.MyDateTime;
+import kenpugh.TestRecorder.domainTerms.Name;
+import kenpugh.TestRecorder.domainTerms.TestResult;
 
 public class TestDTO {
     public String issueID = IssueID.NOT_SPECIFIED;

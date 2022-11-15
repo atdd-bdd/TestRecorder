@@ -1,9 +1,9 @@
 package kenpugh.TestRecorder.UI;
 
-import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
-import kenpugh.TestRecorder.DomainTerms.MyString;
-import kenpugh.TestRecorder.Entities.MyConfiguration;
-import kenpugh.TestRecorder.Entities.TestDTO;
+import kenpugh.TestRecorder.domainTerms.MyFileSystem;
+import kenpugh.TestRecorder.domainTerms.MyString;
+import kenpugh.TestRecorder.entities.MyConfiguration;
+import kenpugh.TestRecorder.entities.TestDTO;
 
 import javax.swing.*;
 import java.awt.event.*;

@@ -1,7 +1,7 @@
-package kenpugh.TestRecorder.Services;
+package kenpugh.TestRecorder.services;
 
-import kenpugh.TestRecorder.DomainTerms.Name;
-import kenpugh.TestRecorder.Entities.MyConfiguration;
+import kenpugh.TestRecorder.domainTerms.Name;
+import kenpugh.TestRecorder.entities.MyConfiguration;
 
 public class CurrentUserService {
     public static Name getCurrentUser() {

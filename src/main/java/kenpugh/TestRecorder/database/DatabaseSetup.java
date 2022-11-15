@@ -1,4 +1,4 @@
-package kenpugh.TestRecorder.Database;
+package kenpugh.TestRecorder.database;
 
 
 import java.sql.Connection;

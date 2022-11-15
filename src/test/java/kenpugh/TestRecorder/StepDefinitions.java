@@ -5,15 +5,15 @@ import io.cucumber.java.Transpose;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import kenpugh.TestRecorder.Database.TestDataAccess;
-import kenpugh.TestRecorder.DomainTerms.IssueID;
-import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
-import kenpugh.TestRecorder.Entities.Test;
-import kenpugh.TestRecorder.Entities.TestCollection;
-import kenpugh.TestRecorder.Entities.TestRun;
-import kenpugh.TestRecorder.Entities.TestRunCollection;
-import kenpugh.TestRecorder.Services.CurrentDateTimeService;
-import kenpugh.TestRecorder.Services.CurrentUserService;
+import kenpugh.TestRecorder.database.TestDataAccess;
+import kenpugh.TestRecorder.domainTerms.IssueID;
+import kenpugh.TestRecorder.domainTerms.MyFileSystem;
+import kenpugh.TestRecorder.entities.Test;
+import kenpugh.TestRecorder.entities.TestCollection;
+import kenpugh.TestRecorder.entities.TestRun;
+import kenpugh.TestRecorder.entities.TestRunCollection;
+import kenpugh.TestRecorder.services.CurrentDateTimeService;
+import kenpugh.TestRecorder.services.CurrentUserService;
 
 import java.util.List;
 

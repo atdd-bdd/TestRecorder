@@ -1,8 +1,8 @@
-package kenpugh.TestRecorder.Entities;
+package kenpugh.TestRecorder.entities;
 
 
-import kenpugh.TestRecorder.Database.TestDataAccess;
-import kenpugh.TestRecorder.DomainTerms.IssueID;
+import kenpugh.TestRecorder.database.TestDataAccess;
+import kenpugh.TestRecorder.domainTerms.IssueID;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package kenpugh.TestRecorder.UI;
 
-import kenpugh.TestRecorder.DomainTerms.IssueID;
-import kenpugh.TestRecorder.Entities.Test;
-import kenpugh.TestRecorder.Entities.TestCollection;
+import kenpugh.TestRecorder.domainTerms.IssueID;
+import kenpugh.TestRecorder.entities.Test;
+import kenpugh.TestRecorder.entities.TestCollection;
 
 import javax.swing.*;
 

@@ -1,8 +1,8 @@
-package kenpugh.TestRecorder.Entities;
+package kenpugh.TestRecorder.entities;
 
-import kenpugh.TestRecorder.DomainTerms.IssueID;
-import kenpugh.TestRecorder.DomainTerms.MyDateTime;
-import kenpugh.TestRecorder.DomainTerms.TestResult;
+import kenpugh.TestRecorder.domainTerms.IssueID;
+import kenpugh.TestRecorder.domainTerms.MyDateTime;
+import kenpugh.TestRecorder.domainTerms.TestResult;
 
 public class TestRunDTO {
 

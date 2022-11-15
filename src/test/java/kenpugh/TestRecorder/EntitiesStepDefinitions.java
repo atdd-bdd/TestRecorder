@@ -4,11 +4,11 @@ import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import kenpugh.TestRecorder.Database.DatabaseSetup;
-import kenpugh.TestRecorder.Database.TestDataAccess;
-import kenpugh.TestRecorder.DomainTerms.*;
-import kenpugh.TestRecorder.Entities.*;
-import kenpugh.TestRecorder.Log.Log;
+import kenpugh.TestRecorder.database.DatabaseSetup;
+import kenpugh.TestRecorder.database.TestDataAccess;
+import kenpugh.TestRecorder.domainTerms.*;
+import kenpugh.TestRecorder.entities.*;
+import kenpugh.TestRecorder.log.Log;
 
 import java.lang.reflect.Field;
 import java.util.Collection;

@@ -1,6 +1,6 @@
 package kenpugh.TestRecorder;
 
-import kenpugh.TestRecorder.DomainTerms.MyString;
+import kenpugh.TestRecorder.domainTerms.MyString;
 
 class FileExistsValue {
     MyString filePath;

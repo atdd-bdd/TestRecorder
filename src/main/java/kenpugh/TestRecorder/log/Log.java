@@ -1,4 +1,4 @@
-package kenpugh.TestRecorder.Log;
+package kenpugh.TestRecorder.log;
 
 public class Log {
    public  enum Level { Info, @SuppressWarnings("unused") Debug, Severe}

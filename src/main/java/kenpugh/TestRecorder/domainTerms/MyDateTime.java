@@ -1,7 +1,7 @@
-package kenpugh.TestRecorder.DomainTerms;
+package kenpugh.TestRecorder.domainTerms;
 
-import kenpugh.TestRecorder.Log.Log;
-import kenpugh.TestRecorder.Services.CurrentDateTimeService;
+import kenpugh.TestRecorder.log.Log;
+import kenpugh.TestRecorder.services.CurrentDateTimeService;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;

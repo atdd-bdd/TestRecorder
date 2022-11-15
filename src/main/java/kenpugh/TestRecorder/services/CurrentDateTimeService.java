@@ -1,7 +1,7 @@
-package kenpugh.TestRecorder.Services;
+package kenpugh.TestRecorder.services;
 
-import kenpugh.TestRecorder.DomainTerms.MyDateTime;
-import kenpugh.TestRecorder.Entities.MyConfiguration;
+import kenpugh.TestRecorder.domainTerms.MyDateTime;
+import kenpugh.TestRecorder.entities.MyConfiguration;
 
 import java.util.Date;
 

@@ -3,7 +3,7 @@ package kenpugh.TestRecorder;
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import kenpugh.TestRecorder.Entities.TestRun;
+import kenpugh.TestRecorder.entities.TestRun;
 import kenpugh.TestRecorder.UI.TestRecorderFormSwing;
 
 import java.util.List;

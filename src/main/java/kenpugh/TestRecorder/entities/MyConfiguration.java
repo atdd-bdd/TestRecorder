@@ -1,10 +1,10 @@
-package kenpugh.TestRecorder.Entities;
+package kenpugh.TestRecorder.entities;
 
-import kenpugh.TestRecorder.DomainTerms.MyDateTime;
-import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
-import kenpugh.TestRecorder.DomainTerms.MyString;
-import kenpugh.TestRecorder.DomainTerms.Name;
-import kenpugh.TestRecorder.OS.EnvironmentVariables;
+import kenpugh.TestRecorder.domainTerms.MyDateTime;
+import kenpugh.TestRecorder.domainTerms.MyFileSystem;
+import kenpugh.TestRecorder.domainTerms.MyString;
+import kenpugh.TestRecorder.domainTerms.Name;
+import kenpugh.TestRecorder.os.EnvironmentVariables;
 
 public class MyConfiguration {
     public enum MyConfigurationVariables {

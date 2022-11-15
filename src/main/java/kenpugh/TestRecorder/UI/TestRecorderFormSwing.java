@@ -1,12 +1,12 @@
 package kenpugh.TestRecorder.UI;
 
 
-import kenpugh.TestRecorder.DomainTerms.IssueID;
-import kenpugh.TestRecorder.DomainTerms.MyDateTime;
-import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
-import kenpugh.TestRecorder.DomainTerms.MyString;
-import kenpugh.TestRecorder.Entities.*;
-import kenpugh.TestRecorder.Log.Log;
+import kenpugh.TestRecorder.domainTerms.IssueID;
+import kenpugh.TestRecorder.domainTerms.MyDateTime;
+import kenpugh.TestRecorder.domainTerms.MyFileSystem;
+import kenpugh.TestRecorder.domainTerms.MyString;
+import kenpugh.TestRecorder.entities.*;
+import kenpugh.TestRecorder.log.Log;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

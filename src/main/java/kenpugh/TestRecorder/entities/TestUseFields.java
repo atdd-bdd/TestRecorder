@@ -1,4 +1,4 @@
-package kenpugh.TestRecorder.Entities;
+package kenpugh.TestRecorder.entities;
 
 @SuppressWarnings("CanBeFinal")
 public class TestUseFields {

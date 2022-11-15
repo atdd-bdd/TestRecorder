@@ -1,6 +1,6 @@
 package kenpugh.TestRecorder.UI;
 
-import kenpugh.TestRecorder.DomainTerms.Name;
+import kenpugh.TestRecorder.domainTerms.Name;
 
 import javax.swing.*;
 

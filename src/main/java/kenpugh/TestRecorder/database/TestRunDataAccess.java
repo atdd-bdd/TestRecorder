@@ -1,9 +1,9 @@
-package kenpugh.TestRecorder.Database;
+package kenpugh.TestRecorder.database;
 
 
-import kenpugh.TestRecorder.DomainTerms.IssueID;
-import kenpugh.TestRecorder.Entities.TestRunDTO;
-import kenpugh.TestRecorder.Log.Log;
+import kenpugh.TestRecorder.domainTerms.IssueID;
+import kenpugh.TestRecorder.entities.TestRunDTO;
+import kenpugh.TestRecorder.log.Log;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kenpugh.TestRecorder.Database.DatabaseSetup.connection;
+import static kenpugh.TestRecorder.database.DatabaseSetup.connection;
 
 public class TestRunDataAccess {
 

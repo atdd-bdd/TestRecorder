@@ -2,10 +2,10 @@ package kenpugh.TestRecorder;
 
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.Given;
-import kenpugh.TestRecorder.Entities.Test;
-import kenpugh.TestRecorder.Entities.TestDTO;
-import kenpugh.TestRecorder.Entities.TestRun;
-import kenpugh.TestRecorder.Entities.TestRunDTO;
+import kenpugh.TestRecorder.entities.Test;
+import kenpugh.TestRecorder.entities.TestDTO;
+import kenpugh.TestRecorder.entities.TestRun;
+import kenpugh.TestRecorder.entities.TestRunDTO;
 
 import java.util.List;
 import java.util.Map;

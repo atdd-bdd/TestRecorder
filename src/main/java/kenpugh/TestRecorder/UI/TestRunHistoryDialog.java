@@ -1,9 +1,9 @@
 package kenpugh.TestRecorder.UI;
 
-import kenpugh.TestRecorder.DomainTerms.IssueID;
-import kenpugh.TestRecorder.Entities.TestRun;
-import kenpugh.TestRecorder.Entities.TestRunCollection;
-import kenpugh.TestRecorder.Entities.TestRunDTO;
+import kenpugh.TestRecorder.domainTerms.IssueID;
+import kenpugh.TestRecorder.entities.TestRun;
+import kenpugh.TestRecorder.entities.TestRunCollection;
+import kenpugh.TestRecorder.entities.TestRunDTO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

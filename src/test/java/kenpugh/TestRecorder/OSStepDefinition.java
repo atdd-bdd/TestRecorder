@@ -2,7 +2,7 @@ package kenpugh.TestRecorder;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import kenpugh.TestRecorder.OS.EnvironmentVariables;
+import kenpugh.TestRecorder.os.EnvironmentVariables;
 
 import java.util.Map;
 

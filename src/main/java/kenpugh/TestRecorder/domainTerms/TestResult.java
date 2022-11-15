@@ -1,4 +1,4 @@
-package kenpugh.TestRecorder.DomainTerms;
+package kenpugh.TestRecorder.domainTerms;
 
 public enum TestResult {
     Success, Failure;

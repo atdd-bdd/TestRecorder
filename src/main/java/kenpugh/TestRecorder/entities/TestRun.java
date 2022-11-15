@@ -1,8 +1,8 @@
-package kenpugh.TestRecorder.Entities;
+package kenpugh.TestRecorder.entities;
 
-import kenpugh.TestRecorder.DomainTerms.*;
-import kenpugh.TestRecorder.Services.CurrentDateTimeService;
-import kenpugh.TestRecorder.Services.CurrentUserService;
+import kenpugh.TestRecorder.domainTerms.*;
+import kenpugh.TestRecorder.services.CurrentDateTimeService;
+import kenpugh.TestRecorder.services.CurrentUserService;
 
 import java.util.Objects;
 

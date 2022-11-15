@@ -2,8 +2,8 @@ package kenpugh.TestRecorder;
 
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.Given;
-import kenpugh.TestRecorder.DomainTerms.IssueID;
-import kenpugh.TestRecorder.DomainTerms.MyDateTime;
+import kenpugh.TestRecorder.domainTerms.IssueID;
+import kenpugh.TestRecorder.domainTerms.MyDateTime;
 
 import java.util.List;
 import java.util.Map;
