@@ -29,7 +29,7 @@ public class MyDateTime {
     }
 
     public MyDateTime() {
-        theDate = DEFAULT_DATETIME.theDate;
+        theDate = NEVER_DATETIME.theDate;
     }
     private MyDateTime(String dateTime, boolean exit){
         // Use for static variables
@@ -51,10 +51,19 @@ public class MyDateTime {
             theDate = DateFormat.getDateTimeInstance().parse(value);
         } catch (ParseException e) {
             Log.write(Log.Level.Info, "MyDateTime bad format in constructor ", value);
-            theDate = DEFAULT_DATETIME.theDate;
+            theDate = NEVER_DATETIME.theDate;
         }
     }
 
+    public static String toDisplayString(String dateLastRun) {
+        if (dateLastRun.equals(NEVER_DATETIME.toString()))
+            return NEVER_STRING;
+        return dateLastRun;
+    }
+
+    public int compareTo(MyDateTime other){
+        return (this.theDate.compareTo(other.theDate));
+    }
     static public MyDateTime parse(@NotNull String value) {
         if (value.equals(NEVER_STRING))
                 return NEVER_DATETIME;
@@ -72,7 +81,7 @@ public class MyDateTime {
             mdt.theDate = DateFormat.getDateTimeInstance().parse(value);
         } catch (ParseException e) {
             Log.write(Log.Level.Info, "MyDateTime bad format in parse ", value);
-            mdt.theDate = DEFAULT_DATETIME.theDate;
+            mdt.theDate = NEVER_DATETIME.theDate;
         }
         return mdt;
         }

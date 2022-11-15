@@ -9,9 +9,9 @@ import java.util.Objects;
 public class TestRun {
     private IssueID issueID = new IssueID();
     private MyDateTime dateTime = new MyDateTime();
-    private TestResult testResult = TestResult.Failure;
+    private TestResult result = TestResult.Failure;
     private MyString comments = new MyString();
-    private Name runner = new Name();
+    private Name runner = new Name(Name.EMPTY);
 
     public static TestRun getBaseTestRun(IssueID issueID) {
         TestRun result = new TestRun();
@@ -27,7 +27,7 @@ public class TestRun {
         testRunDTO.issueID = issueID.toString();
         testRunDTO.dateTime = dateTime.toString();
         testRunDTO.runner = runner.toString();
-        testRunDTO.testResult = testResult.toString();
+        testRunDTO.result = result.toString();
         return testRunDTO;
     }
 
@@ -36,7 +36,7 @@ public class TestRun {
         return "TestRun{" +
                 "issueID=" + issueID +
                 ", dateTime=" + dateTime +
-                ", testResult=" + testResult +
+                ", testResult=" + result +
                 ", comments=" + comments +
                 ", runner=" + runner +
                 '}';
@@ -47,20 +47,20 @@ public class TestRun {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TestRun testRun = (TestRun) o;
-        return issueID.equals(testRun.issueID) && dateTime.equals(testRun.dateTime) && testResult == testRun.testResult && comments.equals(testRun.comments) && runner.equals(testRun.runner);
+        return issueID.equals(testRun.issueID) && dateTime.equals(testRun.dateTime) && result == testRun.result && comments.equals(testRun.comments) && runner.equals(testRun.runner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(issueID, dateTime, testResult, comments, runner);
+        return Objects.hash(issueID, dateTime, result, comments, runner);
     }
 
     public void fromDTO(TestRunDTO testRunDTO) {
-        if (testRunDTO.comments != null) comments = new MyString(testRunDTO.comments);
-        if (testRunDTO.issueID != null) issueID = new IssueID(testRunDTO.issueID);
-        if (testRunDTO.dateTime != null) dateTime = new MyDateTime(testRunDTO.dateTime);
-        if (testRunDTO.runner != null) runner = new Name(testRunDTO.runner);
-        if (testRunDTO.testResult != null) testResult = TestResult.valueOf(testRunDTO.testResult);
+         comments = new MyString(testRunDTO.comments);
+         issueID = new IssueID(testRunDTO.issueID);
+         dateTime = new MyDateTime(testRunDTO.dateTime);
+         runner = new Name(testRunDTO.runner);
+         result = TestResult.valueOf(testRunDTO.result);
     }
 
     static public TestRun TestRunFromDTO(TestRunDTO testRunDTO) {
@@ -70,7 +70,7 @@ public class TestRun {
     }
 
     public TestResult getTestResult() {
-        return testResult;
+        return result;
     }
 
     public MyDateTime getDateTime() {

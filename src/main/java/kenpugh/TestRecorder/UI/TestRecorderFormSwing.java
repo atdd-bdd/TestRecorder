@@ -2,6 +2,7 @@ package kenpugh.TestRecorder.UI;
 
 
 import kenpugh.TestRecorder.DomainTerms.IssueID;
+import kenpugh.TestRecorder.DomainTerms.MyDateTime;
 import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
 import kenpugh.TestRecorder.DomainTerms.MyString;
 import kenpugh.TestRecorder.Entities.*;
@@ -9,9 +10,12 @@ import kenpugh.TestRecorder.Log.Log;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
@@ -58,6 +62,7 @@ public class TestRecorderFormSwing {
                 if (dialog.added) {
                     testRun = TestRun.TestRunFromDTO(dialog.testRunDTO);
                     TestCollection.findTestAndUpdate(testRun.getIssueID(), testRun);
+                    TestRunCollection.addTestRun(testRun);
                     testRecorderFormSwing.updateData();
                 }
 
@@ -69,6 +74,7 @@ public class TestRecorderFormSwing {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TestEntryDialog dialog = new TestEntryDialog();
+                dialog.initialize();
                 dialog.pack();
                 dialog.setVisible(true);
                 if (dialog.testDTO != null){
@@ -87,7 +93,13 @@ public class TestRecorderFormSwing {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                TestRunHistoryDialog dialog = new TestRunHistoryDialog();
+                int index =  testTable.getSelectedRow();
+                TestDTO testDTO = testDTOs.get(index);
+                dialog.issueID = new IssueID(testDTO.issueID);
+                dialog.updateData();
+                dialog.pack();
+                dialog.setVisible(true);
             }
         });
     }
@@ -161,6 +173,8 @@ public static JFrame frame;
         tableModel.setNumRows(0);
         for (TestDTO testDTO : testDTOs) {
             String[] data = new String[8];
+            testDTO.dateLastRun = MyDateTime.toDisplayString(testDTO.dateLastRun);
+            testDTO.datePreviousResult = MyDateTime.toDisplayString(testDTO.datePreviousResult);
             data[0] = testDTO.issueID;
             data[1] = testDTO.name;
             data[2] = testDTO.runner;
@@ -175,6 +189,29 @@ public static JFrame frame;
         if (testDTOs.size() >= 1) {
             testTable.setRowSelectionInterval(0, 0);
         }
+
+        TableRowSorter tableRowSorter = new TableRowSorter(tableModel);
+        testTable.setRowSorter(tableRowSorter);
+        tableRowSorter.setComparator(5, new Comparator<String>() {
+
+            @Override
+            public int compare(String name1, String name2) {
+                 MyDateTime date1= new MyDateTime(name1);
+                MyDateTime date2 = new MyDateTime(name2);
+                return date1.compareTo(date2);
+            }
+        });
+        tableRowSorter.setComparator(4, new Comparator<String>() {
+
+            @Override
+            public int compare(String name1, String name2) {
+                MyDateTime date1= new MyDateTime(name1);
+                MyDateTime date2 = new MyDateTime(name2);
+                return date1.compareTo(date2);
+            }
+        });
+
+
 
     }
 

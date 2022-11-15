@@ -18,6 +18,7 @@
           <component id="285db" class="javax.swing.JTable" binding="testTable" custom-create="true">
             <constraints/>
             <properties>
+              <autoCreateRowSorter value="false"/>
               <preferredScrollableViewportSize width="1200" height="400"/>
             </properties>
           </component>

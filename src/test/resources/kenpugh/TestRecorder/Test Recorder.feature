@@ -19,6 +19,7 @@ Feature: Test Recorder
       | Issue ID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               | Comments |
       | 12345    | Enter test result |         | Failure     | Never         | Never                | EnterTestResult.feature |          |
 
+    @doing
   Scenario: Run a test successfully
     Given test exists
       | Issue ID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               | Comments |
@@ -40,7 +41,7 @@ Feature: Test Recorder
     And test is now
       | Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
       | 12345    | Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
-    And test run record is now
+    And test run records exist
       | Issue ID | Date Time                | Result  | Comments    | Runner |
       | 12345    | Oct 1, 2022, 12:30:01 AM | Success | Works great | Sam    |
 

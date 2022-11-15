@@ -3,8 +3,9 @@ package kenpugh.TestRecorder.DomainTerms;
 import java.util.Objects;
 
 public class Name {
+    public static final String EMPTY = "";
     private final String value;
-    public static final String NOT_SPECIFIED = "No Name";
+    public static final String NOT_SPECIFIED = "Name Not Specified";
 
     @Override
     public boolean equals(Object o) {

@@ -44,6 +44,8 @@ public class DatabaseSetup {
             Statement statement = connection.createStatement();
             statement.execute("CREATE TABLE TESTS (issueID CHAR(5), name CHAR(50), runner CHAR(20), lastResult CHAR(10), dateLastRun CHAR(30), " +
                     "datePreviousResult CHAR(30), filePath CHAR(200), comments VARCHAR(1000));");
+            statement.execute("CREATE TABLE TEST_RUNS (issueID CHAR(5), runner CHAR(20), result CHAR(10), dateTime CHAR(30), " +
+                    " comments VARCHAR(1000));");
             setupComplete = true;
         } catch (SQLException ex) {
             System.err.println("SQLException: " + ex.getMessage() + " Create Tables");

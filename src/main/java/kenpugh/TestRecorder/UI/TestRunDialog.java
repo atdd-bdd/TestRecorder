@@ -17,15 +17,12 @@ public class TestRunDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JPanel valuesPanel;
     private JTextField runnerTextField;
     private JRadioButton successRadioButton;
     private JRadioButton failureRadioButton;
     private JTextArea commentsTextArea;
     private JTextArea scriptTextArea;
-    private JLabel dateTimeLabel;
     private JTextField dateTimeTextField;
-    private JLabel issueIDLabel;
     private JTextField issueIDTextField;
 
     public TestRunDialog() {
@@ -76,9 +73,9 @@ public class TestRunDialog extends JDialog {
     private void onOK() {
         testRunDTO.comments = commentsTextArea.getText();
         if (successRadioButton.isSelected())
-            testRunDTO.testResult = TestResult.Success.toString();
+            testRunDTO.result = TestResult.Success.toString();
         else if (failureRadioButton.isSelected())
-            testRunDTO.testResult = TestResult.Failure.toString();
+            testRunDTO.result = TestResult.Failure.toString();
 
         else
             Log.write(Log.Level.Severe, "Test Run test result is not set", "");

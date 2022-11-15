@@ -1,8 +1,12 @@
 package kenpugh.TestRecorder;
 
+import io.cucumber.java.Transpose;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import kenpugh.TestRecorder.Entities.TestRun;
 import kenpugh.TestRecorder.UI.TestRecorderFormSwing;
+
+import java.util.List;
 
 public class UIStepDefinitions {
 
@@ -16,12 +20,14 @@ public class UIStepDefinitions {
             throw new RuntimeException(e);
         }
     }
-
     @When("test table swing is shown")
     public void test_table_swing_is_shown() {
-        //new TestTableSwingTest().show();
 
         TestRecorderFormSwing.main(null);
+        waitForInProgress();
+    }
+
+    private static void waitForInProgress() {
         while (TestRecorderFormSwing.inProgress) {
             try {
                 Thread.sleep(100);
@@ -30,6 +36,17 @@ public class UIStepDefinitions {
             }
         }
     }
+
+    @When("test table swing is shown with test run data")
+    public void test_table_swing_is_shown_with_test_data(@Transpose List<TestRun> dataTable) {
+        System.out.println(" Enter the following into the appropriate form");
+        for (TestRun testRun: dataTable) {
+            System.out.println( " Entry values are " + testRun.toString());
+        }
+
+        TestRecorderFormSwing.main(null);
+        waitForInProgress();
+        }
     @When("run the program")
     public void run_the_program() {
         TestRecorderFormSwing.main(null);

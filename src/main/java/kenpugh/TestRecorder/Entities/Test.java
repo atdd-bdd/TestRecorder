@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Test {
     private IssueID issueID = IssueID.INVALID_ISSUE_ID;
-   private Name name = new Name(Name.NOT_SPECIFIED);
+   private Name name = new Name("");
     private TestResult lastResult = TestResult.Failure;
     private Name runner = new Name("");
     private MyDateTime dateLastRun = MyDateTime.NEVER_DATETIME;
@@ -21,28 +21,28 @@ public class Test {
         if (o == null || getClass() != o.getClass()) return false;
         Test test = (Test) o;
 
-        boolean result = (issueID.equals(test.issueID) || !testForEquals.issueIDCheck)
-                && (name.equals(test.name) || !testForEquals.nameCheck)
-                && (lastResult == test.lastResult || !testForEquals.lastResultCheck)
-                && (runner.equals(test.runner)  || !testForEquals.runnerCheck)
-                && (dateLastRun.equals(test.dateLastRun)  || !testForEquals.dateLastRunCheck)
-                && (datePreviousResult.equals(test.datePreviousResult) || !testForEquals.datePreviousResultCheck)
-                && (filePath.equals(test.filePath) || !testForEquals.filePathCheck)
-                && (comments.equals(test.comments) || !testForEquals.commentsCheck);
+        boolean result = (issueID.equals(test.issueID) || !testForEquals.issueID)
+                && (name.equals(test.name) || !testForEquals.name)
+                && (lastResult == test.lastResult || !testForEquals.lastResult)
+                && (runner.equals(test.runner)  || !testForEquals.runner)
+                && (dateLastRun.equals(test.dateLastRun)  || !testForEquals.dateLastRun)
+                && (datePreviousResult.equals(test.datePreviousResult) || !testForEquals.datePreviousResult)
+                && (filePath.equals(test.filePath) || !testForEquals.filePath)
+                && (comments.equals(test.comments) || !testForEquals.comments);
     if (!result)
             System.out.println("Selective equal values " + " for " + this + " == " + test + " selections: "
                     + testForEquals );
     return result;
     }
     public void fromDTO(@NotNull TestDTO testDTO) {
-        if (testDTO.issueID != null) issueID = new IssueID(testDTO.issueID);
-        if (testDTO.name != null) name = new Name(testDTO.name);
-        if (testDTO.lastResult != null) lastResult = TestResult.parse(testDTO.lastResult);
-        if (testDTO.dateLastRun != null) dateLastRun = MyDateTime.parse(testDTO.dateLastRun);
-        if (testDTO.datePreviousResult != null) datePreviousResult = MyDateTime.parse(testDTO.datePreviousResult);
-        if (testDTO.filePath != null) filePath = new MyString(testDTO.filePath);
-        if (testDTO.comments != null) comments = new MyString(testDTO.comments);
-        if (testDTO.runner != null) runner = new Name(testDTO.runner);
+         issueID = new IssueID(testDTO.issueID);
+        name = new Name(testDTO.name);
+         lastResult = TestResult.parse(testDTO.lastResult);
+         dateLastRun = MyDateTime.parse(testDTO.dateLastRun);
+         datePreviousResult = MyDateTime.parse(testDTO.datePreviousResult);
+         filePath = new MyString(testDTO.filePath);
+        comments = new MyString(testDTO.comments);
+        runner = new Name(testDTO.runner);
     }
 
     static public Test testFromDTO(TestDTO testDTO) {

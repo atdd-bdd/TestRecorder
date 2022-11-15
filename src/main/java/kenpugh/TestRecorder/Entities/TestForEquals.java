@@ -1,36 +1,27 @@
 package kenpugh.TestRecorder.Entities;
 
 public class TestForEquals {
-    public boolean issueIDCheck = false;
-    public boolean nameCheck = false;
-    public boolean lastResultCheck = false;
-    public boolean runnerCheck = false;
-    public boolean dateLastRunCheck = false;
-    public boolean datePreviousResultCheck = false;
-    public boolean filePathCheck = false;
-    public boolean commentsCheck = false;
+    public boolean issueID = false;
+    public boolean name = false;
+    public boolean lastResult = false;
+    public boolean runner = false;
+    public boolean dateLastRun = false;
+    public boolean datePreviousResult = false;
+    public boolean filePath = false;
+    public boolean comments = false;
 
     @Override
     public String toString() {
         return "TestForEquals{" +
-                "issueIDCheck=" + issueIDCheck +
-                ", nameCheck=" + nameCheck +
-                ", lastResultCheck=" + lastResultCheck +
-                ", runnerCheck=" + runnerCheck +
-                ", dateLastRunCheck=" + dateLastRunCheck +
-                ", datePreviousResultCheck=" + datePreviousResultCheck +
-                ", filePathCheck=" + filePathCheck +
-                ", commentsCheck=" + commentsCheck +
+                "issueID=" + issueID +
+                ", name=" + name +
+                ", lastResult=" + lastResult +
+                ", runner=" + runner +
+                ", dateLastRun=" + dateLastRun +
+                ", datePreviousResult=" + datePreviousResult +
+                ", filePath=" + filePath +
+                ", comments=" + comments +
                 '}';
     }
-   public void setFromTestDTO(TestDTO testDTO){
-        issueIDCheck = (testDTO.issueID != null);
-        filePathCheck =  (testDTO.filePath != null);
-        dateLastRunCheck = (testDTO.dateLastRun != null) ;
-        datePreviousResultCheck = (testDTO.datePreviousResult != null);
-        lastResultCheck = (testDTO.lastResult != null) ;
-        commentsCheck = (testDTO.comments != null);
-        runnerCheck = (testDTO.runner != null);
-        nameCheck = (testDTO.name != null);
-    }
+
 }

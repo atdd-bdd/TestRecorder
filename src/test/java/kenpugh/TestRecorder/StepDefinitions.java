@@ -11,6 +11,7 @@ import kenpugh.TestRecorder.DomainTerms.MyFileSystem;
 import kenpugh.TestRecorder.Entities.Test;
 import kenpugh.TestRecorder.Entities.TestCollection;
 import kenpugh.TestRecorder.Entities.TestRun;
+import kenpugh.TestRecorder.Entities.TestRunCollection;
 import kenpugh.TestRecorder.Services.CurrentDateTimeService;
 import kenpugh.TestRecorder.Services.CurrentUserService;
 
@@ -81,6 +82,7 @@ public class StepDefinitions {
         tr.setDateTime(CurrentDateTimeService.getCurrentDateTime());
         tr.setRunner(CurrentUserService.getCurrentUser());
         TestCollection.findTestAndUpdate(tr.getIssueID(), tr);
+        TestRunCollection.addTestRun(tr);
     }
 
     @When("test run display contains")
@@ -95,16 +97,48 @@ public class StepDefinitions {
     public void test_is_now(List<Test> dataTable) {
         Test expected = dataTable.get(0);
         Test actual = TestCollection.findTest(currentIssueID);
-        assertEquals(expected, actual);
+       assertEquals(expected, actual);
     }
 
-    @Then("test run record is now")
-    public void test_run_record_is_now(List<TestRun> dataTable) {
+    @Then("test run records exist")
+    public void test_run_records_exist(List<TestRun> dataTable) {
         for (TestRun tr : dataTable) {
-            System.out.println("Test Run " + tr);
+            System.out.println("**** Test Run Expected " + tr);
         }
+        List<TestRun> results = TestRunCollection.findTestRuns(currentIssueID);
+        System.out.println("**** Results are " + results.toString());
+
+        assertTrue(arrayContains(dataTable.toArray(), results.toArray() ));
+
+
     }
 
+    private boolean arrayContains(Object[] expectedArray, Object[] actualArray) {
+        boolean containsAll = true;
+        System.out.println( " expected array" + expectedArray.toString());
+        System.out.println( " actual array" + actualArray.toString());
+        for (Object expected: expectedArray){
+            boolean contains = false;
+            for(Object actual: actualArray)
+            {
+                if (expected.equals(actual))
+                {
+                    contains = true;
+                    break;
+                }
+            }
+            if (contains == false) {
+                System.err.println(" Missing Array element " + expected.toString());
+                containsAll = false;
+            }
+        }
+        return containsAll;
+    }
+
+    @Given("test runs are empty")
+    public void test_runs_are_empty() {
+         TestRunCollection.deleteAll();
+    }
     static class TestRunDisplay {
         String testRunScript = "";
     }

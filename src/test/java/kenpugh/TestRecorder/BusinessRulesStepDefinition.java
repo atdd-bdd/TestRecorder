@@ -60,7 +60,7 @@ public class BusinessRulesStepDefinition {
 
     private static TestRunDTO getTestRunDTO(UpdateTestFromTestRunBusinessRuleDTO update) {
         TestRunDTO testRunDTO = new TestRunDTO();
-        testRunDTO.testResult = update.result;
+        testRunDTO.result = update.result;
         testRunDTO.dateTime = update.dateTime;
         return testRunDTO;
     }

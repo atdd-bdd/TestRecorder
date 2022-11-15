@@ -1,6 +1,11 @@
 
     Do the history -  save the testrun in a database on the return
 
+** Make null check in the DataTableType, not in the fromDTO
+
+
+    Do the history -  save the testrun in a database on the return
+
 
  
 
@@ -22,6 +27,52 @@ Add a filter on display -  show only active, inactive, all
 
 
 
+
+
+-- Check mastadon - for messages
+-- Check pickleball instructors
+
+
+** turn csv into | | |
+c++ program = read csv,  write | | |
+
+* click on link - stupid versus code
+    Automade everything
+
+    Technology - arrognance   assume everyone is at the same level
+
+    System O/S level,  hardware - etc.
+
+    Reasonble versus unreesonable
+    Parking app track inforation - where and when
+    Delete after X days
+    Google auto - why use Google Maps   , but I've got a GPS in my car.
+    Write google - 10,000 every time you do this
+
+    TestCollection
+        could write the collection to a file for persistence
+
+Boilerplate
+validate - right format,  verify - thing exists.
+Exists - check if there, if not add it
+Contains - should be there
+Are - list of all of them
+Now Are - checks that all are there and no others
+Now contains - checks that is there
+
+doc -Alias for program files does not work
+
+
+How to know how many columns on input table and therefore which columns to check
+
+     Have a DTO that is initialized to all nulls.
+     Fill it in from the input table.
+     Must have some way of getting the value.
+     static FieldsSupplied = all nulls
+     set it up with booleans
+     pass it the dataTable - it checks each field
+     (if entry.get("ID") != null) fieldsupplied = true;
+     boolean FieldsSupplied.check (Test a, Test b) ;
 
 
 -- Check mastadon - for messages

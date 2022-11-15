@@ -10,6 +10,7 @@ import kenpugh.TestRecorder.DomainTerms.*;
 import kenpugh.TestRecorder.Entities.*;
 import kenpugh.TestRecorder.Log.Log;
 
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import static org.junit.Assert.*;
 
 public class EntitiesStepDefinitions {
     static public final TestForEquals testForEquals = new TestForEquals();
+
     @Given("Test Results are")
     public void test_results_are(List<String> dataTable) {
         int count = TestResult.values().length;
@@ -104,7 +106,6 @@ public class EntitiesStepDefinitions {
     @Given("file exists")
     public void file_exists(List<FileExistsValue> dataTable) {
         for (FileExistsValue fev : dataTable) {
-            System.out.println(fev.contents + " " + fev.filePath);
             MyFileSystem.create(fev.filePath, fev.contents);
             String result = MyFileSystem.read(fev.filePath);
             assertEquals(fev.contents, result);
@@ -121,92 +122,134 @@ public class EntitiesStepDefinitions {
     // | Issue ID  | Name  | Last Result  | Runner | Date Last Run  | Date Previous Result  | File Path |
     @DataTableType
     public Test inputTest(Map<String, String> entry) {
-        TestDTO testDTO = new TestDTO();
-        testDTO.issueID = entry.get("Issue ID");
-        testDTO.name = entry.get("Name");
-        testDTO.lastResult = entry.get("Last Result");
-        testDTO.runner = entry.get("Runner");
-        testDTO.dateLastRun = entry.get("Date Last Run");
-        testDTO.datePreviousResult = entry.get("Date Previous Result");
-        testDTO.filePath = entry.get("File Path");
-        testDTO.comments = entry.get("Comments");
-        EntitiesStepDefinitions.testForEquals.setFromTestDTO(testDTO);
+         TestDTO testDTO = setTestDTOFromEntryMap(entry);
         return Test.testFromDTO(testDTO);
-    }
+        }
 
-    @DataTableType
-    public TestDTO inputTestDTO(Map<String, String> entry) {
-        TestDTO testDTO = new TestDTO();
-        testDTO.issueID = entry.get("Issue ID");
-        testDTO.name = entry.get("Name");
-        testDTO.lastResult = entry.get("Last Result");
-        testDTO.runner = entry.get("Runner");
-        testDTO.dateLastRun = entry.get("Date Last Run");
-        testDTO.datePreviousResult = entry.get("Date Previous Result");
-        testDTO.filePath = entry.get("File Path");
-        testDTO.comments = entry.get("Comments");
-        return testDTO;
-    }
+        @DataTableType
+        public TestDTO inputTestDTO (Map < String, String > entry){
+            TestDTO testDTO = setTestDTOFromEntryMap(entry);
+            return testDTO;
+        }
 
-    @DataTableType
-    public TestRun inputTestRun(Map<String, String> entry) {
-        TestRunDTO testRunDTO = new TestRunDTO();
-        testRunDTO.issueID = entry.get("Issue ID");
-        testRunDTO.runner = entry.get("Runner");
-        testRunDTO.dateTime = entry.get("Date Time");
-        testRunDTO.comments = entry.get("Comments");
-        testRunDTO.testResult = entry.get("Result");
-        return TestRun.TestRunFromDTO(testRunDTO);
-    }
+        @DataTableType
+        public TestRun inputTestRun (Map < String, String > entry){
+            TestRunDTO testRunDTO = setTestRunDTOFromEntryMap(entry);
+            return TestRun.TestRunFromDTO(testRunDTO);
+        }
 
-    @Given("database is setup")
-    public void database_is_setup() {
-        DatabaseSetup.setup();
-        DatabaseSetup.removeTables();
-        DatabaseSetup.setupTables();
+        @Given("database is setup")
+        public void database_is_setup () {
+            DatabaseSetup.setup();
+            DatabaseSetup.removeTables();
+            DatabaseSetup.setupTables();
 
-    }
+        }
 
-    @Then("test can be loaded")
-    public void test_can_be_loaded(List<TestDTO> dataTable) {
-        Collection<TestDTO> testDTOs = TestDataAccess.getAll();
-        boolean match = false;
-        for (TestDTO tDTO : dataTable) {
-            Test e = Test.testFromDTO(tDTO);
+        @Then("test can be loaded")
+        public void test_can_be_loaded (List < TestDTO > dataTable) {
+            Collection<TestDTO> testDTOs = TestDataAccess.getAll();
+            boolean match = false;
+            for (TestDTO tDTO : dataTable) {
+                Test e = Test.testFromDTO(tDTO);
 
-            match = false;
-            for (TestDTO tDTOOther : testDTOs) {
+                match = false;
+                for (TestDTO tDTOOther : testDTOs) {
 
-                Test a = Test.testFromDTO(tDTOOther);
-                if (e.equals(a)) {
-                    match = true;
-                    break;
+                    Test a = Test.testFromDTO(tDTOOther);
+                    if (e.equals(a)) {
+                        match = true;
+                        break;
+                    }
                 }
+                if (!match)
+                    break;
             }
             if (!match)
-                break;
+                fail(" Loaded do not matched stored");
         }
-        if (!match)
-            fail(" Loaded do not matched stored");
+
+        @When("test is stored")
+        public void test_is_stored (List < TestDTO > dataTable) {
+            for (TestDTO tDTO : dataTable) {
+                TestDataAccess.addTest(tDTO);
+            }
+        }
+
+        @Then("test is equal when selectively compared to")
+        public void test_is_equal_when_selectively_compared_to (List < Test > dataTable) {
+            Test compare = dataTable.get(0);
+            List<Test> actuals = TestCollection.getAll();
+            // can change any value in testDTO to test comparison
+            TestDTO testDTO = actuals.get(0).getDTO();
+            Test actual = Test.testFromDTO(testDTO);
+            assertTrue(compare.selectiveEquals(actual, testForEquals));
+
+
+        }
+
+       public TestDTO setTestDTOFromEntryMap(Map < String, String > entryMap){
+            TestDTO testDTO = new TestDTO();
+            for (Map.Entry<String, String> entry : entryMap.entrySet()) {
+                setFieldFromKeyValue(testDTO, entry.getKey(), entry.getValue());
+            }
+            return testDTO;
+        }
+    public TestRunDTO setTestRunDTOFromEntryMap(Map < String, String > entryMap){
+        TestRunDTO testRunDTO = new TestRunDTO();
+        for (Map.Entry<String, String> entry : entryMap.entrySet()) {
+            setFieldFromKeyValue(testRunDTO, entry.getKey(), entry.getValue());
+        }
+        return testRunDTO;
     }
 
-    @When("test is stored")
-    public void test_is_stored(List<TestDTO> dataTable) {
-        for (TestDTO tDTO : dataTable) {
-            TestDataAccess.addTest(tDTO);
+
+        public void setFieldFromKeyValue (Object obj, String key, String value){
+            Class c = obj.getClass();
+            Field field;
+            String camelCaseKey = makeCamel(key);
+            if (value == null) {
+                value = "";
+                Log.write(Log.Level.Info, "Key value is null ", key + "=" + value);
+            }
+            try {
+                field = c.getField(camelCaseKey);
+            } catch (NoSuchFieldException e) {
+                Log.write(Log.Level.Severe, " Cannot match field name to column name ",
+                        camelCaseKey + " " + key);
+                throw new RuntimeException(e);
+            }
+            field.setAccessible(true);
+            try {
+                field.set(obj, value);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        private String makeCamel (String value){
+            StringBuilder result = new StringBuilder();
+            boolean convertToUpper = false;
+            for (int i = 0; i < value.length(); i++) {
+                Character c = value.charAt(i);
+                if (i == 0) {
+                    result.append(Character.toLowerCase(c));
+                    continue;
+                }
+                if (c == ' ') {
+                    convertToUpper = true;
+                    continue;
+                }
+                if (convertToUpper) {
+                    result.append(Character.toUpperCase(c));
+                    convertToUpper = false;
+                    continue;
+                }
+                result.append(c);
+            }
+            return result.toString();
+
+
         }
     }
-
-    @Then("test is equal when selectively compared to")
-    public void test_is_equal_when_selectively_compared_to(List<Test> dataTable) {
-        Test compare = dataTable.get(0);
-        List<Test> actuals = TestCollection.getAll();
-        // can change any value in testDTO to test comparison
-        TestDTO testDTO = actuals.get(0).getDTO();
-        Test actual = Test.testFromDTO(testDTO);
-        assertTrue(compare.selectiveEquals(actual, testForEquals));
-
-
-    }
-
-}

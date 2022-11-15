@@ -23,7 +23,7 @@ public class EnvironmentVariables {
         }
         if (value == null) {
             Log.write(Log.Level.Info,
-                    "** getenv variable not found ",
+                    "getenv variable not found ",
                     variable);
             value = NOT_FOUND;
         }

@@ -56,4 +56,9 @@ Feature: Flow feature
     And test is now
       | Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result     | File Path               | Comments    |
       | 12345    | Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:03 AM | Oct 1, 2022, 12:30:02 AM | EnterTestResult.feature | Works great |
+    And test run records exist
+      | Issue ID | Date Time                | Result  | Comments    | Runner |
+      | 12345    | Oct 1, 2022, 12:30:01 AM | Success | OK Stuff    | Sam    |
+      | 12345    | Oct 1, 2022, 12:30:02 AM | Failure | Bad stuff   | Sam    |
+      | 12345    | Oct 1, 2022, 12:30:03 AM | Success | Works great | Sam    |
 

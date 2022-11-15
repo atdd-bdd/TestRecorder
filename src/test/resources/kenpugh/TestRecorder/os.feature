@@ -1,6 +1,6 @@
 Feature:  OS
 
-  @doing
+
   Scenario: Set Environment Variable
     When environment variable is set
     | MyConfigurationFileName |  XXXX |

@@ -33,9 +33,9 @@ Scenario: Run a test successfully
     | formNotCloseOnExit         | true |
   When test is selected
     | Issue ID | 12345       |
-  And test table swing is shown
-  #  | Result   | Success     |
-  # | Comments | Works great |
+  And test table swing is shown with test run data
+     | Result   | Success     |
+     | Comments | Works great |
 Then test is now
    | Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
     | 12345    | Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |

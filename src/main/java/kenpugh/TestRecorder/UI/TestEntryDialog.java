@@ -78,10 +78,20 @@ public class TestEntryDialog extends JDialog {
             }
         });
     }
-
-    private void onOK() {
+    void initialize() {
         testDTO = new TestDTO();
-        testDTO.issueID = issueIDTextField.getText();
+        issueIDTextField.setText(testDTO.issueID);
+        nameTextField.setText(testDTO.name);
+        filePathTextField.setText(testDTO.filePath);
+        commentsTextField.setText( testDTO.comments);
+        dateResultTextField.setText(testDTO.dateLastRun);
+        datePreviousResultTextField.setText(testDTO.datePreviousResult);
+        runnerTextField.setText(testDTO.runner);
+        lastResultTextField.setText( testDTO.lastResult);
+
+    }
+    private void onOK() {
+          testDTO.issueID = issueIDTextField.getText();
         testDTO.name = nameTextField.getText();
         testDTO.filePath = filePathTextField.getText();
         testDTO.comments = commentsTextField.getText();
@@ -106,6 +116,7 @@ public class TestEntryDialog extends JDialog {
 
     public static void main(String[] args) {
         TestEntryDialog dialog = new TestEntryDialog();
+        dialog.initialize();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
