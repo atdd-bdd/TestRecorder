@@ -27,6 +27,7 @@ public class UIStepDefinitions {
         waitForInProgress();
     }
 
+    @SuppressWarnings("BusyWait")
     private static void waitForInProgress() {
         while (TestRecorderFormSwing.inProgress) {
             try {

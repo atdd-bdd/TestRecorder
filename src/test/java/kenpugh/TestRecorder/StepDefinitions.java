@@ -106,7 +106,7 @@ public class StepDefinitions {
             System.out.println("**** Test Run Expected " + tr);
         }
         List<TestRun> results = TestRunCollection.findTestRuns(currentIssueID);
-        System.out.println("**** Results are " + results.toString());
+        System.out.println("**** Results are " + results);
 
         assertTrue(arrayContains(dataTable.toArray(), results.toArray() ));
 
@@ -115,9 +115,7 @@ public class StepDefinitions {
 
     private boolean arrayContains(Object[] expectedArray, Object[] actualArray) {
         boolean containsAll = true;
-        System.out.println( " expected array" + expectedArray.toString());
-        System.out.println( " actual array" + actualArray.toString());
-        for (Object expected: expectedArray){
+       for (Object expected: expectedArray){
             boolean contains = false;
             for(Object actual: actualArray)
             {
@@ -127,7 +125,7 @@ public class StepDefinitions {
                     break;
                 }
             }
-            if (contains == false) {
+            if (!contains) {
                 System.err.println(" Missing Array element " + expected.toString());
                 containsAll = false;
             }

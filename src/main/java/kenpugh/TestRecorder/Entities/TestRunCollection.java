@@ -1,7 +1,6 @@
 package kenpugh.TestRecorder.Entities;
 
 
-import kenpugh.TestRecorder.Database.TestDataAccess;
 import kenpugh.TestRecorder.Database.TestRunDataAccess;
 import kenpugh.TestRecorder.DomainTerms.IssueID;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +19,7 @@ public class TestRunCollection {
     @NotNull
     static public List<TestRun> findTestRuns(IssueID issueID) {
         List<TestRunDTO> testRunDTOs = TestRunDataAccess.findByIssueID(issueID);
-            return listTestRunfromListTestDTORun(testRunDTOs);
+            return listTestRunFromListTestDTORun(testRunDTOs);
     }
 
     static public List<TestRun> getAll() {
@@ -42,7 +41,7 @@ public class TestRunCollection {
         return testRunDTOs;
     }
 
-    static public List<TestRun> listTestRunfromListTestDTORun(List<TestRunDTO> testDTORuns) {
+    static public List<TestRun> listTestRunFromListTestDTORun(List<TestRunDTO> testDTORuns) {
         List<TestRun> testRuns = new ArrayList<>();
         for (TestRunDTO testRunDTO : testDTORuns) {
             TestRun temp = TestRun.TestRunFromDTO(testRunDTO);

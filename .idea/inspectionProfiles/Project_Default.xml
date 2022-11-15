@@ -2,7 +2,7 @@
   <profile version="1.0">
     <option name="myName" value="Project Default" />
     <inspection_tool class="Convert2Lambda" enabled="true" level="INFORMATION" enabled_by_default="true" editorAttributes="INFORMATION_ATTRIBUTES" />
-    <inspection_tool class="I18nForm" enabled="true" level="INFORMATION" enabled_by_default="true" editorAttributes="INFORMATION_ATTRIBUTES" />
+    <inspection_tool class="I18nForm" enabled="false" level="INFORMATION" enabled_by_default="false" editorAttributes="INFORMATION_ATTRIBUTES" />
     <inspection_tool class="MavenPackageUpdate" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="excludeList">
         <list>
@@ -13,15 +13,15 @@
     <inspection_tool class="MissingMnemonic" enabled="true" level="INFORMATION" enabled_by_default="true" editorAttributes="INFORMATION_ATTRIBUTES" />
     <inspection_tool class="NoLabelFor" enabled="true" level="INFORMATION" enabled_by_default="true" editorAttributes="INFORMATION_ATTRIBUTES" />
     <inspection_tool class="PackageName" enabled="true" level="INFORMATION" enabled_by_default="true" editorAttributes="INFORMATION_ATTRIBUTES" />
-    <inspection_tool class="SpellCheckingInspection" enabled="true" level="TYPO" enabled_by_default="true">
+    <inspection_tool class="SpellCheckingInspection" enabled="true" level="INFORMATION" enabled_by_default="false" editorAttributes="INFORMATION_ATTRIBUTES">
       <scope name="All Changed Files" level="TYPO" enabled="true">
         <option name="processCode" value="true" />
         <option name="processLiterals" value="true" />
         <option name="processComments" value="true" />
       </scope>
       <option name="processCode" value="true" />
-      <option name="processLiterals" value="true" />
-      <option name="processComments" value="true" />
+      <option name="processLiterals" value="false" />
+      <option name="processComments" value="false" />
     </inspection_tool>
   </profile>
 </component>

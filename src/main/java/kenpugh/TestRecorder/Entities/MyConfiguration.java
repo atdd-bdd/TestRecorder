@@ -6,8 +6,6 @@ import kenpugh.TestRecorder.DomainTerms.MyString;
 import kenpugh.TestRecorder.DomainTerms.Name;
 import kenpugh.TestRecorder.OS.EnvironmentVariables;
 
-import static kenpugh.TestRecorder.OS.EnvironmentVariables.NOT_FOUND;
-
 public class MyConfiguration {
     public enum MyConfigurationVariables {
         rootFilePath, useTestDoubleForDateTime,

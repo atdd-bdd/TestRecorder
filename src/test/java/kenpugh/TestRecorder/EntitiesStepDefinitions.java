@@ -127,6 +127,7 @@ public class EntitiesStepDefinitions {
         }
 
         @DataTableType
+        @SuppressWarnings("UnnecessaryLocalVariable")
         public TestDTO inputTestDTO (Map < String, String > entry){
             TestDTO testDTO = setTestDTOFromEntryMap(entry);
             return testDTO;
@@ -205,7 +206,7 @@ public class EntitiesStepDefinitions {
 
 
         public void setFieldFromKeyValue (Object obj, String key, String value){
-            Class c = obj.getClass();
+            Class<?> c = obj.getClass();
             Field field;
             String camelCaseKey = makeCamel(key);
             if (value == null) {

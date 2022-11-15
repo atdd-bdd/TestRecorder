@@ -15,7 +15,6 @@ import java.util.Vector;
 public class TestRunHistoryDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
-    private JButton buttonCancel;
     private JTable testRunTable;
     private DefaultTableModel tableModel;
 
