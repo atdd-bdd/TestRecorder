@@ -1,69 +1,18 @@
 
-    Do the history -  save the testrun in a database on the return
-
-** Make null check in the DataTableType, not in the fromDTO
-
-
-    Do the history -  save the testrun in a database on the return
-
-
- 
-
-*** Use environment variable for configuraion location 
-
-Scan for data in tables, rather than in words  ***
-
-Diagram showing the DTOs on both sides of the context 
-
-Diagram showing the test doubles,  with configuration selecting them -    how else - use separate jars and load at run time.    
-
-Tests -   add a status (Active Inactive NoLongerRelevant)
+Add a SubIssueID and a Status 
+	Use SubIssueID as part of the findtest.   
+	Need to update entity, entityDTO, data tables, 
+Tests -   add a status (Active Inactive NoLongerRelevant) 
+	Have a filter for status.   
+	
+DB value to configuration .    
 
 Add a filter on display -  show only active, inactive, all 
 	Date last run - after this date time  with a date dialog. 
 	Edit test to set status - active / inactive /    
 
-
-
-
-
-
-
--- Check mastadon - for messages
--- Check pickleball instructors
-
-
-** turn csv into | | |
-c++ program = read csv,  write | | |
-
-* click on link - stupid versus code
-    Automade everything
-
-    Technology - arrognance   assume everyone is at the same level
-
-    System O/S level,  hardware - etc.
-
-    Reasonble versus unreesonable
-    Parking app track inforation - where and when
-    Delete after X days
-    Google auto - why use Google Maps   , but I've got a GPS in my car.
-    Write google - 10,000 every time you do this
-
-    TestCollection
-        could write the collection to a file for persistence
-
-Boilerplate
-validate - right format,  verify - thing exists.
-Exists - check if there, if not add it
-Contains - should be there
-Are - list of all of them
-Now Are - checks that all are there and no others
-Now contains - checks that is there
-
-doc -Alias for program files does not work
-
-
 How to know how many columns on input table and therefore which columns to check
+Finish this 
 
      Have a DTO that is initialized to all nulls.
      Fill it in from the input table.
@@ -75,35 +24,7 @@ How to know how many columns on input table and therefore which columns to check
      boolean FieldsSupplied.check (Test a, Test b) ;
 
 
--- Check mastadon - for messages
--- Check pickleball instructors
-
 
 ** turn csv into | | |
 c++ program = read csv,  write | | |
 
-* click on link - stupid versus code
-    Automade everything
-
-    Technology - arrognance   assume everyone is at the same level
-
-    System O/S level,  hardware - etc.
-
-    Reasonble versus unreesonable
-    Parking app track inforation - where and when
-    Delete after X days
-    Google auto - why use Google Maps   , but I've got a GPS in my car.
-    Write google - 10,000 every time you do this
-
-    TestCollection
-        could write the collection to a file for persistence
-
-Boilerplate
-validate - right format,  verify - thing exists.
-Exists - check if there, if not add it
-Contains - should be there
-Are - list of all of them
-Now Are - checks that all are there and no others
-Now contains - checks that is there
-
-doc -Alias for program files does not work
