@@ -3,6 +3,7 @@ package com.kenpugh.testrecorder.entities;
 
 import com.kenpugh.testrecorder.database.TestRunDataAccess;
 import com.kenpugh.testrecorder.domainterms.IssueID;
+import com.kenpugh.testrecorder.domainterms.SubIssueID;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class TestRunCollection {
     }
 
     @NotNull
-    static public List<TestRun> findTestRuns(IssueID issueID) {
-        List<TestRunDTO> testRunDTOs = TestRunDataAccess.findByIssueID(issueID);
+    static public List<TestRun> findTestRuns(IssueID issueID, SubIssueID subIssueID) {
+        List<TestRunDTO> testRunDTOs = TestRunDataAccess.findByIssueID(issueID, subIssueID);
             return listTestRunFromListTestDTORun(testRunDTOs);
     }
 

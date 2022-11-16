@@ -4,20 +4,21 @@ import com.kenpugh.testrecorder.domainterms.MyDateTime;
 import com.kenpugh.testrecorder.domainterms.MyFileSystem;
 import com.kenpugh.testrecorder.domainterms.MyString;
 import com.kenpugh.testrecorder.domainterms.Name;
+import com.kenpugh.testrecorder.log.Log;
 import com.kenpugh.testrecorder.os.EnvironmentVariables;
-
 public class MyConfiguration {
     public enum MyConfigurationVariables {
         rootFilePath, useTestDoubleForDateTime,
         useTestDoubleForRunner, valueTestDoubleForDateTime,
-        valueTestDoubleForRunner, formNotCloseOnExit
+        valueTestDoubleForRunner, formNotCloseOnExit,
+        databaseURL, databaseJDBCDriver, databasePassword, databaseUserID
     }
 
     public static boolean isValidVariable(String variable) {
         try {
             MyConfigurationVariables.valueOf(variable);
         } catch (IllegalArgumentException e) {
-            System.err.println(" Invalid configuration variable ");
+            Log.write(Log.Level.Info, " Invalid configuration variable ", variable);
             return false;
         }
         return true;
@@ -32,6 +33,12 @@ public class MyConfiguration {
     public static final String valueTestDoubleForDateTimeString = MyConfigurationVariables.valueTestDoubleForDateTime.toString();
     public static final String valueTestDoubleForRunnerString = MyConfigurationVariables.valueTestDoubleForRunner.toString();
     public static final String formNotCloseOnExitString = MyConfigurationVariables.formNotCloseOnExit.toString();
+
+    public static final String databaseURLString = MyConfigurationVariables.databaseURL.toString();
+    public static final String databaseJDBCDriverString = MyConfigurationVariables.databaseJDBCDriver.toString();
+    public static final String databasePasswordExitString = MyConfigurationVariables.databasePassword.toString();
+    public static final String databaseUserIDString = MyConfigurationVariables.databaseUserID.toString();
+
     public static MyString rootFilePath = new MyString();
     public static boolean useTestDoubleForDateTime = false;
     static public boolean useTestDoubleForRunner = false;
@@ -40,6 +47,11 @@ public class MyConfiguration {
     static public MyDateTime valueTestDoubleForDateTime = new MyDateTime();
     static public Name valueTestDoubleForRunner = new Name();
 
+    // These are currently not being stored
+    static public String databaseURL = "jdbc:hsqldb:hsql://localhost";
+    static public String databaseJDBCDriver = "org.hsqldb.jdbcDriver";
+    static public String databasePassword = "";
+    static public String  databaseUserID = "SA";
     public static void fromDTO() {
         String s = MyConfigurationDTO.values.get(rootFilePathString);
         if (s != null) rootFilePath = new MyString(s);

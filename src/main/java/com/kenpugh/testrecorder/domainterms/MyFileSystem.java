@@ -2,6 +2,7 @@ package com.kenpugh.testrecorder.domainterms;
 
 
 import com.kenpugh.testrecorder.entities.MyConfiguration;
+import com.kenpugh.testrecorder.log.Log;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,11 +36,13 @@ public class MyFileSystem {
 
     public static String read(MyString filePath) {
         Path path = Paths.get(MyConfiguration.rootFilePath.toString(), filePath.toString());
+        Log.write(Log.Level.Debug, " ", "path is ||" + MyConfiguration.rootFilePath.toString() + "||" + filePath.toString());
         String text;
         try {
             text = readString(path);
         } catch (IOException e) {
-            throw new RuntimeException("Cannot access file  " + path);
+            text = "";
+            Log.write(Log.Level.Severe, "Cannot access file ", path.toString());
         }
         return text;
     }

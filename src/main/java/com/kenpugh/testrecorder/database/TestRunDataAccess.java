@@ -2,6 +2,7 @@ package com.kenpugh.testrecorder.database;
 
 
 import com.kenpugh.testrecorder.domainterms.IssueID;
+import com.kenpugh.testrecorder.domainterms.SubIssueID;
 import com.kenpugh.testrecorder.entities.TestRunDTO;
 import com.kenpugh.testrecorder.log.Log;
 
@@ -22,18 +23,22 @@ public class TestRunDataAccess {
                     aTestRun.runner + "', '" +
                     aTestRun.result + "', '" +
                     aTestRun.dateTime + "', '" +
-                    aTestRun.comments + "' );";
+                    aTestRun.comments + "', '" +
+                    aTestRun.subIssueID + "' );";
             statement.execute(s);
             return true;
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
+            Log.write(Log.Level.Severe, "SQLException: ", ex.getMessage());
             return false;
         }
     }
 
-    public static List<TestRunDTO> findByIssueID(IssueID anIssueID) {
+    public static List<TestRunDTO> findByIssueID(IssueID anIssueID, SubIssueID aSubIssueID) {
         List<TestRunDTO> list = new ArrayList<>();
-        String selectString = "select * from TEST_RUNS where IssueID = '" + anIssueID.toString() + "';";
+        String selectString = "select * from TEST_RUNS where IssueID = '"
+                + anIssueID.toString() + "' " +
+                " AND SubIssueID = '" + aSubIssueID.toString() + "';";
+            Log.write(Log.Level.Debug, " statement is ", selectString);
         try {
             DatabaseSetup.open();
             Statement s = DatabaseSetup.connection.createStatement();
@@ -74,6 +79,7 @@ public class TestRunDataAccess {
         TestRunDTO.result = rs.getString(3).trim();
         TestRunDTO.dateTime = rs.getString(4).trim();
         TestRunDTO.comments = rs.getString(5).trim();
+        TestRunDTO.subIssueID = rs.getString(6).trim();
         return TestRunDTO;
     }
 

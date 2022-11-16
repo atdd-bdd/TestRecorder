@@ -1,5 +1,6 @@
 package com.kenpugh.testrecorder.entities;
 
+
 @SuppressWarnings("CanBeFinal")
 public class TestUseFields {
     public boolean issueID = false;
@@ -10,10 +11,12 @@ public class TestUseFields {
     public boolean datePreviousResult = false;
     public boolean filePath = false;
     public boolean comments = false;
+    public boolean subIssueID = false;
+    public boolean testStatus = false;
 
     @Override
     public String toString() {
-        return "TestForEquals{" +
+        return "TestUseFields{" +
                 "issueID=" + issueID +
                 ", name=" + name +
                 ", lastResult=" + lastResult +
@@ -22,6 +25,8 @@ public class TestUseFields {
                 ", datePreviousResult=" + datePreviousResult +
                 ", filePath=" + filePath +
                 ", comments=" + comments +
+                ", subIssueID=" + subIssueID +
+                ", testStatus=" + testStatus +
                 '}';
     }
 

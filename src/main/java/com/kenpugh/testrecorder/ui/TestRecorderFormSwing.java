@@ -1,11 +1,8 @@
 package com.kenpugh.testrecorder.ui;
 
 
+import com.kenpugh.testrecorder.domainterms.*;
 import com.kenpugh.testrecorder.entities.*;
-import com.kenpugh.testrecorder.domainterms.IssueID;
-import com.kenpugh.testrecorder.domainterms.MyDateTime;
-import com.kenpugh.testrecorder.domainterms.MyFileSystem;
-import com.kenpugh.testrecorder.domainterms.MyString;
 
 import com.kenpugh.testrecorder.log.Log;
 
@@ -35,6 +32,8 @@ public class TestRecorderFormSwing {
 
     public List<TestDTO> testDTOs;
 
+    public String selectedIssueIDString ="";   // Which row should be marked.
+    public String selectedSubIssueIDString = "";
     public TestRecorderFormSwing() {
         runTestButton.addActionListener(new ActionListener() {
             /**
@@ -45,23 +44,31 @@ public class TestRecorderFormSwing {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = testTable.getSelectedRow();
-                if (row < 0) {
-                    Log.write(Log.Level.Info, "Bad selection ", e.toString());
-                    return;
+                if (row < 0 || row >= testDTOs.size()) {
+                    row = 0;
                 }
 
                 TestDTO selectedTestDTO = testDTOs.get(row);
                 TestRun testRun = TestRun.getBaseTestRun(
-                        new IssueID(selectedTestDTO.issueID));
+                        new IssueID(selectedTestDTO.issueID),
+                        new SubIssueID(selectedTestDTO.subIssueID));
                 TestRunDialog dialog = new TestRunDialog();
                 dialog.testRunDTO = testRun.getDTO();
                 dialog.scriptText = MyFileSystem.read(new MyString(selectedTestDTO.filePath));
+                if (dialog.scriptText.isEmpty())
+                {
+                    JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                            "File " +  selectedTestDTO.filePath + " is not readable " + " root is " +
+                            MyConfiguration.rootFilePath.toString());
+
+                    return;
+                }
                 dialog.initializeData();
                 dialog.pack();
                 dialog.setVisible(true);
                 if (dialog.added) {
                     testRun = TestRun.TestRunFromDTO(dialog.testRunDTO);
-                    TestCollection.findTestAndUpdate(testRun.getIssueID(), testRun);
+                    TestCollection.findTestAndUpdate(testRun.getIssueID(), testRun.getSubIssueID(), testRun);
                     TestRunCollection.addTestRun(testRun);
                     testRecorderFormSwing.updateData();
                 }
@@ -81,6 +88,8 @@ public class TestRecorderFormSwing {
                     Test test = Test.testFromDTO(dialog.testDTO);
                     TestCollection.addTest(test);
                     testRecorderFormSwing.updateData();
+                    selectedIssueIDString = dialog.testDTO.issueID;
+                    selectedSubIssueIDString = dialog.testDTO.subIssueID;
                 }
 
             }
@@ -95,8 +104,12 @@ public class TestRecorderFormSwing {
             public void actionPerformed(ActionEvent e) {
                 TestRunHistoryDialog dialog = new TestRunHistoryDialog();
                 int index =  testTable.getSelectedRow();
+                if (index < 0 || index >= testDTOs.size()) {
+                    index = 0;
+                }
                 TestDTO testDTO = testDTOs.get(index);
                 dialog.issueID = new IssueID(testDTO.issueID);
+                dialog.subIssueID = new SubIssueID(testDTO.subIssueID);
                 dialog.updateData();
                 dialog.pack();
                 dialog.setVisible(true);
@@ -138,7 +151,7 @@ public static JFrame frame;
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                System.err.println("Window is closing");
+                Log.write(Log.Level.Info, "Window is closing", "");
                 TestRecorderFormSwing.inProgress = false;
             }
         });
@@ -148,15 +161,17 @@ public static JFrame frame;
 
     private void setUpTable() {
         //  super(new GridLayout(1,0));
-        String[] columnNames = {
+        String[] columnNames = new String[]{
                 "Issue ID",
+                "Sub Issue ID",
                 "Name",
                 "Runner",
                 "Last Result",
                 "Date Last Run",
                 "Date Previous Result",
                 "File Path ",
-                "Comments"
+                "Comments",
+                "Status"
         };
         Vector<String> columnHeaders = new Vector<>(List.of(columnNames));
         tableModel = new DefaultTableModel();
@@ -164,6 +179,7 @@ public static JFrame frame;
         testTable = new JTable(tableModel);
         testTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
         testTable.setFillsViewportHeight(true);
+        testTable.setRowSelectionAllowed(true);
 
     }
 
@@ -172,22 +188,29 @@ public static JFrame frame;
         testDTOs = TestCollection.listTestDTOfromListTest(tests);
         tableModel.setNumRows(0);
         for (TestDTO testDTO : testDTOs) {
-            String[] data = new String[8];
+            String[] data = new String[10];
             testDTO.dateLastRun = MyDateTime.toDisplayString(testDTO.dateLastRun);
             testDTO.datePreviousResult = MyDateTime.toDisplayString(testDTO.datePreviousResult);
             data[0] = testDTO.issueID;
-            data[1] = testDTO.name;
-            data[2] = testDTO.runner;
-            data[3] = testDTO.lastResult;
-            data[4] = testDTO.dateLastRun;
-            data[5] = testDTO.datePreviousResult;
-            data[6] = testDTO.filePath;
-            data[7] = testDTO.comments;
+            data[1] = testDTO.subIssueID;
+            data[2] = testDTO.name;
+            data[3] = testDTO.runner;
+            data[4] = testDTO.lastResult;
+            data[5] = testDTO.dateLastRun;
+            data[6] = testDTO.datePreviousResult;
+            data[7] = testDTO.filePath;
+            data[8] = testDTO.comments;
+            data[9] = testDTO.testStatus;
             tableModel.addRow(data);
         }
         tableModel.fireTableDataChanged();
+
         if (testDTOs.size() >= 1) {
-            testTable.setRowSelectionInterval(0, 0);
+            if (selectedIssueIDString.isEmpty())
+                selectedIssueIDString = testDTOs.get(0).issueID;
+            if (selectedSubIssueIDString.isEmpty())
+                selectedSubIssueIDString = testDTOs.get(0).subIssueID;
+            setSelectedRow();
         }
 
         TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(tableModel);
@@ -201,7 +224,7 @@ public static JFrame frame;
                 return date1.compareTo(date2);
             }
         });
-        tableRowSorter.setComparator(4, new Comparator<String>() {
+        tableRowSorter.setComparator(6, new Comparator<String>() {
 
             @Override
             public int compare(String name1, String name2) {
@@ -211,8 +234,26 @@ public static JFrame frame;
             }
         });
 
+        setSelectedRow();
+        tableModel.fireTableDataChanged();
 
+    }
 
+    private void setSelectedRow() {
+        /// Find the row in here
+        int row = 0;
+        for (TestDTO testDTO : testDTOs) {
+            if (testDTO.issueID.equals(selectedIssueIDString) &&
+                    testDTO.subIssueID.equals(selectedSubIssueIDString)) {
+                break;
+            }
+            row = row + 1;
+        }
+        if (row >= testDTOs.size())
+            row = testDTOs.size() - 1;
+        Log.write(Log.Level.Debug, "", " selected " + row + " " + selectedIssueIDString +
+                   "  " + selectedSubIssueIDString);
+            testTable.setRowSelectionInterval(row, row);
     }
 
 

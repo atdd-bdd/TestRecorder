@@ -1,4 +1,8 @@
 Feature: UI
+  Background:
+    Given configuration values are:
+      | Variable     | Value                                           |
+      | rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
 
   @manual
   Scenario: Display Test Table

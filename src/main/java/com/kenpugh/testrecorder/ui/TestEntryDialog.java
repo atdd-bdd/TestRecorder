@@ -4,6 +4,7 @@ import com.kenpugh.testrecorder.domainterms.MyFileSystem;
 import com.kenpugh.testrecorder.domainterms.MyString;
 import com.kenpugh.testrecorder.entities.MyConfiguration;
 import com.kenpugh.testrecorder.entities.TestDTO;
+import com.kenpugh.testrecorder.log.Log;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -21,12 +22,16 @@ public class TestEntryDialog extends JDialog {
     private JTextField runnerTextField;
     private JTextField filePathTextField;
     private JButton browseButton;
+    private JTextField subIssueIDTextField;
+    private JTextField testStatusTextField;
     public TestDTO testDTO;
 
     public TestEntryDialog() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        subIssueIDTextField.setInputVerifier(new SubIssueIDInputVerifier());
+        subIssueIDTextField.setVerifyInputWhenFocusTarget(true);
         issueIDTextField.setInputVerifier(new IssueIDInputVerifier());
         issueIDTextField.setVerifyInputWhenFocusTarget(true);
         filePathTextField.setInputVerifier(new NameInputVerifier());
@@ -71,6 +76,7 @@ public class TestEntryDialog extends JDialog {
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     String filename = String.valueOf(jfc.getSelectedFile());
                     String filename1 = filename.replace(rootFathString,"");
+                    Log.write(Log.Level.Debug, "", "filename "  + filename + " replaced " + filename1 + " root " + MyConfiguration.rootFilePath.toString());
                     filePathTextField.setText(filename1);
 
                 }
@@ -88,6 +94,8 @@ public class TestEntryDialog extends JDialog {
         datePreviousResultTextField.setText(testDTO.datePreviousResult);
         runnerTextField.setText(testDTO.runner);
         lastResultTextField.setText( testDTO.lastResult);
+        testStatusTextField.setText(testDTO.testStatus);
+        subIssueIDTextField.setText(testDTO.subIssueID);
 
     }
     private void onOK() {
@@ -99,6 +107,8 @@ public class TestEntryDialog extends JDialog {
         testDTO.datePreviousResult = datePreviousResultTextField.getText();
         testDTO.runner = runnerTextField.getText();
         testDTO.lastResult = lastResultTextField.getText();
+        testDTO.subIssueID = subIssueIDTextField.getText();
+        testDTO.testStatus = testStatusTextField.getText();
         MyString filePathString = new MyString(testDTO.filePath);
         if (!MyFileSystem.checkReadabiity(filePathString)) {
             JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,

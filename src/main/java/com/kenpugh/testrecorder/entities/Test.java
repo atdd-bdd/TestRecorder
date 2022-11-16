@@ -2,6 +2,7 @@ package com.kenpugh.testrecorder.entities;
 
 import com.kenpugh.testrecorder.domainterms.*;
 
+import com.kenpugh.testrecorder.log.Log;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -16,6 +17,8 @@ public class Test {
     private MyDateTime datePreviousResult = MyDateTime.NEVER_DATETIME;
     private MyString filePath = new MyString("File Path Not Specified");
     private MyString comments = new MyString("No comment");
+    private SubIssueID subIssueID = new SubIssueID();
+    private TestStatus testStatus = TestStatus.Active;
     public final static Test NOT_FOUND = new Test();
     public boolean selectiveEquals(Object o, TestUseFields testUseFields) {
         if (this == o) return true;
@@ -29,7 +32,10 @@ public class Test {
                 && (dateLastRun.equals(test.dateLastRun)  || !testUseFields.dateLastRun)
                 && (datePreviousResult.equals(test.datePreviousResult) || !testUseFields.datePreviousResult)
                 && (filePath.equals(test.filePath) || !testUseFields.filePath)
-                && (comments.equals(test.comments) || !testUseFields.comments);
+                && (comments.equals(test.comments) || !testUseFields.comments)
+                && (subIssueID.equals(test.subIssueID) || !testUseFields.subIssueID)
+                && (testStatus.equals(test.testStatus) || !testUseFields.testStatus)
+                ;
     if (!result)
             System.out.println("Selective equal values " + " for " + this + " == " + test + " selections: "
                     + testUseFields );
@@ -44,6 +50,8 @@ public class Test {
          filePath = new MyString(testDTO.filePath);
         comments = new MyString(testDTO.comments);
         runner = new Name(testDTO.runner);
+        testStatus = TestStatus.parse(testDTO.testStatus);
+        subIssueID = new SubIssueID(testDTO.subIssueID);
     }
 
     static public Test testFromDTO(TestDTO testDTO) {
@@ -62,6 +70,9 @@ public class Test {
         testDTO.filePath = filePath.toString();
         testDTO.comments = comments.toString();
         testDTO.lastResult = lastResult.toString();
+        testDTO.subIssueID = subIssueID.toString();
+        testDTO.testStatus = testStatus.toString();
+
         return testDTO;
     }
 
@@ -70,17 +81,28 @@ public class Test {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Test test = (Test) o;
-        return issueID.equals(test.issueID) && name.equals(test.name) && lastResult == test.lastResult && runner.equals(test.runner) && dateLastRun.equals(test.dateLastRun) && datePreviousResult.equals(test.datePreviousResult) && filePath.equals(test.filePath) && comments.equals(test.comments);
+        return Objects.equals(issueID, test.issueID) && Objects.equals(name, test.name) && lastResult == test.lastResult && Objects.equals(runner, test.runner) && Objects.equals(dateLastRun, test.dateLastRun) && Objects.equals(datePreviousResult, test.datePreviousResult) && Objects.equals(filePath, test.filePath) && Objects.equals(comments, test.comments) && Objects.equals(subIssueID, test.subIssueID) && testStatus == test.testStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(issueID, name, lastResult, runner, dateLastRun, datePreviousResult, filePath, comments);
+        return Objects.hash(issueID, name, lastResult, runner, dateLastRun, datePreviousResult, filePath, comments, subIssueID, testStatus);
     }
 
     @Override
     public String toString() {
-        return "Test{" + "issueID=" + issueID + ", name=" + name + ", lastResult=" + lastResult + ", runner=" + runner + ", dateLastRun=" + dateLastRun + ", datePreviousResult=" + datePreviousResult + ", filePath='" + filePath + '\'' + ", comments='" + comments + '\'' + '}';
+        return "Test{" +
+                "issueID=" + issueID +
+                ", name=" + name +
+                ", lastResult=" + lastResult +
+                ", runner=" + runner +
+                ", dateLastRun=" + dateLastRun +
+                ", datePreviousResult=" + datePreviousResult +
+                ", filePath=" + filePath +
+                ", comments=" + comments +
+                ", subIssueID=" + subIssueID +
+                ", testStatus=" + testStatus +
+                '}';
     }
 
 
@@ -91,7 +113,7 @@ public class Test {
 
     public void TestUpdatedFromTestRun(TestRun tr) {
         if (!tr.getIssueID().equals(issueID)) {
-            System.err.println(" Trying to update wrong test " + issueID + " with " + tr.getIssueID());
+            Log.write(Log.Level.Severe," Trying to update wrong test " , issueID + " with " + tr.getIssueID());
             return;
         }
 

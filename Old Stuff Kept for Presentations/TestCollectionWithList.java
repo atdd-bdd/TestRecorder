@@ -33,7 +33,7 @@ public class TestCollectionWithList {
                     return;
                 }
             }
-            System.err.println(" Could not find test to update ");
+            Log.write(" Could not find test to update ");
         }
 
         @Override
@@ -51,7 +51,7 @@ public class TestCollectionWithList {
             if (t != null)
                 t.updateWithTestRun(tr);
             else
-                System.err.println(" Cannot update test - not found " + tr.issueID);
+                Log.write(" Cannot update test - not found " + tr.issueID);
         }
     }
 

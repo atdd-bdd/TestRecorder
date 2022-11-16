@@ -1,6 +1,9 @@
 package com.kenpugh.testrecorder.database;
 
 
+import com.kenpugh.testrecorder.entities.MyConfiguration;
+import com.kenpugh.testrecorder.log.Log;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,26 +17,25 @@ public class DatabaseSetup {
 
     static public void setup() {
 
-        String userid = "SA";
-        String password = "";
-        String url = "jdbc:hsqldb:hsql://localhost";
-        String jdbcDriver = "org.hsqldb.jdbcDriver";
+        String userid = MyConfiguration.databaseUserID;
+        String password = MyConfiguration.databasePassword;
+        String url = MyConfiguration.databaseURL;
+        String jdbcDriver = MyConfiguration.databaseJDBCDriver;
         try {
             Class.forName(jdbcDriver);
 
         } catch (java.lang.ClassNotFoundException e) {
-            System.err.println(e.getMessage());
-            System.err.println("Did not find driver class");
+            Log.write(Log.Level.Severe, "Did not find driver class", e.getMessage());
             System.exit(1);
         }
 
         try {
             connection = DriverManager.getConnection(url, userid, password);
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage() + " Setup");
+            Log.write(Log.Level.Severe, "SQLException: ",ex.getMessage() + " Setup");
         }
         if (connection == null) {
-            System.err.println("Cannot make connection to database");
+            Log.write(Log.Level.Severe,"Cannot make connection to database", url);
             System.exit(0);
         }
     }
@@ -43,12 +45,12 @@ public class DatabaseSetup {
 
             Statement statement = connection.createStatement();
             statement.execute("CREATE TABLE TESTS (issueID CHAR(5), name CHAR(50), runner CHAR(20), lastResult CHAR(10), dateLastRun CHAR(30), " +
-                    "datePreviousResult CHAR(30), filePath CHAR(200), comments VARCHAR(1000));");
+                    "datePreviousResult CHAR(30), filePath CHAR(200), comments VARCHAR(1000), subIssueID CHAR(5), testStatus CHAR(10) );");
             statement.execute("CREATE TABLE TEST_RUNS (issueID CHAR(5), runner CHAR(20), result CHAR(10), dateTime CHAR(30), " +
-                    " comments VARCHAR(1000));");
+                    " comments VARCHAR(1000), subIssueID CHAR(5));");
             setupComplete = true;
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage() + " Create Tables");
+            Log.write(Log.Level.Severe, "SQLException: ", ex.getMessage() + " Create Tables");
         }
 
     }
@@ -60,7 +62,7 @@ public class DatabaseSetup {
             statement.execute("DROP TABLE TEST_RUNS ;");
             setupComplete = true;
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage() + " RemoveTables");
+            Log.write(Log.Level.Severe,"SQLException: ", ex.getMessage() + " RemoveTables");
         }
 
     }

@@ -5,6 +5,9 @@
 *.css
 *.js
 *.gif
+*.lst
+*.dump
+*.xml
 
 # Log file
 *.log

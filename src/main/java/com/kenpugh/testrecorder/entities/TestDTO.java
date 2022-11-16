@@ -1,10 +1,7 @@
 package com.kenpugh.testrecorder.entities;
 // | Issue ID  | Name  | Last Result  | Runner | Date Last Run  | Date Previous Result  | File Path |
 
-import com.kenpugh.testrecorder.domainterms.IssueID;
-import com.kenpugh.testrecorder.domainterms.MyDateTime;
-import com.kenpugh.testrecorder.domainterms.Name;
-import com.kenpugh.testrecorder.domainterms.TestResult;
+import com.kenpugh.testrecorder.domainterms.*;
 
 public class TestDTO {
     public String issueID = IssueID.NOT_SPECIFIED;
@@ -15,5 +12,8 @@ public class TestDTO {
     public String datePreviousResult = MyDateTime.NEVER_STRING;
     public String filePath = "File Path Not Specified";
     public String comments = "";
+    public String subIssueID = SubIssueID.NOT_SPECIFIED;
+    public String testStatus = TestStatus.Active.toString();
+
     public final static TestDTO NOT_FOUND = new TestDTO();
 }

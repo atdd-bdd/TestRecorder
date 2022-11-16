@@ -1,6 +1,8 @@
 package com.kenpugh.testrecorder.runtests;
 
 
+import com.kenpugh.testrecorder.domainterms.SubIssueID;
+import com.kenpugh.testrecorder.log.Log;
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -21,6 +23,7 @@ import static org.junit.Assert.*;
 
 public class StepDefinitions {
     IssueID currentIssueID;
+    SubIssueID currentSubIssueID;
 
     @Given("tests are empty")
     public void tests_are_empty(List<Test> ignoredDataTable) {
@@ -73,22 +76,24 @@ public class StepDefinitions {
     public void test_is_selected(@Transpose List<TestRun> dataTable) {
         TestRun tr = dataTable.get(0);
         currentIssueID = tr.getIssueID();
+        currentSubIssueID = tr.getSubIssueID();
     }
 
     @When("test is run")
     public void test_is_run(@Transpose List<TestRun> dataTable) {
         TestRun tr = dataTable.get(0);
         tr.setIssueID(currentIssueID);
+        tr.setSubIssueID(currentSubIssueID);
         tr.setDateTime(CurrentDateTimeService.getCurrentDateTime());
         tr.setRunner(CurrentUserService.getCurrentUser());
-        TestCollection.findTestAndUpdate(tr.getIssueID(), tr);
+        TestCollection.findTestAndUpdate(tr.getIssueID(), tr.getSubIssueID(), tr);
         TestRunCollection.addTestRun(tr);
     }
 
     @When("test run display contains")
     public void test_is_run_display_contains(@Transpose List<TestRunDisplay> dataTable) {
         String expected = dataTable.get(0).testRunScript;
-        Test test = TestCollection.findTest(currentIssueID);
+        Test test = TestCollection.findTest(currentIssueID, currentSubIssueID);
         String actual = MyFileSystem.read(test.getFilePath());
         assertEquals(expected, actual);
     }
@@ -96,13 +101,13 @@ public class StepDefinitions {
     @Then("test is now")
     public void test_is_now(List<Test> dataTable) {
         Test expected = dataTable.get(0);
-        Test actual = TestCollection.findTest(currentIssueID);
+        Test actual = TestCollection.findTest(currentIssueID, currentSubIssueID);
        assertEquals(expected, actual);
     }
 
     @Then("test run records exist")
     public void test_run_records_exist(List<TestRun> dataTable) {
-        List<TestRun> results = TestRunCollection.findTestRuns(currentIssueID);
+        List<TestRun> results = TestRunCollection.findTestRuns(currentIssueID, currentSubIssueID);
 
         assertTrue(arrayContains(dataTable.toArray(), results.toArray() ));
 
@@ -122,7 +127,7 @@ public class StepDefinitions {
                 }
             }
             if (!contains) {
-                System.err.println(" Missing Array element " + expected.toString());
+                Log.write(Log.Level.Debug, " Missing Array element ", expected.toString());
                 containsAll = false;
             }
         }

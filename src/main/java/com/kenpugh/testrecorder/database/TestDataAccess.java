@@ -2,6 +2,7 @@ package com.kenpugh.testrecorder.database;
 
 
 import com.kenpugh.testrecorder.domainterms.IssueID;
+import com.kenpugh.testrecorder.domainterms.SubIssueID;
 import com.kenpugh.testrecorder.entities.TestDTO;
 import com.kenpugh.testrecorder.log.Log;
 
@@ -15,7 +16,8 @@ public class TestDataAccess {
 
     public static boolean addTest(TestDTO aTest) {
         IssueID issueID = new IssueID(aTest.issueID);
-        if (findByIssueID(issueID) != TestDTO.NOT_FOUND) {
+        SubIssueID subIssueID = new SubIssueID(aTest.subIssueID);
+        if (findByIssueID(issueID, subIssueID ) != TestDTO.NOT_FOUND) {
             Log.write(Log.Level.Info, "Adding duplicate issue id", issueID.toString() );
             return false;
         }
@@ -30,17 +32,23 @@ public class TestDataAccess {
                     aTest.dateLastRun + "', '" +
                     aTest.datePreviousResult + "', '" +
                     aTest.filePath + "', '" +
-                    aTest.comments + "' );";
+                    aTest.comments + "', '" +
+                    aTest.subIssueID + "', '" +
+                    aTest.testStatus +
+                    "' );";
             statement.execute(s);
             return true;
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
+            Log.write(Log.Level.Debug, "SQLException: ", ex.getMessage());
             return false;
         }
     }
 
-    public static TestDTO findByIssueID(IssueID anIssueID) {
-        String selectString = "select * from TESTS where IssueID = '" + anIssueID.toString() + "';";
+    public static TestDTO findByIssueID(IssueID anIssueID, SubIssueID aSubIssueID) {
+        String selectString = "select * from TESTS where IssueID = '" + anIssueID.toString() +
+                "' and SubIssueID = '" + aSubIssueID.toString() +
+                "';";
+        Log.write(Log.Level.Debug, " string is ", selectString);
         try {
             DatabaseSetup.open();
             Statement s = DatabaseSetup.connection.createStatement();
@@ -52,7 +60,7 @@ public class TestDataAccess {
             return TestDTO.NOT_FOUND;
 
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
+            Log.write(Log.Level.Severe, "SQLException: ", ex.getMessage());
         }
 
         return TestDTO.NOT_FOUND;
@@ -70,7 +78,7 @@ public class TestDataAccess {
             }
             s.close();
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage());
+            Log.write(Log.Level.Severe, "SQLException: ", ex.getMessage());
         }
         return list;
     }
@@ -85,6 +93,8 @@ public class TestDataAccess {
         testDTO.datePreviousResult = rs.getString(6).trim();
         testDTO.filePath = rs.getString(7).trim();
         testDTO.comments = rs.getString(8).trim();
+        testDTO.subIssueID = rs.getString(9).trim();
+        testDTO.testStatus = rs.getString(10).trim();
         return testDTO;
 
     }
@@ -100,12 +110,16 @@ public class TestDataAccess {
                     "dateLastRun='" + testDTO.dateLastRun + "'," +
                     "datePreviousResult='" + testDTO.datePreviousResult + "'," +
                     "filePath='" + testDTO.filePath + "'," +
-                    "comments='" + testDTO.comments + "' " +
-                    "WHERE issueID='" + testDTO.issueID + "';";
+                    "comments='" + testDTO.comments + "', " +
+                    "subIssueID='" + testDTO.subIssueID + "', " +
+                    "testStatus='" + testDTO.testStatus + "' " +
+                    "WHERE issueID='" + testDTO.issueID + "'" +
+                    "AND subIssueID='" + testDTO.subIssueID + "';";
+            Log.write(Log.Level.Debug, " statement is " , s);
               statement.execute(s);
             return true;
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage() + " Update");
+            Log.write(Log.Level.Severe, "SQLException: ",ex.getMessage() + " Update");
             return false;
         }
 
@@ -117,7 +131,7 @@ public class TestDataAccess {
             Statement statement = DatabaseSetup.connection.createStatement();
             statement.execute("DELETE FROM TESTS;");
         } catch (SQLException ex) {
-            System.err.println("SQLException: " + ex.getMessage() + " RemoveTables");
+            Log.write(Log.Level.Severe, "SQLException: ", ex.getMessage() + " RemoveTables");
         }
 
     }

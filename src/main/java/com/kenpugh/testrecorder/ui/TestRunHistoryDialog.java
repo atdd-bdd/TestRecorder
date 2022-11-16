@@ -1,6 +1,7 @@
 package com.kenpugh.testrecorder.ui;
 
 import com.kenpugh.testrecorder.domainterms.IssueID;
+import com.kenpugh.testrecorder.domainterms.SubIssueID;
 import com.kenpugh.testrecorder.entities.TestRun;
 import com.kenpugh.testrecorder.entities.TestRunCollection;
 import com.kenpugh.testrecorder.entities.TestRunDTO;
@@ -21,7 +22,7 @@ public class TestRunHistoryDialog extends JDialog {
     public List<TestRunDTO> testRunDTOs;
 
     public IssueID issueID;
-
+    public SubIssueID subIssueID;
     public TestRunHistoryDialog() {
         setContentPane(contentPane);
         setModal(true);
@@ -71,16 +72,17 @@ public class TestRunHistoryDialog extends JDialog {
     }
 
     public void updateData() {
-        List<TestRun> testRuns = TestRunCollection.findTestRuns(issueID);
+        List<TestRun> testRuns = TestRunCollection.findTestRuns(issueID, subIssueID);
         testRunDTOs = TestRunCollection.listTestRunDTOfromListTestRun(testRuns);
         tableModel.setNumRows(0);
         for (TestRunDTO testRunDTO : testRunDTOs) {
-            String[] data = new String[8];
+            String[] data = new String[6];
             data[0] = testRunDTO.issueID;
             data[1] = testRunDTO.runner;
             data[2] = testRunDTO.result;
             data[3] = testRunDTO.dateTime;
             data[4] = testRunDTO.comments;
+            data[5] = testRunDTO.subIssueID;
             tableModel.addRow(data);
         }
         tableModel.fireTableDataChanged();

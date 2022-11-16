@@ -14,9 +14,12 @@ public class TestRun {
     private MyString comments = new MyString();
     private Name runner = new Name(Name.EMPTY);
 
-    public static TestRun getBaseTestRun(IssueID issueID) {
+    private SubIssueID subIssueID = new SubIssueID();
+
+    public static TestRun getBaseTestRun(IssueID issueID, SubIssueID subIssueID) {
         TestRun result = new TestRun();
         result.issueID = issueID;
+        result.subIssueID = subIssueID;
         result.dateTime = CurrentDateTimeService.getCurrentDateTime();
         result.runner = CurrentUserService.getCurrentUser();
         return result;
@@ -29,6 +32,7 @@ public class TestRun {
         testRunDTO.dateTime = dateTime.toString();
         testRunDTO.runner = runner.toString();
         testRunDTO.result = result.toString();
+        testRunDTO.subIssueID = subIssueID.toString();
         return testRunDTO;
     }
 
@@ -37,9 +41,10 @@ public class TestRun {
         return "TestRun{" +
                 "issueID=" + issueID +
                 ", dateTime=" + dateTime +
-                ", testResult=" + result +
+                ", result=" + result +
                 ", comments=" + comments +
                 ", runner=" + runner +
+                ", subIssueID=" + subIssueID +
                 '}';
     }
 
@@ -48,12 +53,12 @@ public class TestRun {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TestRun testRun = (TestRun) o;
-        return issueID.equals(testRun.issueID) && dateTime.equals(testRun.dateTime) && result == testRun.result && comments.equals(testRun.comments) && runner.equals(testRun.runner);
+        return Objects.equals(issueID, testRun.issueID) && Objects.equals(dateTime, testRun.dateTime) && result == testRun.result && Objects.equals(comments, testRun.comments) && Objects.equals(runner, testRun.runner) && Objects.equals(subIssueID, testRun.subIssueID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(issueID, dateTime, result, comments, runner);
+        return Objects.hash(issueID, dateTime, result, comments, runner, subIssueID);
     }
 
     public void fromDTO(TestRunDTO testRunDTO) {
@@ -62,6 +67,7 @@ public class TestRun {
          dateTime = new MyDateTime(testRunDTO.dateTime);
          runner = new Name(testRunDTO.runner);
          result = TestResult.valueOf(testRunDTO.result);
+         subIssueID = new SubIssueID(testRunDTO.subIssueID);
     }
 
     static public TestRun TestRunFromDTO(TestRunDTO testRunDTO) {
@@ -100,5 +106,13 @@ public class TestRun {
 
     public void setIssueID(IssueID issueID) {
         this.issueID = issueID;
+    }
+
+    public SubIssueID getSubIssueID() {
+        return subIssueID;
+    }
+
+    public void setSubIssueID(SubIssueID subIssueID) {
+        this.subIssueID = subIssueID;
     }
 }

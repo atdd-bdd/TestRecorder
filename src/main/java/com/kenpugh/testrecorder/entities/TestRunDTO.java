@@ -2,6 +2,7 @@ package com.kenpugh.testrecorder.entities;
 
 import com.kenpugh.testrecorder.domainterms.IssueID;
 import com.kenpugh.testrecorder.domainterms.MyDateTime;
+import com.kenpugh.testrecorder.domainterms.SubIssueID;
 import com.kenpugh.testrecorder.domainterms.TestResult;
 
 public class TestRunDTO {
@@ -12,4 +13,5 @@ public class TestRunDTO {
     public String comments = "";
     public String runner = "";
 
+    public String subIssueID = SubIssueID.NOT_SPECIFIED;
 }

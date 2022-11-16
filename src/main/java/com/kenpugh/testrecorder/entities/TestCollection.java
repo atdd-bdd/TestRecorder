@@ -3,6 +3,8 @@ package com.kenpugh.testrecorder.entities;
 
 import com.kenpugh.testrecorder.database.TestDataAccess;
 import com.kenpugh.testrecorder.domainterms.IssueID;
+import com.kenpugh.testrecorder.domainterms.SubIssueID;
+import com.kenpugh.testrecorder.log.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +17,8 @@ public class TestCollection {
         return TestDataAccess.addTest(testDTO);
     }
 
-    static public Test findTest(IssueID issueID) {
-        TestDTO testDTO = TestDataAccess.findByIssueID(issueID);
+    static public Test findTest(IssueID issueID, SubIssueID subIssueID) {
+        TestDTO testDTO = TestDataAccess.findByIssueID(issueID, subIssueID);
         if (testDTO == TestDTO.NOT_FOUND)
             return Test.NOT_FOUND;
         else {
@@ -64,15 +66,16 @@ public class TestCollection {
         return s.toString();
     }
 
-    public static void findTestAndUpdate(IssueID issueID, TestRun tr) {
-        Test t = findTest((issueID));
+    public static void findTestAndUpdate(IssueID issueID,
+                                         SubIssueID subIssueID,TestRun tr) {
+        Test t = findTest(issueID, subIssueID);
         if (t != Test.NOT_FOUND) {
             t.updateWithTestRun(tr);
             TestDTO testDTO = t.getDTO();
             if (!TestDataAccess.update(testDTO))
-                System.err.println("Error in updating test");
+                Log.write(Log.Level.Severe,"Error in updating test", t.toString());
         } else
-            System.err.println(" Cannot update test - not found " + tr.getIssueID());
+            Log.write(Log.Level.Severe," Cannot update test - not found ",  tr.getIssueID().toString());
     }
 }
 
