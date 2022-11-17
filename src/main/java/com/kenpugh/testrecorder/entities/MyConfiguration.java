@@ -34,9 +34,13 @@ public class MyConfiguration {
     public static final String valueTestDoubleForRunnerString = MyConfigurationVariables.valueTestDoubleForRunner.toString();
     public static final String formNotCloseOnExitString = MyConfigurationVariables.formNotCloseOnExit.toString();
 
+    @SuppressWarnings("unused")
     public static final String databaseURLString = MyConfigurationVariables.databaseURL.toString();
+    @SuppressWarnings("unused")
     public static final String databaseJDBCDriverString = MyConfigurationVariables.databaseJDBCDriver.toString();
+    @SuppressWarnings("unused")
     public static final String databasePasswordExitString = MyConfigurationVariables.databasePassword.toString();
+    @SuppressWarnings("unused")
     public static final String databaseUserIDString = MyConfigurationVariables.databaseUserID.toString();
 
     public static MyString rootFilePath = new MyString();
@@ -48,10 +52,10 @@ public class MyConfiguration {
     static public Name valueTestDoubleForRunner = new Name();
 
     // These are currently not being stored
-    static public String databaseURL = "jdbc:hsqldb:hsql://localhost";
-    static public String databaseJDBCDriver = "org.hsqldb.jdbcDriver";
-    static public String databasePassword = "";
-    static public String  databaseUserID = "SA";
+    static public final String databaseURL = "jdbc:hsqldb:hsql://localhost";
+    static public final String databaseJDBCDriver = "org.hsqldb.jdbcDriver";
+    static public final String databasePassword = "";
+    static public final String  databaseUserID = "SA";
     public static void fromDTO() {
         String s = MyConfigurationDTO.values.get(rootFilePathString);
         if (s != null) rootFilePath = new MyString(s);

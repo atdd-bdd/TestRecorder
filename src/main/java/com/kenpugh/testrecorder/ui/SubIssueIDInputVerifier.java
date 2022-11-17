@@ -12,7 +12,7 @@ public class SubIssueIDInputVerifier extends InputVerifier {
         if (!issueID.equals(SubIssueID.INVALID_ISSUE_ID))
             return true;
         else {
-            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame, "Issue ID must have 3 characters");
+            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame, "Sub Issue ID must have 3 characters");
             return false;
         }
 

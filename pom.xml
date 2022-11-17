@@ -5,9 +5,9 @@
 
     <groupId>kenpugh</groupId>
     <artifactId>TestRecorder</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.9</version>
     <packaging>jar</packaging>
-    <name>Cucumber-Java-JUnit Project</name>
+    <name>Test Recorder</name>
 
     <properties>
         <cucumber.version>7.8.1</cucumber.version>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>13.0</version>
+            <version>23.0.0</version>
             <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.lgooddatepicker/LGoodDatePicker -->
@@ -90,7 +90,8 @@
                 <configuration>
                     <excludes>
                         <exclude>**/RunManualTest*.java</exclude>
-                    </excludes>
+                        <exclude>**/SetupManual*.java</exclude>
+                        <exclude>**/RunDoingTest.java</exclude>                   </excludes>
                 </configuration>
             </plugin>
 

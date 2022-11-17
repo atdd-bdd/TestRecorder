@@ -26,8 +26,8 @@ public class TestRunDialog extends JDialog {
     private JTextField issueIDTextField;
 
     public TestRunDialog() {
-        initializeData();
         setContentPane(contentPane);
+        initializeData();
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 

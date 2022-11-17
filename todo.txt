@@ -1,3 +1,21 @@
+Filter
+   boolean includeActive
+   boolean includeInactive
+   boolean includeRetired
+
+   if( testStatus==TestStatus.Active && includeActive
+   || ......
+
+   Finish the filter
+
+   Two versions of scenaraio - one with everything, one just with IssueID,SubIssueID
+
+   Display the test - is comments  text area?   allow for active/inactive change
+
+   Change the last one of the flow
+
+
+   Do the Xused version with reflection
 
 Add a SubIssueID and a Status 
 	Use SubIssueID as part of the findtest.   

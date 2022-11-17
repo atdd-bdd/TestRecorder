@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class TestEntryDialog extends JDialog {
-    private JPanel contentPane;
+    private JPanel contentPane2;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField nameTextField;
@@ -27,7 +27,7 @@ public class TestEntryDialog extends JDialog {
     public TestDTO testDTO;
 
     public TestEntryDialog() {
-        setContentPane(contentPane);
+        setContentPane(contentPane2);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         subIssueIDTextField.setInputVerifier(new SubIssueIDInputVerifier());
@@ -59,7 +59,7 @@ public class TestEntryDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
+        contentPane2.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -110,7 +110,7 @@ public class TestEntryDialog extends JDialog {
         testDTO.subIssueID = subIssueIDTextField.getText();
         testDTO.testStatus = testStatusTextField.getText();
         MyString filePathString = new MyString(testDTO.filePath);
-        if (!MyFileSystem.checkReadabiity(filePathString)) {
+        if (!MyFileSystem.checkReadability(filePathString)) {
             JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
                     "File " + filePathString + " is not readable");
             testDTO = null;

@@ -23,7 +23,7 @@ public class MyFileSystem {
             throw new RuntimeException("Cannot access file  " + path);
         }
     }
-    public static boolean checkReadabiity(MyString filePath) {
+    public static boolean checkReadability(MyString filePath) {
         Path path = Paths.get(MyConfiguration.rootFilePath.toString(), filePath.toString());
         try {
             readString(path);
@@ -36,7 +36,7 @@ public class MyFileSystem {
 
     public static String read(MyString filePath) {
         Path path = Paths.get(MyConfiguration.rootFilePath.toString(), filePath.toString());
-        Log.write(Log.Level.Debug, " ", "path is ||" + MyConfiguration.rootFilePath.toString() + "||" + filePath.toString());
+        Log.write(Log.Level.Debug, " ", "path is ||" + MyConfiguration.rootFilePath.toString() + "||" + filePath);
         String text;
         try {
             text = readString(path);

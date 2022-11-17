@@ -9,6 +9,8 @@
 *.dump
 *.xml
 
+!target/*.jar
+
 /target/surefire-reports/*
 
 
