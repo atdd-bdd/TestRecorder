@@ -3,7 +3,7 @@ Feature: Test Recorder
   Background:
     Given configuration values are:
       | Variable     | Value                                           |
-      | rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
+      | rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
     Given file exists
       | File Path               | Contents                              |
       | EnterTestResult.feature | Select test \n Run it \n Check result |

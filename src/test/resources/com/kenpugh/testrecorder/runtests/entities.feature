@@ -3,7 +3,7 @@ Feature: Entities
 Scenario: Save and Load Configuration
 Given configuration values are:
 | Variable | Value |
-| rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
+| rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
 | useTestDoubleForDateTime | false |
 | useTestDoubleForRunner   | true  |
 | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:02 AM |
@@ -13,7 +13,7 @@ When configuration is saved
 And configuration is loaded
 Then configuration values now are:
 | Variable | Value |
-| rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
+| rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
 | useTestDoubleForDateTime | false |
 | useTestDoubleForRunner   | true  |
 | valueTestDoubleForDateTime |Oct 1, 2022, 12:30:02 AM |

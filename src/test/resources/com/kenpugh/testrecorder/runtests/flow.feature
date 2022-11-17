@@ -3,7 +3,7 @@ Feature: Flow feature
   Background:
     Given configuration values are:
       | Variable     | Value                                           |
-      | rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
+      | rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
     Given file exists
       | File Path                 | Contents |
       | Different test.feature    | Not used |

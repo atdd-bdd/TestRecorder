@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class TestEntryDialog extends JDialog {
+    public boolean testValid = false;
     private JPanel contentPane2;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -99,7 +100,7 @@ public class TestEntryDialog extends JDialog {
 
     }
     private void onOK() {
-          testDTO.issueID = issueIDTextField.getText();
+        testDTO.issueID = issueIDTextField.getText();
         testDTO.name = nameTextField.getText();
         testDTO.filePath = filePathTextField.getText();
         testDTO.comments = commentsTextField.getText();
@@ -109,11 +110,12 @@ public class TestEntryDialog extends JDialog {
         testDTO.lastResult = lastResultTextField.getText();
         testDTO.subIssueID = subIssueIDTextField.getText();
         testDTO.testStatus = testStatusTextField.getText();
+        testValid = true;
         MyString filePathString = new MyString(testDTO.filePath);
         if (!MyFileSystem.checkReadability(filePathString)) {
             JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
                     "File " + filePathString + " is not readable");
-            testDTO = null;
+            testValid = false;
         }
         dispose();
     }
@@ -121,6 +123,7 @@ public class TestEntryDialog extends JDialog {
 
     private void onCancel() {
         // add your code here if necessary
+        testValid = false;
         dispose();
     }
 

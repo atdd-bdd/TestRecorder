@@ -2,7 +2,7 @@ Feature: UI
   Background:
     Given configuration values are:
       | Variable     | Value                                           |
-      | rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
+      | rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
 
   @manual
   Scenario: Display Test Table
@@ -33,7 +33,7 @@ Scenario: Run a test successfully
     | useTestDoubleForRunner     | true                     |
     | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:01 AM |
     | valueTestDoubleForRunner   | Sam                      |
-    | rootFilePath               | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
+    | rootFilePath               | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
     | formNotCloseOnExit         | true |
   When test is selected
     | Issue ID | 12345       |
@@ -53,6 +53,6 @@ Then test is now
       | Variable                   | Value                    |
       | useTestDoubleForDateTime   | false                    |
       | useTestDoubleForRunner     | false                    |
-      | rootFilePath               | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
+      | rootFilePath               | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
       | formNotCloseOnExit         | false |
     When test table swing is shown
