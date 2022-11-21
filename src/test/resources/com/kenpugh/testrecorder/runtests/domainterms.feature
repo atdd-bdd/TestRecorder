@@ -21,13 +21,13 @@ Feature: Domain Terms
       | XXX 1, 2022, 12:30:01 AM  | No     | Bad month                           |
       |  Never                    | Yes    | Converted to Jan 1, 1970, 0:0:0 AM  |
 # plus more as desired
-@doing
+
   Scenario: Domain Term TestStatus
     * Test Statuses are
       | Active    |
       | Inactive  |
       | Retired   |
-@doing
+
   Scenario: Domain Term SubIssueID
     * IssueID must be three characters and digits without spaces
       | Value   | Valid  | Notes       |

@@ -1,21 +1,21 @@
 package com.kenpugh.testrecorder.ui;
 
+import com.kenpugh.testrecorder.entities.TestFilter;
+
 import javax.swing.*;
 import java.awt.event.*;
 
-public class TestFilterandSort extends JDialog {
+public class TestFilterDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JRadioButton sortByLastDateRun;
-    private JRadioButton datePreviousResultRadioButton;
-    private JRadioButton testResultRadioButton;
-    private JRadioButton radioButton4;
-    private JRadioButton radioButton5;
+    private JCheckBox includeActiveCheckBox;
+    private JCheckBox includeInactiveCheckBox;
+    private JCheckBox includeRetiredCheckBox;
 
-    public TestFilterandSort() {
+    public TestFilter testFilter;
+
+    public TestFilterDialog() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -50,6 +50,10 @@ public class TestFilterandSort extends JDialog {
 
     private void onOK() {
         // add your code here
+        testFilter.includeActive = includeActiveCheckBox.isSelected();
+        testFilter.includeInactive = includeInactiveCheckBox.isSelected();
+        testFilter.includeRetired = includeRetiredCheckBox.isSelected();
+
         dispose();
     }
 
@@ -59,9 +63,16 @@ public class TestFilterandSort extends JDialog {
     }
 
     public static void main(String[] args) {
-        TestFilterandSort dialog = new TestFilterandSort();
+        TestFilterDialog dialog = new TestFilterDialog();
+        dialog.initialize();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
+    }
+
+    public void initialize() {
+        includeActiveCheckBox.setSelected(testFilter.includeActive);
+        includeInactiveCheckBox.setSelected(testFilter.includeInactive);
+        includeRetiredCheckBox.setSelected(testFilter.includeRetired);
     }
 }

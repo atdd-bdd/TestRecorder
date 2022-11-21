@@ -4,7 +4,7 @@ package com.kenpugh.testrecorder.entities;
 import com.kenpugh.testrecorder.database.TestDataAccess;
 import com.kenpugh.testrecorder.domainterms.IssueID;
 import com.kenpugh.testrecorder.domainterms.SubIssueID;
-import com.kenpugh.testrecorder.log.Log;
+import com.kenpugh.testrecorder.domainterms.TestStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +55,23 @@ public class TestCollection {
         TestDataAccess.deleteAll();
     }
 
+    @SuppressWarnings("RedundantIfStatement")
+    public static List<Test> filter(List<Test> unfiltered, TestFilter testFilter) {
+        List<Test> filtered = new ArrayList<>();
+        for (Test test : unfiltered){
+            boolean include = false;
+            if ((test.getTestStatus() ==TestStatus.Active) && testFilter.includeActive)
+                include = true;
+            if ((test.getTestStatus() ==TestStatus.Inactive) && testFilter.includeInactive)
+                include = true;
+            if ((test.getTestStatus() == TestStatus.Retired)  && testFilter.includeRetired)
+                include = true;
+            if (include)
+                filtered.add(test);
+        }
+        return filtered;
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("TestCollection{ \n");
@@ -66,16 +83,5 @@ public class TestCollection {
         return s.toString();
     }
 
-    public static void findTestAndUpdate(IssueID issueID,
-                                         SubIssueID subIssueID,TestRun tr) {
-        Test t = findTest(issueID, subIssueID);
-        if (t != Test.NOT_FOUND) {
-            t.updateWithTestRun(tr);
-            TestDTO testDTO = t.getDTO();
-            if (!TestDataAccess.update(testDTO))
-                Log.write(Log.Level.Severe,"Error in updating test", t.toString());
-        } else
-            Log.write(Log.Level.Severe," Cannot update test - not found ",  tr.getIssueID().toString());
-    }
 }
 

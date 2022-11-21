@@ -1,7 +1,9 @@
 package com.kenpugh.testrecorder.runtests;
 
 
+import com.kenpugh.testrecorder.database.TestRunDataAccess;
 import com.kenpugh.testrecorder.domainterms.SubIssueID;
+import com.kenpugh.testrecorder.entities.*;
 import com.kenpugh.testrecorder.log.Log;
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.Given;
@@ -10,10 +12,6 @@ import io.cucumber.java.en.When;
 import com.kenpugh.testrecorder.database.TestDataAccess;
 import com.kenpugh.testrecorder.domainterms.IssueID;
 import com.kenpugh.testrecorder.domainterms.MyFileSystem;
-import com.kenpugh.testrecorder.entities.Test;
-import com.kenpugh.testrecorder.entities.TestCollection;
-import com.kenpugh.testrecorder.entities.TestRun;
-import com.kenpugh.testrecorder.entities.TestRunCollection;
 import com.kenpugh.testrecorder.services.CurrentDateTimeService;
 import com.kenpugh.testrecorder.services.CurrentUserService;
 
@@ -28,6 +26,7 @@ public class StepDefinitions {
     @Given("tests are empty")
     public void tests_are_empty(List<Test> ignoredDataTable) {
         TestDataAccess.deleteAll();
+        TestRunDataAccess.deleteAll();
     }
 
 
@@ -67,6 +66,7 @@ public class StepDefinitions {
     @Given("tests are")
     public void tests_are(List<Test> dataTable) {
         TestCollection.deleteAll();
+        TestRunCollection.deleteAll();
         for (Test test : dataTable) {
             TestCollection.addTest(test);
         }
@@ -86,7 +86,7 @@ public class StepDefinitions {
         tr.setSubIssueID(currentSubIssueID);
         tr.setDateTime(CurrentDateTimeService.getCurrentDateTime());
         tr.setRunner(CurrentUserService.getCurrentUser());
-        TestCollection.findTestAndUpdate(tr.getIssueID(), tr.getSubIssueID(), tr);
+        TestRunandTestCollaborator.findTestAndUpdateWithTestRun(tr.getIssueID(), tr.getSubIssueID(), tr);
         TestRunCollection.addTestRun(tr);
     }
 

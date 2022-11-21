@@ -8,13 +8,19 @@ Filter
 
    Finish the filter
 
+   Check values DTO to internal
+    Convert to default value and issue severe warning
+
    Two versions of scenaraio - one with everything, one just with IssueID,SubIssueID
 
    Display the test - is comments  text area?   allow for active/inactive change
 
    Change the last one of the flow
 
+add subissueid and test to database test !!!
 
+Add validity checking in fromDTO in both classes.
+    Substitute DEFAULT_VALUE;
    Do the Xused version with reflection
 
 Add a SubIssueID and a Status 

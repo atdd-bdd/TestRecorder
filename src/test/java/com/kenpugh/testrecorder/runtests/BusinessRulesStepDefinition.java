@@ -91,7 +91,7 @@ public class BusinessRulesStepDefinition {
             Test oldTest = Test.testFromDTO(oldTestDTO);
             Test expectedNewTest = Test.testFromDTO(newTestDTO);
             TestRun testRun = TestRun.TestRunFromDTO(testRunDTO);
-            oldTest.TestUpdatedFromTestRun(testRun);
+            oldTest.UpdateTestFromTestRun(testRun);
             assertEquals(expectedNewTest, oldTest);
         }
     }
@@ -108,7 +108,7 @@ public class BusinessRulesStepDefinition {
             TestDTO newTestDTO = getNewTestDTO(update);
             Test expectedNewTest = Test.testFromDTO(newTestDTO);
             TestRun testRun = TestRun.TestRunFromDTO(testRunDTO);
-            oldTestForSequence.TestUpdatedFromTestRun(testRun);
+            oldTestForSequence.UpdateTestFromTestRun(testRun);
             assertEquals(expectedNewTest, oldTestForSequence);
 
         }

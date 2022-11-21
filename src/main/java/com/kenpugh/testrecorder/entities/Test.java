@@ -106,12 +106,9 @@ public class Test {
     }
 
 
-    public void updateWithTestRun(TestRun tr) {
 
-        TestUpdatedFromTestRun(tr);
-    }
 
-    public void TestUpdatedFromTestRun(TestRun tr) {
+    public void UpdateTestFromTestRun(TestRun tr) {
         if (!tr.getIssueID().equals(issueID)) {
             Log.write(Log.Level.Severe," Trying to update wrong test " , issueID + " with " + tr.getIssueID());
             return;
@@ -128,5 +125,9 @@ public class Test {
 
     public MyString getFilePath() {
         return filePath;
+    }
+
+    public TestStatus getTestStatus() {
+        return testStatus;
     }
 }

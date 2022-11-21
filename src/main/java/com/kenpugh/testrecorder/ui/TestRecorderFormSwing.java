@@ -28,6 +28,7 @@ public class TestRecorderFormSwing {
     private JButton runTestButton;
     private JButton showHistory;
     private JTable testTable;
+    private JButton filterTestsButton;
     private DefaultTableModel tableModel;
     public static TestRecorderFormSwing testRecorderFormSwing;
 
@@ -35,6 +36,7 @@ public class TestRecorderFormSwing {
 
     public String selectedIssueIDString ="";   // Which row should be marked.
     public String selectedSubIssueIDString = "";
+    public TestFilter testFilter = new TestFilter();
     public TestRecorderFormSwing() {
         runTestButton.addActionListener(new ActionListener() {
             /**
@@ -45,9 +47,14 @@ public class TestRecorderFormSwing {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = testTable.getSelectedRow();
-                if (row < 0 || row >= testDTOs.size()) {
-                    row = 0;
+                if (row < 0 )  {
+                    JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                            "No tests  ");
+                    return;
                 }
+                int lastRow = testDTOs.size() -1;
+                if (row > lastRow)
+                    row = lastRow;
 
                 TestDTO selectedTestDTO = testDTOs.get(row);
                 TestRun testRun = TestRun.getBaseTestRun(
@@ -69,8 +76,7 @@ public class TestRecorderFormSwing {
                 dialog.setVisible(true);
                 if (dialog.added) {
                     testRun = TestRun.TestRunFromDTO(dialog.testRunDTO);
-                    TestCollection.findTestAndUpdate(testRun.getIssueID(), testRun.getSubIssueID(), testRun);
-                    TestRunCollection.addTestRun(testRun);
+                    TestRunandTestCollaborator.findTestAndUpdateWithTestRun(testRun.getIssueID(), testRun.getSubIssueID(), testRun);
                     testRecorderFormSwing.updateData();
                 }
 
@@ -101,19 +107,19 @@ public class TestRecorderFormSwing {
             }
         });
         showHistory.addActionListener(new ActionListener() {
-            /**
-             * Invoked when an action occurs.
-             *
-             * @param e the event to be processed
-             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 TestRunHistoryDialog dialog = new TestRunHistoryDialog();
-                int index =  testTable.getSelectedRow();
-                if (index < 0 || index >= testDTOs.size()) {
-                    index = 0;
+                int row =  testTable.getSelectedRow();
+                if (row < 0 )  {
+                    JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                            "No tests  ");
+                    return;
                 }
-                TestDTO testDTO = testDTOs.get(index);
+                int lastRow = testDTOs.size() -1;
+                if (row > lastRow)
+                    row = lastRow;
+                TestDTO testDTO = testDTOs.get(row);
                 dialog.issueID = new IssueID(testDTO.issueID);
                 dialog.subIssueID = new SubIssueID(testDTO.subIssueID);
                 dialog.updateData();
@@ -122,6 +128,18 @@ public class TestRecorderFormSwing {
             }
         });
 
+        filterTestsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TestFilterDialog dialog = new TestFilterDialog();
+                dialog.testFilter = testFilter;
+                dialog.initialize();
+                dialog.pack();
+                dialog.setVisible(true);
+                testFilter = dialog.testFilter;
+                updateData();
+            }
+        });
     }
 
     private static void setUIFont(javax.swing.plaf.FontUIResource f) {
@@ -140,7 +158,9 @@ public static JFrame frame;
         setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
         frame = new JFrame("TestRecorderFormSwing");
         TestRecorderFormSwing.inProgress = true;
+
         testRecorderFormSwing = new TestRecorderFormSwing();
+        testRecorderFormSwing.testFilter.includeActive = true;
         frame.setContentPane(testRecorderFormSwing.aPanel);
         if (!MyConfiguration.formNotCloseOnExit) {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -191,7 +211,9 @@ public static JFrame frame;
     }
 
     public void updateData() {
-        List<Test> tests = TestCollection.getAll();
+        List<Test> allTests = TestCollection.getAll();
+        List<Test> tests = TestCollection.filter(allTests, testFilter);
+
         testDTOs = TestCollection.listTestDTOfromListTest(tests);
         tableModel.setNumRows(0);
         for (TestDTO testDTO : testDTOs) {
@@ -260,6 +282,7 @@ public static JFrame frame;
             row = testDTOs.size() - 1;
         Log.write(Log.Level.Debug, "", " selected " + row + " " + selectedIssueIDString +
                    "  " + selectedSubIssueIDString);
+        if (row > 0)
             testTable.setRowSelectionInterval(row, row);
     }
 
