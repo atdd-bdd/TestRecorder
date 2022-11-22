@@ -1,19 +1,17 @@
 package com.kenpugh.testrecorder.runtests;
 
 import com.kenpugh.testrecorder.domainterms.TestStatus;
-import com.kenpugh.testrecorder.entities.Test;
-import com.kenpugh.testrecorder.entities.TestCollection;
-import com.kenpugh.testrecorder.entities.TestFilter;
-import com.kenpugh.testrecorder.entities.TestFilterDTO;
+import com.kenpugh.testrecorder.entities.*;
 import com.kenpugh.testrecorder.log.Log;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertTrue;
 
 public class SortAndFilterStepDefinitions {
 
@@ -23,7 +21,6 @@ public class SortAndFilterStepDefinitions {
     @Given("unfiltered tests are")
     public void unfiltered_tests_are(List<Test> dataTable) {
         unfiltered = dataTable;
-        System.out.println("Unfiltered are " + unfiltered.toString());
     }
 
         @When("filtered by")
@@ -46,18 +43,40 @@ public class SortAndFilterStepDefinitions {
                        Log.write(Log.Level.Severe, " Cannot convert " , testStatus.toString());
                }
                testFilter = TestFilter.fromTestFilterDTO(testFilterDTO);
-                System.out.println(" Filter is " + testFilter );
-                filtered = TestCollection.filter(unfiltered, testFilter);
+               filtered = TestCollection.filter(unfiltered, testFilter);
             }
         }
 
         @Then("filtered tests are")
         public void filtered_tests_are(List<Test> dataTable) {
-            assertArrayEquals(dataTable.toArray(), filtered.toArray());
+            TestUseFields testUserFields = EntitiesStepDefinitions.testUseFields;
 
-            System.out.println("Filtered are " + unfiltered.toString());
+            assertTrue(compareSelectivelyTestLists( dataTable, filtered,
+                 testUserFields));
+            // assertArrayEquals(dataTable.toArray(), filtered.toArray());
         }
 
+    private boolean compareSelectivelyTestLists(List<Test> expectedList, List<Test> actualList, TestUseFields testUserFields) {
+        boolean match = true;
+        if (expectedList.size() != actualList.size()){
+            Log.write(Log.Level.Severe, " Sizes differ ", " " );
+            match = false;
+        }
+        Test [] expected = new Test[expectedList.size()];
+        Test [] actual = new Test[actualList.size()];
+         expected = expectedList.toArray(expected);
+         actual = actualList.toArray(actual);
+        for (int index = 0; index < expected.length; index++) {
+            if (!expected[index].selectiveEquals(actual[index], testUserFields))
+            {
+                Log.write(Log.Level.Severe, " Expected " + expected[index], " Actual " + actual[index]);
+                match = false;
+            }
+        }
 
+        return match;
     }
+
+
+}
 

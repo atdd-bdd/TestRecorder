@@ -101,7 +101,10 @@ public class TestRunHistoryDialog extends JDialog {
         Vector<String> columnHeaders = new Vector<>(List.of(columnNames));
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(columnHeaders);
-        testRunTable = new JTable(tableModel);
+        testRunTable = new JTable(tableModel){
+            public boolean editCellAt(int row, int column, java.util.EventObject e) {
+                return false;
+            }};
         testRunTable.setPreferredScrollableViewportSize(new Dimension(500, 200));
         testRunTable.setFillsViewportHeight(true);
 

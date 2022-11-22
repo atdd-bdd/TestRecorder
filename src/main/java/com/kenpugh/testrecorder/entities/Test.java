@@ -37,8 +37,8 @@ public class Test {
                 && (testStatus.equals(test.testStatus) || !testUseFields.testStatus)
                 ;
     if (!result)
-            System.out.println("Selective equal values " + " for " + this + " == " + test + " selections: "
-                    + testUseFields );
+            Log.write(Log.Level.Debug, "Selective equal values " + " for " + this + " == " + test +
+                    " selections: ", testUseFields.toString() );
     return result;
     }
     public void fromDTO(@NotNull TestDTO testDTO) {

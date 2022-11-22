@@ -8,6 +8,10 @@ Feature: Test Recorder
       | useTestDoubleForRunner     | true                     |
       | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:01 AM |
       | valueTestDoubleForRunner   | Sam                      |
+      |databaseURL                 |jdbc:hsqldb:hsql://localhost|
+      |  databaseJDBCDriver        |org.hsqldb.jdbcDriver       |
+      |databasePassword            |                            |
+      | databaseUserID             |SA                          |
     Given file exists
       | File Path               | Contents                              |
       | EnterTestResult.feature | Select test \n Run it \n Check result |

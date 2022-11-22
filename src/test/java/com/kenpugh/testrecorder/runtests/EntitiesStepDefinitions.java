@@ -11,16 +11,15 @@ import com.kenpugh.testrecorder.database.TestDataAccess;
 
 import com.kenpugh.testrecorder.log.Log;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import static com.kenpugh.testrecorder.runtests.StepDefinitionHelpers.setUseFieldFromEntryMap;
 import static org.junit.Assert.*;
 
 public class EntitiesStepDefinitions {
-    static public final TestUseFields testUseFields
-            = new TestUseFields();
+
 
     @DataTableType
     public MyConfigurationValue inputConfigurationValue(Map<String, String> entry) {
@@ -67,6 +66,11 @@ public class EntitiesStepDefinitions {
     public void configuration_values_now_are(List<MyConfigurationValue> dataTable) {
         for (MyConfigurationValue cv : dataTable) {
             String value = MyConfigurationDTO.values.get(cv.variable);
+             if (cv.value == null) {
+                 Log.write(Log.Level.Debug, " Configuration  for variable is null ",
+                         cv.variable + " comparison is " + cv.value + " actual value is " + value);
+                 cv.value = "";
+             }
             assertEquals(cv.value, value);
 
         }
@@ -83,6 +87,7 @@ public class EntitiesStepDefinitions {
         else {
             MyConfiguration.valueTestDoubleForDateTime = value;
             MyConfiguration.saveToFile();
+            Log.write(Log.Level.Debug, " DateTime is now " , value.toString());
         }
 
 
@@ -105,11 +110,14 @@ public class EntitiesStepDefinitions {
         return trd;
     }
 
+    public static TestUseFields testUseFields;
     // | Issue ID  | Name  | Last Result  | Runner | Date Last Run  | Date Previous Result  | File Path |
     @DataTableType
     public Test inputTest(Map<String, String> entry) {
          TestDTO testDTO = setTestDTOFromEntryMap(entry);
-        return Test.testFromDTO(testDTO);
+         testUseFields = setUseFieldFromEntryMap( entry);
+
+         return Test.testFromDTO(testDTO);
         }
 
         @DataTableType
@@ -178,65 +186,18 @@ public class EntitiesStepDefinitions {
        public TestDTO setTestDTOFromEntryMap(Map < String, String > entryMap){
             TestDTO testDTO = new TestDTO();
             for (Map.Entry<String, String> entry : entryMap.entrySet()) {
-                setFieldFromKeyValue(testDTO, entry.getKey(), entry.getValue());
+                StepDefinitionHelpers.setFieldFromKeyValue(testDTO, entry.getKey(), entry.getValue());
             }
             return testDTO;
         }
     public TestRunDTO setTestRunDTOFromEntryMap(Map < String, String > entryMap){
         TestRunDTO testRunDTO = new TestRunDTO();
         for (Map.Entry<String, String> entry : entryMap.entrySet()) {
-            setFieldFromKeyValue(testRunDTO, entry.getKey(), entry.getValue());
+            StepDefinitionHelpers.setFieldFromKeyValue(testRunDTO, entry.getKey(), entry.getValue());
         }
         return testRunDTO;
     }
 
 
-        public void setFieldFromKeyValue (Object obj, String key, String value){
-            Class<?> c = obj.getClass();
-            Field field;
-            String camelCaseKey = makeCamel(key);
-            if (value == null) {
-                value = "";
-                Log.write(Log.Level.Info, "Key value is null ", key + "=" + value);
-            }
-            try {
-                field = c.getField(camelCaseKey);
-            } catch (NoSuchFieldException e) {
-                Log.write(Log.Level.Severe, " Cannot match field name to column name ",
-                        camelCaseKey + " " + key);
-                throw new RuntimeException(e);
-            }
-            field.setAccessible(true);
-            try {
-                field.set(obj, value);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
 
-
-        private String makeCamel (String value){
-            StringBuilder result = new StringBuilder();
-            boolean convertToUpper = false;
-            for (int i = 0; i < value.length(); i++) {
-                Character c = value.charAt(i);
-                if (i == 0) {
-                    result.append(Character.toLowerCase(c));
-                    continue;
-                }
-                if (c == ' ') {
-                    convertToUpper = true;
-                    continue;
-                }
-                if (convertToUpper) {
-                    result.append(Character.toUpperCase(c));
-                    convertToUpper = false;
-                    continue;
-                }
-                result.append(c);
-            }
-            return result.toString();
-
-
-        }
-    }
+}

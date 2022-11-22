@@ -6,6 +6,7 @@ import com.kenpugh.testrecorder.entities.*;
 
 import com.kenpugh.testrecorder.log.Log;
 
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -29,6 +30,7 @@ public class TestRecorderFormSwing {
     private JButton showHistory;
     private JTable testTable;
     private JButton filterTestsButton;
+    private JButton changeStatusButton;
     private DefaultTableModel tableModel;
     public static TestRecorderFormSwing testRecorderFormSwing;
 
@@ -46,15 +48,8 @@ public class TestRecorderFormSwing {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                int row = testTable.getSelectedRow();
-                if (row < 0 )  {
-                    JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
-                            "No tests  ");
-                    return;
-                }
-                int lastRow = testDTOs.size() -1;
-                if (row > lastRow)
-                    row = lastRow;
+                int row = getTableRowIndex();
+                if (row <0)  return;
 
                 TestDTO selectedTestDTO = testDTOs.get(row);
                 TestRun testRun = TestRun.getBaseTestRun(
@@ -73,6 +68,7 @@ public class TestRecorderFormSwing {
                 }
                 dialog.initializeData();
                 dialog.pack();
+                dialog.setLocationRelativeTo(frame);
                 dialog.setVisible(true);
                 if (dialog.added) {
                     testRun = TestRun.TestRunFromDTO(dialog.testRunDTO);
@@ -90,6 +86,7 @@ public class TestRecorderFormSwing {
                 TestEntryDialog dialog = new TestEntryDialog();
                 dialog.initialize();
                 dialog.pack();
+                dialog.setLocationRelativeTo(frame);
                 dialog.setVisible(true);
                 if (dialog.testValid){
                     Test test = Test.testFromDTO(dialog.testDTO);
@@ -110,20 +107,14 @@ public class TestRecorderFormSwing {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TestRunHistoryDialog dialog = new TestRunHistoryDialog();
-                int row =  testTable.getSelectedRow();
-                if (row < 0 )  {
-                    JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
-                            "No tests  ");
-                    return;
-                }
-                int lastRow = testDTOs.size() -1;
-                if (row > lastRow)
-                    row = lastRow;
+                int row = getTableRowIndex();
+                if (row < 0) return;
                 TestDTO testDTO = testDTOs.get(row);
                 dialog.issueID = new IssueID(testDTO.issueID);
                 dialog.subIssueID = new SubIssueID(testDTO.subIssueID);
                 dialog.updateData();
                 dialog.pack();
+                dialog.setLocationRelativeTo(frame);
                 dialog.setVisible(true);
             }
         });
@@ -135,11 +126,54 @@ public class TestRecorderFormSwing {
                 dialog.testFilter = testFilter;
                 dialog.initialize();
                 dialog.pack();
+                dialog.setLocationRelativeTo(frame);
                 dialog.setVisible(true);
                 testFilter = dialog.testFilter;
                 updateData();
             }
         });
+        changeStatusButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TestEntryDialog dialog = new TestEntryDialog();
+                int row = getTableRowIndex();
+                if (row <0)  return;
+                dialog.testDTO = testDTOs.get(row);
+                dialog.initialize();
+                dialog.enableStatusOnly();
+                dialog.pack();
+                dialog.setLocationRelativeTo(frame);
+                dialog.setVisible(true);
+                if (dialog.testValid){
+                    Test test = Test.testFromDTO(dialog.testDTO);
+                    if (!TestCollection.updateTest(test)) {
+                        JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                                "Test for Issue ID " + dialog.testDTO.issueID +
+                                        " SubIssue ID " + dialog.testDTO.subIssueID + " could not update " );
+
+                    }
+                    testRecorderFormSwing.updateData();
+                    selectedIssueIDString = dialog.testDTO.issueID;
+                    selectedSubIssueIDString = dialog.testDTO.subIssueID;
+                }
+
+
+            }
+        });
+    }
+
+
+    private int getTableRowIndex() {
+        int row =  testTable.getSelectedRow();
+        if (row < 0 )  {
+            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                    "No tests  ");
+            return row;
+        }
+        int lastRow = testDTOs.size() -1;
+        if (row > lastRow)
+            row = lastRow;
+        return row;
     }
 
     private static void setUIFont(javax.swing.plaf.FontUIResource f) {
@@ -203,7 +237,10 @@ public static JFrame frame;
         Vector<String> columnHeaders = new Vector<>(List.of(columnNames));
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(columnHeaders);
-        testTable = new JTable(tableModel);
+        testTable = new JTable(tableModel) {
+            public boolean editCellAt(int row, int column, java.util.EventObject e) {
+                return false;
+            }};
         testTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
         testTable.setFillsViewportHeight(true);
         testTable.setRowSelectionAllowed(true);

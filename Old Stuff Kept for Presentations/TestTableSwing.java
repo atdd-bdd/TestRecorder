@@ -72,7 +72,6 @@ public class TestTableSwing extends JPanel {
         //Create and set up the content pane.
         TestTableSwing newContentPane = new TestTableSwing();
         Class c = TestTableSwing.class;
-        System.out.println((" Table type is " + c));
         if (c.isAssignableFrom(JPanel.class))
             System.out.println("IS Assignable");
         else

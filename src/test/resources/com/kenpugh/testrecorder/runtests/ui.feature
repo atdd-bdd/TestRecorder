@@ -8,6 +8,10 @@ Feature: UI
       | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:01 AM |
       | valueTestDoubleForRunner   | Sam                      |
       | formNotCloseOnExit         | true |
+      |databaseURL                 |jdbc:hsqldb:hsql://localhost|
+      |  databaseJDBCDriver        |org.hsqldb.jdbcDriver       |
+      |databasePassword            |                            |
+      | databaseUserID             |SA                          |
 
   @manual
   Scenario: Display Test Table
@@ -46,5 +50,9 @@ Then test is now
       | useTestDoubleForRunner     | false                    |
       | rootFilePath               | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
       | formNotCloseOnExit         | false |
+      |databaseURL                 |jdbc:hsqldb:hsql://localhost|
+      |  databaseJDBCDriver        |org.hsqldb.jdbcDriver       |
+      |databasePassword            |                            |
+      | databaseUserID             |SA                          |
     When test table swing is shown
     # Execution works as in non-test world

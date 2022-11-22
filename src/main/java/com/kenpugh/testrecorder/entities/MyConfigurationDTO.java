@@ -14,18 +14,18 @@ public class MyConfigurationDTO {
         StringBuilder out = new StringBuilder();
         for (Map.Entry<String, String> entry : values.entrySet()) {
             out.append(entry.getKey());
-            out.append("|");
+            out.append("\t");
             out.append(entry.getValue());
-            out.append("|");
-            out.append("$");
+            out.append("\t");
+            out.append("\n");
         }
         return out.toString();
     }
 
     public static void fromSaveString(String in) {
-        String[] lines = in.split("\\$");
+        String[] lines = in.split("\n");
         for (String l : lines) {
-            String[] words = l.split("\\|");
+            String[] words = l.split("\t");
             if (words.length >= 2)
                 values.put(words[0], words[1]);
         }

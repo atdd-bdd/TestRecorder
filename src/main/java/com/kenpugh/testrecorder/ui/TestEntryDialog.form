@@ -188,16 +188,6 @@
               <text value="Status "/>
             </properties>
           </component>
-          <component id="19226" class="javax.swing.JTextField" binding="testStatusTextField">
-            <constraints>
-              <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties>
-              <editable value="false"/>
-            </properties>
-          </component>
           <component id="11706" class="javax.swing.JTextField" binding="subIssueIDTextField">
             <constraints>
               <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -246,6 +236,14 @@
             </constraints>
             <properties>
               <text value="Runner"/>
+            </properties>
+          </component>
+          <component id="481f3" class="javax.swing.JComboBox" binding="testStatusComboBox">
+            <constraints>
+              <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="1" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <editable value="true"/>
             </properties>
           </component>
         </children>

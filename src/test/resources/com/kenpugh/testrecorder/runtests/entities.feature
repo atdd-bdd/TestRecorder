@@ -8,7 +8,10 @@ Given configuration values are:
 | useTestDoubleForRunner     | true                     |
 | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:01 AM |
 | valueTestDoubleForRunner   | Sam                      |
-| formNotCloseOnExit         | true |
+|databaseURL                 |jdbc:hsqldb:hsql://localhost|
+|  databaseJDBCDriver        |org.hsqldb.jdbcDriver       |
+|databasePassword            |                            |
+| databaseUserID             |SA                          |
 
 
   Scenario: Save and Load Configuration
@@ -20,7 +23,12 @@ Given configuration values are:
 | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:02 AM |
 | valueTestDoubleForRunner | Jane |
 |formNotCloseOnExit        | true |
-When configuration is saved
+|databaseURL                 |jdbc:hsqldb:hsql://localhost|
+|  databaseJDBCDriver        |org.hsqldb.jdbcDriver       |
+|databasePassword            |                            |
+| databaseUserID             |SA                          |
+
+    When configuration is saved
 And configuration is loaded
 Then configuration values now are:
 | Variable | Value |
@@ -30,6 +38,10 @@ Then configuration values now are:
 | valueTestDoubleForDateTime |Oct 1, 2022, 12:30:02 AM |
 | valueTestDoubleForRunner | Jane |
 | formNotCloseOnExit        | true |
+|databaseURL                 |jdbc:hsqldb:hsql://localhost|
+|  databaseJDBCDriver        |org.hsqldb.jdbcDriver       |
+|databasePassword            |                            |
+| databaseUserID             |SA                          |
 
   Scenario: Can Store and Load Test from Database
     Given database is setup

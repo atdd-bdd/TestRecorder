@@ -1,6 +1,9 @@
 package com.kenpugh.testrecorder.domainterms;
 
+import com.kenpugh.testrecorder.log.Log;
+
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class MyString {
     private final String value;
@@ -27,7 +30,13 @@ public class MyString {
         return value;
     }
 
+    static final Pattern patternPrintableCharsOnly = Pattern.compile("[^\\\\!#$%&'()*+,\\-./:;<=>?@^_`{|}~\\w\\s]",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
     public MyString(String value) {
-        this.value = value;
+        String newValue = patternPrintableCharsOnly.matcher(value).replaceAll("");
+        if (!newValue.equals(value))
+            Log.write(Log.Level.Severe, " Replaced ", value + " with " + newValue);
+        this.value = newValue;
     }
 }

@@ -1,6 +1,9 @@
 package com.kenpugh.testrecorder.domainterms;
 
+import com.kenpugh.testrecorder.log.Log;
+
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Name {
     public static final String EMPTY = "";
@@ -24,9 +27,15 @@ public class Name {
         this.value = NOT_SPECIFIED;
     }
 
+    static final Pattern patternWordCharsSpaceOnly = Pattern.compile("[^\\w ]",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+
     public Name
             (String value) {
-        this.value = value;
+        String newValue = patternWordCharsSpaceOnly.matcher(value).replaceAll("");
+        if (!newValue.equals(value))
+            Log.write(Log.Level.Severe, " Replaced ", value + " with " + newValue);
+        this.value = newValue;
     }
 
     @Override

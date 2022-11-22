@@ -39,7 +39,7 @@ public class MyConfiguration {
     @SuppressWarnings("unused")
     public static final String databaseJDBCDriverString = MyConfigurationVariables.databaseJDBCDriver.toString();
     @SuppressWarnings("unused")
-    public static final String databasePasswordExitString = MyConfigurationVariables.databasePassword.toString();
+    public static final String databasePasswordString = MyConfigurationVariables.databasePassword.toString();
     @SuppressWarnings("unused")
     public static final String databaseUserIDString = MyConfigurationVariables.databaseUserID.toString();
 
@@ -51,11 +51,12 @@ public class MyConfiguration {
     static public MyDateTime valueTestDoubleForDateTime = new MyDateTime();
     static public Name valueTestDoubleForRunner = new Name();
 
-    // These are currently not being stored
-    static public final String databaseURL = "jdbc:hsqldb:hsql://localhost";
-    static public final String databaseJDBCDriver = "org.hsqldb.jdbcDriver";
-    static public final String databasePassword = "";
-    static public final String  databaseUserID = "SA";
+    static public String databaseURL;
+    static public String databaseJDBCDriver;
+    static public String databaseUserID;
+    static public String databasePassword;
+
+    @SuppressWarnings("StringOperationCanBeSimplified")
     public static void fromDTO() {
         String s = MyConfigurationDTO.values.get(rootFilePathString);
         if (s != null) rootFilePath = new MyString(s);
@@ -69,6 +70,15 @@ public class MyConfiguration {
         if (s != null) valueTestDoubleForRunner = new Name(s);
         s = MyConfigurationDTO.values.get(formNotCloseOnExitString);
         if (s != null) formNotCloseOnExit = Boolean.parseBoolean(s);
+        s = MyConfigurationDTO.values.get(databaseURLString);
+        if (s != null) databaseURL = new String(s);
+        s = MyConfigurationDTO.values.get(databaseJDBCDriverString);
+        if (s != null) databaseJDBCDriver = new String(s);
+        s = MyConfigurationDTO.values.get(databasePasswordString);
+        if (s != null) databasePassword = new String(s);
+        else databasePassword = "";
+        s = MyConfigurationDTO.values.get(databaseUserIDString);
+        if (s != null) databaseUserID = new String(s);
 
     }
 
@@ -80,6 +90,10 @@ public class MyConfiguration {
         MyConfigurationDTO.values.put(valueTestDoubleForDateTimeString, valueTestDoubleForDateTime.toString());
         MyConfigurationDTO.values.put(valueTestDoubleForRunnerString, valueTestDoubleForRunner.toString());
         MyConfigurationDTO.values.put(formNotCloseOnExitString, Boolean.toString(formNotCloseOnExit));
+        MyConfigurationDTO.values.put(databaseURLString, databaseURL);
+        MyConfigurationDTO.values.put(databaseJDBCDriverString, databaseJDBCDriver);
+        MyConfigurationDTO.values.put(databasePasswordString, databasePassword);
+        MyConfigurationDTO.values.put(databaseUserIDString, databaseUserID);
     }
 
      static private MyString getConfigurationFileName ()
@@ -116,11 +130,17 @@ public class MyConfiguration {
     }
 
     @Override
-    public String toString() {
+   public String toString() {
         return "Configuration{ " + "rootFilePath=" + rootFilePath + " " + "useTestDoubleForDateTime=" +
                 useTestDoubleForDateTime + " " + "useTestDoubleForRunner=" + useTestDoubleForRunner + " " +
-                "valueTestDoubleForDateTime=" + valueTestDoubleForDateTime + " " + "valueTestDoubleForRunner=" +
-                valueTestDoubleForRunner +
-                formNotCloseOnExitString + "=" + formNotCloseOnExit + " " + "}";
+                "valueTestDoubleForDateTime=" + valueTestDoubleForDateTime
+                + " " + "valueTestDoubleForRunner=" + valueTestDoubleForRunner
+                + formNotCloseOnExitString + "=" + formNotCloseOnExit
+                + databaseURLString + "=" + databaseURL + " "
+                + databaseJDBCDriverString + "=" + databaseJDBCDriver +" "
+                + databasePasswordString + "=" + databasePassword +" "
+                + databaseUserIDString + "=" + databaseUserID +
+
+                " " + "}";
     }
 }

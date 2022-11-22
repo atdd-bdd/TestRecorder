@@ -2,6 +2,7 @@ package com.kenpugh.testrecorder.ui;
 
 import com.kenpugh.testrecorder.domainterms.MyFileSystem;
 import com.kenpugh.testrecorder.domainterms.MyString;
+import com.kenpugh.testrecorder.domainterms.TestStatus;
 import com.kenpugh.testrecorder.entities.MyConfiguration;
 import com.kenpugh.testrecorder.entities.TestDTO;
 import com.kenpugh.testrecorder.log.Log;
@@ -24,7 +25,7 @@ public class TestEntryDialog extends JDialog {
     private JTextField filePathTextField;
     private JButton browseButton;
     private JTextField subIssueIDTextField;
-    private JTextField testStatusTextField;
+    private JComboBox testStatusComboBox;
     public TestDTO testDTO;
 
     public TestEntryDialog() {
@@ -39,6 +40,8 @@ public class TestEntryDialog extends JDialog {
         filePathTextField.setVerifyInputWhenFocusTarget(true);
         nameTextField.setInputVerifier(new NameInputVerifier());
         nameTextField.setVerifyInputWhenFocusTarget(true);
+        testDTO = new TestDTO();
+
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -86,7 +89,6 @@ public class TestEntryDialog extends JDialog {
         });
     }
     public void initialize() {
-        testDTO = new TestDTO();
         issueIDTextField.setText(testDTO.issueID);
         nameTextField.setText(testDTO.name);
         filePathTextField.setText(testDTO.filePath);
@@ -95,10 +97,17 @@ public class TestEntryDialog extends JDialog {
         datePreviousResultTextField.setText(testDTO.datePreviousResult);
         runnerTextField.setText(testDTO.runner);
         lastResultTextField.setText( testDTO.lastResult);
-        testStatusTextField.setText(testDTO.testStatus);
         subIssueIDTextField.setText(testDTO.subIssueID);
-
+        initializeTestStatus(testDTO.testStatus);
     }
+
+    private void initializeTestStatus(String testStatus) {
+        for (TestStatus value : TestStatus.values()) {
+            testStatusComboBox.addItem(value.toString());
+        }
+        testStatusComboBox.setSelectedItem(testStatus);
+    }
+
     private void onOK() {
         testDTO.issueID = issueIDTextField.getText();
         testDTO.name = nameTextField.getText();
@@ -109,7 +118,7 @@ public class TestEntryDialog extends JDialog {
         testDTO.runner = runnerTextField.getText();
         testDTO.lastResult = lastResultTextField.getText();
         testDTO.subIssueID = subIssueIDTextField.getText();
-        testDTO.testStatus = testStatusTextField.getText();
+        testDTO.testStatus = testStatusComboBox.getSelectedItem().toString();
         testValid = true;
         MyString filePathString = new MyString(testDTO.filePath);
         if (!MyFileSystem.checkReadability(filePathString)) {
@@ -133,5 +142,12 @@ public class TestEntryDialog extends JDialog {
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
+    }
+
+    public void enableStatusOnly() {
+        nameTextField.setEditable(false);
+        issueIDTextField.setEditable(false);
+        lastResultTextField.setEditable(false);
+        filePathTextField.setEditable(false);
     }
 }
