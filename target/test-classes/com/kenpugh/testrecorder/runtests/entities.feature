@@ -1,24 +1,47 @@
 Feature: Entities
 
-Scenario: Save and Load Configuration
+  Background:
+Given configuration values are:
+| Variable     | Value                                           |
+| rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
+| useTestDoubleForDateTime   | true                     |
+| useTestDoubleForRunner     | true                     |
+| valueTestDoubleForDateTime | Oct 1, 2022, 12:30:01 AM |
+| valueTestDoubleForRunner   | Sam                      |
+|databaseURL                 |jdbc:hsqldb:hsql://localhost|
+|  databaseJDBCDriver        |org.hsqldb.jdbcDriver       |
+|databasePassword            |                            |
+| databaseUserID             |SA                          |
+
+
+  Scenario: Save and Load Configuration
 Given configuration values are:
 | Variable | Value |
-| rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
+| rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
 | useTestDoubleForDateTime | false |
 | useTestDoubleForRunner   | true  |
 | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:02 AM |
 | valueTestDoubleForRunner | Jane |
-  |formNotCloseOnExit        | true |
-When configuration is saved
+|formNotCloseOnExit        | true |
+|databaseURL                 |jdbc:hsqldb:hsql://localhost|
+|  databaseJDBCDriver        |org.hsqldb.jdbcDriver       |
+|databasePassword            |                            |
+| databaseUserID             |SA                          |
+
+    When configuration is saved
 And configuration is loaded
 Then configuration values now are:
 | Variable | Value |
-| rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target |
+| rootFilePath | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
 | useTestDoubleForDateTime | false |
 | useTestDoubleForRunner   | true  |
 | valueTestDoubleForDateTime |Oct 1, 2022, 12:30:02 AM |
 | valueTestDoubleForRunner | Jane |
 | formNotCloseOnExit        | true |
+|databaseURL                 |jdbc:hsqldb:hsql://localhost|
+|  databaseJDBCDriver        |org.hsqldb.jdbcDriver       |
+|databasePassword            |                            |
+| databaseUserID             |SA                          |
 
   Scenario: Can Store and Load Test from Database
     Given database is setup

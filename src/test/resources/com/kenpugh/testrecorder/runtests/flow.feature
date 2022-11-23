@@ -30,12 +30,10 @@ Feature: Flow feature
     Given test exists
      | Issue ID | SubIssueID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               | Comments |
       | 12345    | 678        |Enter test result |         | Failure     | Never         | Never                | EnterTestResult.feature |          |
-    And  configuration values are:
-      | Variable                   | Value                    |
-      | useTestDoubleForDateTime   | true                     |
-      | useTestDoubleForRunner     | true                     |
-      | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:01 AM |
-      | valueTestDoubleForRunner   | Sam                      |
+    And  Configuration test double value for runner is
+      | Sam                      |
+    And Configuration test double value for current date is
+      | Oct 1, 2022, 12:30:01 AM |
 
   # Test is run by bringing up a dialog box, entering appropriate information, and saving
    When test is selected
@@ -46,11 +44,7 @@ Feature: Flow feature
       | Comments | OK Stuff       |
     When Configuration test double value for current date is
     |  Oct 1, 2022, 12:30:02 AM |
-      #   When  configuration values are:
-      # | Variable                   | Value                    |
-      # | useTestDoubleForDateTime   | true                     |
-      #| valueTestDoubleForDateTime | Oct 1, 2022, 12:30:02 AM |
-    And test is run
+      And test is run
       | Result   | Failure     |
       | Comments | Bad stuff   |
     When Configuration test double value for current date is

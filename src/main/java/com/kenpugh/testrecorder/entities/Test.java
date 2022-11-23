@@ -16,7 +16,7 @@ public class Test {
     private MyDateTime dateLastRun = MyDateTime.NEVER_DATETIME;
     private MyDateTime datePreviousResult = MyDateTime.NEVER_DATETIME;
     private MyString filePath = new MyString("File Path Not Specified");
-    private MyString comments = new MyString("No comment");
+    private TextString comments = new TextString("No comment");
     private SubIssueID subIssueID = new SubIssueID();
     private TestStatus testStatus = TestStatus.Active;
     public final static Test NOT_FOUND = new Test();
@@ -48,7 +48,7 @@ public class Test {
          dateLastRun = MyDateTime.parse(testDTO.dateLastRun);
          datePreviousResult = MyDateTime.parse(testDTO.datePreviousResult);
          filePath = new MyString(testDTO.filePath);
-        comments = new MyString(testDTO.comments);
+        comments = new TextString(testDTO.comments);
         runner = new Name(testDTO.runner);
         testStatus = TestStatus.parse(testDTO.testStatus);
         subIssueID = new SubIssueID(testDTO.subIssueID);

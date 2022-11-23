@@ -21,6 +21,16 @@ public class DomainTermStepDefinitions {
         return crv;
     }
 
+    @DataTableType
+    public DomainTermChanges inputDomainTermChanges(Map<String, String> entry) {
+        DomainTermChanges crv = new DomainTermChanges();
+        crv.value = entry.get("Value");
+        crv.newValue = entry.get("New Value");
+        crv.notes = entry.get("Notes");
+        return crv;
+    }
+
+
     @Given("IssueID must be five characters and digits without spaces")
     public void issue_id_must_be_five_characters_and_digits_without_spaces
             (List<DomainTermValid> dataTable) {
@@ -49,6 +59,20 @@ public class DomainTermStepDefinitions {
         }
     }
 
+    static class DomainTermChanges {
+        String value;
+        String newValue;
+        String notes;
+
+        @Override
+        public String toString() {
+            return "DomainTermChanges{" +
+                    "value='" + value + '\'' +
+                    ", newValue='" + newValue + '\'' +
+                    ", notes='" + notes + '\'' +
+                    '}';
+        }
+    }
     static class DomainTermValid {
         String value;
         String valid;
@@ -107,5 +131,21 @@ public class DomainTermStepDefinitions {
                 }
             }
         }
+    @Given("Name changes are")
+    public void name_changes_are(List<DomainTermChanges> dataTable) {
+            for (DomainTermChanges dtv : dataTable) {
+                Name revised = new Name(dtv.value);
+                assertEquals(dtv.notes, dtv.newValue, revised.toString());
+            }
+    }
+    @Given("MyString changes are")
+    public void my_string_changes_are(List<DomainTermChanges> dataTable) {
+        for (DomainTermChanges dtv : dataTable) {
+            MyString revised = new MyString(dtv.value);
+            assertEquals(dtv.notes, dtv.newValue, revised.toString());
+        }
+    }
+
+
 
 }

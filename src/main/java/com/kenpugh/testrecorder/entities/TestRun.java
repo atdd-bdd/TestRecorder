@@ -11,7 +11,7 @@ public class TestRun {
     private IssueID issueID = new IssueID();
     private MyDateTime dateTime = new MyDateTime();
     private TestResult result = TestResult.Failure;
-    private MyString comments = new MyString();
+    private TextString comments = new TextString();
     private Name runner = new Name(Name.EMPTY);
 
     private SubIssueID subIssueID = new SubIssueID();
@@ -62,7 +62,7 @@ public class TestRun {
     }
 
     public void fromDTO(TestRunDTO testRunDTO) {
-         comments = new MyString(testRunDTO.comments);
+         comments = new TextString(testRunDTO.comments);
          issueID = new IssueID(testRunDTO.issueID);
          dateTime = new MyDateTime(testRunDTO.dateTime);
          runner = new Name(testRunDTO.runner);
@@ -92,7 +92,7 @@ public class TestRun {
         return runner;
     }
 
-    public MyString getComments() {
+    public TextString getComments() {
         return comments;
     }
 

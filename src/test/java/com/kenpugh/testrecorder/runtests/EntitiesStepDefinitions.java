@@ -86,10 +86,24 @@ public class EntitiesStepDefinitions {
             Log.write(Log.Level.Info, "Bad time ", currentDateValueString);
         else {
             MyConfiguration.valueTestDoubleForDateTime = value;
+            MyConfiguration.useTestDoubleForDateTime = true;
             MyConfiguration.saveToFile();
-            Log.write(Log.Level.Debug, " DateTime is now " , value.toString());
+            Log.write(Log.Level.Debug, " DateTime is now ", value.toString());
         }
 
+    }
+    @When("Configuration test double value for runner is")
+        public void configuration_test_double_value_for_runner_is(List<String> dataTable) {
+            String currentRunnerString = dataTable.get(0);
+            Name name = new Name(currentRunnerString);
+              if (!currentRunnerString.equals(name.toString()))
+                Log.write(Log.Level.Info, "Changed name ", name.toString());
+            else {
+                MyConfiguration.valueTestDoubleForRunner = name;
+                MyConfiguration.useTestDoubleForRunner = true;
+                MyConfiguration.saveToFile();
+                Log.write(Log.Level.Debug, " Runner is now " , name.toString());
+            }
 
     }
 

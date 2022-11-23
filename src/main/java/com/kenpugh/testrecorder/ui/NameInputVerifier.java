@@ -13,6 +13,7 @@ public class NameInputVerifier extends InputVerifier {
         Name name = new Name(text);
         String empty = "";
         String nameString = name.toString();
+        ((JTextField) input).setText(nameString);
         return !nameString.equals(Name.NOT_SPECIFIED) && !nameString.equals(empty);
 
     }

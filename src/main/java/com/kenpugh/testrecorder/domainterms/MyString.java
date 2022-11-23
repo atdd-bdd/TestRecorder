@@ -30,7 +30,7 @@ public class MyString {
         return value;
     }
 
-    static final Pattern patternPrintableCharsOnly = Pattern.compile("[^\\\\!#$%&'()*+,\\-./:;<=>?@^_`{|}~\\w\\s]",
+    static final Pattern patternPrintableCharsOnly = Pattern.compile("[^\\\\!#%&'*+,\\-./:;<=>?@^_`{|}~\\w\\s]",
             Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 
     public MyString(String value) {

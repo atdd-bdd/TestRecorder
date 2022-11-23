@@ -32,12 +32,10 @@ Feature: Test Recorder
     Given test exists
      | Issue ID | Sub Issue ID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               | Comments |
       | 12345    | 678        |Enter test result |         | Failure     | Never         | Never                | EnterTestResult.feature |          |
-    And  configuration values are:
-      | Variable                   | Value                    |
-      | useTestDoubleForDateTime   | true                     |
-      | useTestDoubleForRunner     | true                     |
-      | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:01 AM |
-      | valueTestDoubleForRunner   | Sam                      |
+    And  Configuration test double value for runner is
+      | Sam                      |
+   And Configuration test double value for current date is
+       | Oct 1, 2022, 12:30:01 AM |
   # Test is run by bringing up a dialog box, entering appropriate information, and saving
    When test is selected
    | Issue ID | 12345 |
@@ -52,20 +50,16 @@ Feature: Test Recorder
       | 12345    | 678        |Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
     And test run records exist
      | Issue ID | Sub Issue ID | Date Time                | Result  | Comments    | Runner |
-      | 12345    | 678        |Oct 1, 2022, 12:30:01 AM | Success | Works great | Sam    |
+     | 12345    | 678        |Oct 1, 2022, 12:30:01 AM | Success | Works great | Sam    |
 
   Scenario: Run a test unsuccessfully
     Given test exists
      | Issue ID | Sub Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
       | 12345    | 678        |Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
-    And  configuration values are:
-      | Variable                   | Value                    |
-      | useTestDoubleForDateTime   | true                     |
-      | useTestDoubleForRunner     | true                     |
-      | valueTestDoubleForDateTime | Oct 2, 2022, 12:31:01 AM |
-      | valueTestDoubleForRunner   | Bill                     |
-
-  #Test is run by bringing up a dialog box, entering appropriate information, and saving
+    And  Configuration test double value for runner is
+      | Bill                     |
+    And Configuration test double value for current date is
+      | Oct 2, 2022, 12:31:02 AM |
     When test is selected
      | Issue ID | 12345|
      | SubIssue ID | 678       |
@@ -76,6 +70,4 @@ Feature: Test Recorder
       | Test Script | Select test \n Run it \n Check result |
     Then test is now
      | Issue ID | Sub Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result     | File Path               | Comments      |
-      | 12345    | 678        | Enter test result | Bill   | Failure     | Oct 2, 2022, 12:31:01 AM | Oct 1, 2022, 12:30:01 AM | EnterTestResult.feature | Something bad |
-
-
+      | 12345    | 678        | Enter test result | Bill   | Failure     | Oct 2, 2022, 12:31:02 AM | Oct 1, 2022, 12:30:01 AM | EnterTestResult.feature | Something bad |

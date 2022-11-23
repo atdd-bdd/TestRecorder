@@ -7,8 +7,9 @@ public class Log {
         String out = message + " " + values;
         if (level == Level.Severe)
             System.err.println("****" + out);
-        else if (level == Level.Debug)
-            System.out.println(level + " " + out);
+        else if (level == Level.Debug) {
+            //System.out.println(level + " " + out);
+        }
         else System.out.println();   // Ignore info for now
 
     }

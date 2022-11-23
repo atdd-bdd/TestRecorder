@@ -55,53 +55,45 @@ public class MyConfiguration {
     static public MyDateTime valueTestDoubleForDateTime = new MyDateTime();
     static public Name valueTestDoubleForRunner = new Name();
 
-    static public String databaseURL ="";
-    static public String databaseJDBCDriver ="";
-    static public String databaseUserID ="";
-    static public String databasePassword ="";
+    static public String databaseURL = "";
+    static public String databaseJDBCDriver = "";
+    static public String databaseUserID = "";
+    static public String databasePassword = "";
+
 
     @SuppressWarnings("StringOperationCanBeSimplified")
     public static void fromDTO() {
-        for (Map.Entry<String, String> entry: MyConfigurationDTO.values.entrySet()) {
-            if (entry.getValue() == null)
-                continue;
-            String s = entry.getValue();
+        for (Map.Entry<String, String> entry : MyConfigurationDTO.values.entrySet()) {
+            String value = entry.getValue();
             String name = entry.getKey();
-            MyConfigurationVariables variable = MyConfigurationVariables.valueOf(name);
-            switch(variable) {
-                case rootFilePath:
-                    rootFilePath = new MyString(s);
-                    break;
-                case useTestDoubleForRunner:
-                    useTestDoubleForRunner = Boolean.parseBoolean(s);
-                    break;
-                case useTestDoubleForDateTime:
-                    useTestDoubleForDateTime = Boolean.parseBoolean(s);
-                    break;
-                case valueTestDoubleForDateTime:
-                     valueTestDoubleForDateTime = new MyDateTime(s);
-                    break;
-                case valueTestDoubleForRunner:
-                    valueTestDoubleForRunner = new Name(s);
-                    break;
-                case formNotCloseOnExit:
-                    formNotCloseOnExit = Boolean.parseBoolean(s);
-                    break;
-                case databaseURL:
-                    databaseURL = new String(s);
-                    break;
-                case databaseJDBCDriver:
-                    databaseJDBCDriver = new String(s);
-                    break;
-                case databasePassword:
-                    databasePassword = new String(s);
-                    break;
-                case databaseUserID:
-                    databaseUserID = new String(s);
-                    break;
+            if (value == null || name == null) {
+                Log.write(Log.Level.Info, " Configuration null for value or name", name + " "+ value);
+                continue;
             }
 
-            }
+            if (name.equals(rootFilePathString))
+                rootFilePath = new MyString(value);
+            else if (name.equals(useTestDoubleForRunnerString))
+                 useTestDoubleForRunner = Boolean.parseBoolean(value);
+            else if (name.equals(useTestDoubleForDateTimeString))
+                    useTestDoubleForDateTime = Boolean.parseBoolean(value);
+           else if (name.equals(valueTestDoubleForDateTimeString))
+                    valueTestDoubleForDateTime = new MyDateTime(value);
+           else if (name.equals( valueTestDoubleForRunnerString))
+                    valueTestDoubleForRunner = new Name(value);
+           else if (name.equals( formNotCloseOnExitString))
+                    formNotCloseOnExit = Boolean.parseBoolean(value);
+          else if (name.equals(databaseURLString))
+                    databaseURL = new String(value);
+          else if (name.equals(databaseJDBCDriverString))
+                    databaseJDBCDriver = new String(value);
+          else if (name.equals(databasePasswordString))
+                    databasePassword = new String(value);
+          else if (name.equals(databaseUserIDString))
+                    databaseUserID = new String(value);
+         else
+             Log.write(Log.Level.Severe, " Configuration bad variable", name);
+        }
     }
 
     static void toDTO() {
@@ -118,26 +110,25 @@ public class MyConfiguration {
         MyConfigurationDTO.values.put(databaseUserIDString, databaseUserID);
     }
 
-     static private MyString getConfigurationFileName ()
-    {
+    static private MyString getConfigurationFileName() {
         String environmentVariableName = "TEST_RECORDER_CONFIGURATION_PATH";
         MyString configurationFileName;
         String value = EnvironmentVariables.getenv(environmentVariableName);
-         if (value.equals(EnvironmentVariables.NOT_FOUND))
-         configurationFileName =  new MyString("C:\\Users\\KenV1\\IdeaProjects\\TestRecorder\\target\\configuration.txt");
-        else
-         {
-             configurationFileName = new MyString(value);
-         }
-         return configurationFileName;
+        if (value.equals(EnvironmentVariables.NOT_FOUND))
+            configurationFileName = new MyString("C:\\Users\\KenV1\\IdeaProjects\\TestRecorder\\target\\configuration.txt");
+        else {
+            configurationFileName = new MyString(value);
+        }
+        return configurationFileName;
     }
+
     static public void saveToFile() {
         toDTO();
         String out = MyConfigurationDTO.toSaveString();
         // Need to use blank root, so can read without rootFilePath being set
         MyString rootFilePathSaved = rootFilePath;
         rootFilePath = new MyString("");
-        MyFileSystem.create(getConfigurationFileName(),out);
+        MyFileSystem.create(getConfigurationFileName(), out);
 
         rootFilePath = rootFilePathSaved;
     }
@@ -152,16 +143,16 @@ public class MyConfiguration {
     }
 
     @Override
-   public String toString() {
+    public String toString() {
         return "Configuration{ " + rootFilePathString + "=" + rootFilePath +
-                " " + useTestDoubleForDateTimeString + "="  +useTestDoubleForDateTime +
-                " " + useTestDoubleForRunnerString + "="  +useTestDoubleForRunner +
-                " " + valueTestDoubleForDateTimeString + "="  +valueTestDoubleForDateTime
-                + " " + valueTestDoubleForRunnerString + "="  +valueTestDoubleForRunner
+                " " + useTestDoubleForDateTimeString + "=" + useTestDoubleForDateTime +
+                " " + useTestDoubleForRunnerString + "=" + useTestDoubleForRunner +
+                " " + valueTestDoubleForDateTimeString + "=" + valueTestDoubleForDateTime
+                + " " + valueTestDoubleForRunnerString + "=" + valueTestDoubleForRunner
                 + formNotCloseOnExitString + "=" + formNotCloseOnExit
                 + databaseURLString + "=" + databaseURL + " "
-                + databaseJDBCDriverString + "=" + databaseJDBCDriver +" "
-                + databasePasswordString + "=" + databasePassword +" "
+                + databaseJDBCDriverString + "=" + databaseJDBCDriver + " "
+                + databasePasswordString + "=" + databasePassword + " "
                 + databaseUserIDString + "=" + databaseUserID +
 
                 " " + "}";
