@@ -1,11 +1,15 @@
 package com.kenpugh.testrecorder.entities;
 
+
 import com.kenpugh.testrecorder.domainterms.MyDateTime;
 import com.kenpugh.testrecorder.domainterms.MyFileSystem;
 import com.kenpugh.testrecorder.domainterms.MyString;
 import com.kenpugh.testrecorder.domainterms.Name;
 import com.kenpugh.testrecorder.log.Log;
 import com.kenpugh.testrecorder.os.EnvironmentVariables;
+
+import java.util.Map;
+
 public class MyConfiguration {
     public enum MyConfigurationVariables {
         rootFilePath, useTestDoubleForDateTime,
@@ -34,13 +38,13 @@ public class MyConfiguration {
     public static final String valueTestDoubleForRunnerString = MyConfigurationVariables.valueTestDoubleForRunner.toString();
     public static final String formNotCloseOnExitString = MyConfigurationVariables.formNotCloseOnExit.toString();
 
-    @SuppressWarnings("unused")
+
     public static final String databaseURLString = MyConfigurationVariables.databaseURL.toString();
-    @SuppressWarnings("unused")
+
     public static final String databaseJDBCDriverString = MyConfigurationVariables.databaseJDBCDriver.toString();
-    @SuppressWarnings("unused")
+
     public static final String databasePasswordString = MyConfigurationVariables.databasePassword.toString();
-    @SuppressWarnings("unused")
+
     public static final String databaseUserIDString = MyConfigurationVariables.databaseUserID.toString();
 
     public static MyString rootFilePath = new MyString();
@@ -51,35 +55,53 @@ public class MyConfiguration {
     static public MyDateTime valueTestDoubleForDateTime = new MyDateTime();
     static public Name valueTestDoubleForRunner = new Name();
 
-    static public String databaseURL;
-    static public String databaseJDBCDriver;
-    static public String databaseUserID;
-    static public String databasePassword;
+    static public String databaseURL ="";
+    static public String databaseJDBCDriver ="";
+    static public String databaseUserID ="";
+    static public String databasePassword ="";
 
     @SuppressWarnings("StringOperationCanBeSimplified")
     public static void fromDTO() {
-        String s = MyConfigurationDTO.values.get(rootFilePathString);
-        if (s != null) rootFilePath = new MyString(s);
-        s = MyConfigurationDTO.values.get(useTestDoubleForDateTimeString);
-        if (s != null) useTestDoubleForDateTime = Boolean.parseBoolean(s);
-        s = MyConfigurationDTO.values.get(useTestDoubleForRunnerString);
-        if (s != null) useTestDoubleForRunner = Boolean.parseBoolean(s);
-        s = MyConfigurationDTO.values.get(valueTestDoubleForDateTimeString);
-        if (s != null) valueTestDoubleForDateTime = new MyDateTime(s);
-        s = MyConfigurationDTO.values.get(valueTestDoubleForRunnerString);
-        if (s != null) valueTestDoubleForRunner = new Name(s);
-        s = MyConfigurationDTO.values.get(formNotCloseOnExitString);
-        if (s != null) formNotCloseOnExit = Boolean.parseBoolean(s);
-        s = MyConfigurationDTO.values.get(databaseURLString);
-        if (s != null) databaseURL = new String(s);
-        s = MyConfigurationDTO.values.get(databaseJDBCDriverString);
-        if (s != null) databaseJDBCDriver = new String(s);
-        s = MyConfigurationDTO.values.get(databasePasswordString);
-        if (s != null) databasePassword = new String(s);
-        else databasePassword = "";
-        s = MyConfigurationDTO.values.get(databaseUserIDString);
-        if (s != null) databaseUserID = new String(s);
+        for (Map.Entry<String, String> entry: MyConfigurationDTO.values.entrySet()) {
+            if (entry.getValue() == null)
+                continue;
+            String s = entry.getValue();
+            String name = entry.getKey();
+            MyConfigurationVariables variable = MyConfigurationVariables.valueOf(name);
+            switch(variable) {
+                case rootFilePath:
+                    rootFilePath = new MyString(s);
+                    break;
+                case useTestDoubleForRunner:
+                    useTestDoubleForRunner = Boolean.parseBoolean(s);
+                    break;
+                case useTestDoubleForDateTime:
+                    useTestDoubleForDateTime = Boolean.parseBoolean(s);
+                    break;
+                case valueTestDoubleForDateTime:
+                     valueTestDoubleForDateTime = new MyDateTime(s);
+                    break;
+                case valueTestDoubleForRunner:
+                    valueTestDoubleForRunner = new Name(s);
+                    break;
+                case formNotCloseOnExit:
+                    formNotCloseOnExit = Boolean.parseBoolean(s);
+                    break;
+                case databaseURL:
+                    databaseURL = new String(s);
+                    break;
+                case databaseJDBCDriver:
+                    databaseJDBCDriver = new String(s);
+                    break;
+                case databasePassword:
+                    databasePassword = new String(s);
+                    break;
+                case databaseUserID:
+                    databaseUserID = new String(s);
+                    break;
+            }
 
+            }
     }
 
     static void toDTO() {
@@ -131,10 +153,11 @@ public class MyConfiguration {
 
     @Override
    public String toString() {
-        return "Configuration{ " + "rootFilePath=" + rootFilePath + " " + "useTestDoubleForDateTime=" +
-                useTestDoubleForDateTime + " " + "useTestDoubleForRunner=" + useTestDoubleForRunner + " " +
-                "valueTestDoubleForDateTime=" + valueTestDoubleForDateTime
-                + " " + "valueTestDoubleForRunner=" + valueTestDoubleForRunner
+        return "Configuration{ " + rootFilePathString + "=" + rootFilePath +
+                " " + useTestDoubleForDateTimeString + "="  +useTestDoubleForDateTime +
+                " " + useTestDoubleForRunnerString + "="  +useTestDoubleForRunner +
+                " " + valueTestDoubleForDateTimeString + "="  +valueTestDoubleForDateTime
+                + " " + valueTestDoubleForRunnerString + "="  +valueTestDoubleForRunner
                 + formNotCloseOnExitString + "=" + formNotCloseOnExit
                 + databaseURLString + "=" + databaseURL + " "
                 + databaseJDBCDriverString + "=" + databaseJDBCDriver +" "

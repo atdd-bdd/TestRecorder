@@ -36,7 +36,7 @@ public class TestCollection {
         return listTest;
     }
 
-    static public List<TestDTO> listTestDTOfromListTest(List<Test> tests) {
+    static public List<TestDTO> listTestDTOFromListTest(List<Test> tests) {
         List<TestDTO> testDTOs = new ArrayList<>();
         for (Test test : tests) {
             TestDTO temp = test.getDTO();
@@ -46,6 +46,7 @@ public class TestCollection {
     }
 
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean updateTest(Test updatedTest) {
         TestDTO testDTO = updatedTest.getDTO();
         return TestDataAccess.update(testDTO);

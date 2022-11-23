@@ -251,7 +251,7 @@ public static JFrame frame;
         List<Test> allTests = TestCollection.getAll();
         List<Test> tests = TestCollection.filter(allTests, testFilter);
 
-        testDTOs = TestCollection.listTestDTOfromListTest(tests);
+        testDTOs = TestCollection.listTestDTOFromListTest(tests);
         tableModel.setNumRows(0);
         for (TestDTO testDTO : testDTOs) {
             String[] data = new String[10];

@@ -9,6 +9,7 @@ import com.kenpugh.testrecorder.log.Log;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Objects;
 
 public class TestEntryDialog extends JDialog {
     public boolean testValid = false;
@@ -25,7 +26,7 @@ public class TestEntryDialog extends JDialog {
     private JTextField filePathTextField;
     private JButton browseButton;
     private JTextField subIssueIDTextField;
-    private JComboBox testStatusComboBox;
+    private JComboBox<String> testStatusComboBox;
     public TestDTO testDTO;
 
     public TestEntryDialog() {
@@ -71,15 +72,15 @@ public class TestEntryDialog extends JDialog {
         browseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String rootFathString = MyConfiguration.rootFilePath.toString();
+                String rootPathString = MyConfiguration.rootFilePath.toString();
                 JFileChooser jfc =
-                        new JFileChooser(rootFathString);
+                        new JFileChooser(rootPathString);
                 jfc.setDialogTitle("Choose the manual script file: ");
                 jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 int returnValue = jfc.showOpenDialog(TestRecorderFormSwing.frame);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     String filename = String.valueOf(jfc.getSelectedFile());
-                    String filename1 = filename.replace(rootFathString,"");
+                    String filename1 = filename.replace(rootPathString,"");
                     Log.write(Log.Level.Debug, "", "filename "  + filename + " replaced " + filename1 + " root " + MyConfiguration.rootFilePath.toString());
                     filePathTextField.setText(filename1);
 
@@ -118,7 +119,10 @@ public class TestEntryDialog extends JDialog {
         testDTO.runner = runnerTextField.getText();
         testDTO.lastResult = lastResultTextField.getText();
         testDTO.subIssueID = subIssueIDTextField.getText();
-        testDTO.testStatus = testStatusComboBox.getSelectedItem().toString();
+        String temp = Objects.requireNonNull(testStatusComboBox.getSelectedItem()).toString();
+        if (temp == null)
+            temp = "Active";
+        testDTO.testStatus = temp;
         testValid = true;
         MyString filePathString = new MyString(testDTO.filePath);
         if (!MyFileSystem.checkReadability(filePathString)) {

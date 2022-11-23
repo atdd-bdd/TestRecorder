@@ -68,7 +68,7 @@ public class EntitiesStepDefinitions {
             String value = MyConfigurationDTO.values.get(cv.variable);
              if (cv.value == null) {
                  Log.write(Log.Level.Debug, " Configuration  for variable is null ",
-                         cv.variable + " comparison is " + cv.value + " actual value is " + value);
+                         cv.variable + " actual value is " + value);
                  cv.value = "";
              }
             assertEquals(cv.value, value);
