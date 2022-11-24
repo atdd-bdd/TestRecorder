@@ -14,7 +14,22 @@ Feature: UI
       | databaseUserID             |SA                          |
 
   @manual
-  Scenario: Display Test Table
+  Scenario: Run a test successfully
+    Given tests are
+      | Issue ID | SubIssueID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               |
+      | 12345    | 678        |Enter test result | No Name | Failure     | Never         | Never                | EnterTestResult.feature |
+    When test is selected
+      | Issue ID | 12345 |
+      | SubIssueID | 678       |
+    And test table swing is shown with test run data
+      | Result   | Success     |
+      | Comments | Works great |
+    Then test is now
+      | Issue ID | SubIssueID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
+      | 12345  |678           | Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
+
+  @manual
+  Scenario: Run Manual with Test Doubles
     Given tests are
       | Issue ID | SubIssueID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result    | File Path               | Comments    | Test Status |
       | 12345    | 123        |Name a            | Sam    | Success     | Oct 1, 2022, 12:30:00 AM | Sept 30, 2022, 12:30:00 AM| EnterTestResult.feature | Works great | Active |
@@ -24,23 +39,9 @@ Feature: UI
     And test table swing is shown
     Then test table should show that data
 
-@manual
-Scenario: Run a test successfully
-  Given tests are
-   | Issue ID | SubIssueID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               |
-    | 12345    | 678        |Enter test result | No Name | Failure     | Never         | Never                | EnterTestResult.feature |
-  When test is selected
-   | Issue ID | 12345 |
-   | SubIssueID | 678       |
-  And test table swing is shown with test run data
-     | Result   | Success     |
-     | Comments | Works great |
-Then test is now
-  | Issue ID | SubIssueID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
-    | 12345  |678           | Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
 
   @manual @setuprun
-  Scenario: Run the program
+  Scenario: Run manual with no test doubles
     Given tests are
      | Issue ID | SubIssueID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               |
       | 12345    | 678        |Enter test result | No Name | Failure     | Never         | Never                | EnterTestResult.feature |

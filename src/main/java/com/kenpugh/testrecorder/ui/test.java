@@ -1,21 +1,14 @@
 package com.kenpugh.testrecorder.ui;
 
-import com.kenpugh.testrecorder.entities.TestFilter;
-
 import javax.swing.*;
 import java.awt.event.*;
 
-public class TestFilterDialog extends JDialog {
+public class test extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JCheckBox includeActiveCheckBox;
-    private JCheckBox includeInactiveCheckBox;
-    private JCheckBox includeRetiredCheckBox;
 
-    public TestFilter testFilter;
-
-    public TestFilterDialog() {
+    public test() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -50,10 +43,6 @@ public class TestFilterDialog extends JDialog {
 
     private void onOK() {
         // add your code here
-        testFilter.includeActive = includeActiveCheckBox.isSelected();
-        testFilter.includeInactive = includeInactiveCheckBox.isSelected();
-        testFilter.includeRetired = includeRetiredCheckBox.isSelected();
-
         dispose();
     }
 
@@ -63,17 +52,9 @@ public class TestFilterDialog extends JDialog {
     }
 
     public static void main(String[] args) {
-        TestFilterDialog dialog = new TestFilterDialog();
-        dialog.testFilter = new TestFilter();
-        dialog.initialize();
+        test dialog = new test();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
-    }
-
-    public void initialize() {
-        includeActiveCheckBox.setSelected(testFilter.includeActive);
-        includeInactiveCheckBox.setSelected(testFilter.includeInactive);
-        includeRetiredCheckBox.setSelected(testFilter.includeRetired);
     }
 }

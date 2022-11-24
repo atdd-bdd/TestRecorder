@@ -35,8 +35,10 @@ public class TestEntryDialog extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         subIssueIDTextField.setInputVerifier(new SubIssueIDInputVerifier());
         subIssueIDTextField.setVerifyInputWhenFocusTarget(true);
-        issueIDTextField.setInputVerifier(new IssueIDInputVerifier());
+         issueIDTextField.setInputVerifier(new IssueIDInputVerifier());
         issueIDTextField.setVerifyInputWhenFocusTarget(true);
+        issueIDTextField.setSelectionStart(0);
+        issueIDTextField.setSelectionEnd(4);
         filePathTextField.setInputVerifier(new NameInputVerifier());
         filePathTextField.setVerifyInputWhenFocusTarget(true);
         nameTextField.setInputVerifier(new NameInputVerifier());

@@ -40,9 +40,10 @@ public class UIStepDefinitions {
 
     @When("test table swing is shown with test run data")
     public void test_table_swing_is_shown_with_test_data(@Transpose List<TestRun> dataTable) {
-        System.out.println(" Enter the following into the appropriate form");
+        System.err.println(" Enter the following into the appropriate form");
         for (TestRun testRun: dataTable) {
-            System.out.println( " Entry values are " + testRun.toString());
+            System.err.println(" Result " + testRun.getTestResult());
+            System.err.println(" Comments " + testRun.getComments());
         }
 
         TestRecorderFormSwing.main(null);

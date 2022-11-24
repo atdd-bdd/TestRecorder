@@ -11,7 +11,7 @@ import com.kenpugh.testrecorder.database.TestDataAccess;
 
 import com.kenpugh.testrecorder.log.Log;
 
-import java.util.Collection;
+
 import java.util.List;
 import java.util.Map;
 
@@ -157,28 +157,31 @@ public class EntitiesStepDefinitions {
 
         @Then("test can be loaded")
         public void test_can_be_loaded (List < TestDTO > dataTable) {
-            Collection<TestDTO> testDTOs = TestDataAccess.getAll();
-            boolean match = false;
-            for (TestDTO tDTO : dataTable) {
-                Test e = Test.testFromDTO(tDTO);
-
-                match = false;
-                for (TestDTO tDTOOther : testDTOs) {
-
-                    Test a = Test.testFromDTO(tDTOOther);
-                    if (e.equals(a)) {
-                        match = true;
-                        break;
-                    }
-                }
-                if (!match)
-                    break;
-            }
+            List<TestDTO> testDTOs = TestDataAccess.getAll();
+            boolean match = doesContain(dataTable, testDTOs);
             if (!match)
                 fail(" Loaded do not matched stored");
         }
 
-        @When("test is stored")
+    private static boolean doesContain(List<TestDTO> entriesToMatch, List<TestDTO> entryCollection) {
+        boolean match = false;
+        for (TestDTO tDTO : entriesToMatch) {
+            Test e = Test.testFromDTO(tDTO);
+            match = false;
+            for (TestDTO tDTOOther : entryCollection) {
+                Test a = Test.testFromDTO(tDTOOther);
+                if (e.equals(a)) {
+                    match = true;
+                    break;
+                }
+            }
+            if (!match)
+                break;
+        }
+        return match;
+    }
+
+    @When("test is stored")
         public void test_is_stored (List < TestDTO > dataTable) {
             for (TestDTO tDTO : dataTable) {
                 TestDataAccess.addTest(tDTO);

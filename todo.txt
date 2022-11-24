@@ -1,39 +1,28 @@
 Filter
-   boolean includeActive
-   boolean includeInactive
-   boolean includeRetired
-
-   if( testStatus==TestStatus.Active && includeActive
-   || ......
-
-   Finish the filter
 
    Check values DTO to internal
     Convert to default value and issue severe warning
 
-   Two versions of scenaraio - one with everything, one just with IssueID,SubIssueID
+Add a read from csv file and use @datatabletype to convert it
 
-   Display the test - is comments  text area?   allow for active/inactive change
+Change runtesthistory to get a List<TestRunDTO>,  don't use IssueID as lookup.
 
-   Change the last one of the flow
+Clean up the dialogs.
 
-add subissueid and test to database test !!!
+Add a Header to the Swing Dialog form
+
+Add instructions on how to run it separately .
+
+Long discussion on how the details.
+
+
 
 Add validity checking in fromDTO in both classes.
     Substitute DEFAULT_VALUE;
    Do the Xused version with reflection
 
-Add a SubIssueID and a Status 
-	Use SubIssueID as part of the findtest.   
-	Need to update entity, entityDTO, data tables, 
-Tests -   add a status (Active Inactive NoLongerRelevant) 
-	Have a filter for status.   
-	
-DB value to configuration .    
 
-Add a filter on display -  show only active, inactive, all 
-	Date last run - after this date time  with a date dialog. 
-	Edit test to set status - active / inactive /    
+
 
 How to know how many columns on input table and therefore which columns to check
 Finish this 

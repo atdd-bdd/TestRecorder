@@ -65,6 +65,7 @@ public class TestRunHistoryDialog extends JDialog {
     public static void main(String[] args) {
         TestRunHistoryDialog dialog = new TestRunHistoryDialog();
         dialog.issueID = new IssueID("12345");
+        dialog.subIssueID = new SubIssueID("abc");
         dialog.updateData();
         dialog.pack();
         dialog.setVisible(true);

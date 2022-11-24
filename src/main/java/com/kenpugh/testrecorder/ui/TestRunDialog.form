@@ -96,8 +96,8 @@
           </component>
           <scrollpane id="dedb9">
             <constraints>
-              <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="1" use-parent-layout="false">
-                <minimum-size width="-1" height="50"/>
+              <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="2" use-parent-layout="false">
+                <minimum-size width="-1" height="100"/>
               </grid>
             </constraints>
             <properties/>
@@ -105,7 +105,11 @@
             <children>
               <component id="c3d97" class="javax.swing.JTextArea" binding="commentsTextArea">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <background color="-12104884"/>
+                  <lineWrap value="true"/>
+                  <toolTipText value="Enter any comments on the results of the test"/>
+                </properties>
               </component>
             </children>
           </scrollpane>
