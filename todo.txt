@@ -5,9 +5,15 @@ Filter
 
 Add a read from csv file and use @datatabletype to convert it
 
-Change runtesthistory to get a List<TestRunDTO>,  don't use IssueID as lookup.
+***** Change runtesthistory to get a List<TestRunDTO>,  don't use IssueID as lookup.
 
 Clean up the dialogs.
+
+Change run.bat  to use correct jar
+
+Add some color to the dialogs.   Change the font.
+
+Check out how to not get out if OK shows there are still issue
 
 Add a Header to the Swing Dialog form
 
