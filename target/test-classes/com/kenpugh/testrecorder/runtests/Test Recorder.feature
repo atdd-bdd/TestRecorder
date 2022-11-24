@@ -32,9 +32,9 @@ Feature: Test Recorder
     Given test exists
      | Issue ID | Sub Issue ID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               | Comments |
       | 12345    | 678        |Enter test result |         | Failure     | Never         | Never                | EnterTestResult.feature |          |
-    And  Configuration test double value for runner is
+    And   value for runner is
       | Sam                      |
-   And Configuration test double value for current date is
+   And  value for current date is
        | Oct 1, 2022, 12:30:01 AM |
   # Test is run by bringing up a dialog box, entering appropriate information, and saving
    When test is selected
@@ -56,9 +56,9 @@ Feature: Test Recorder
     Given test exists
      | Issue ID | Sub Issue ID | Name              | Runner | Last Result | Date Last Run            | Date Previous Result | File Path               | Comments    |
       | 12345    | 678        |Enter test result | Sam    | Success     | Oct 1, 2022, 12:30:01 AM | Never                | EnterTestResult.feature | Works great |
-    And  Configuration test double value for runner is
+    And   value for runner is
       | Bill                     |
-    And Configuration test double value for current date is
+    And  value for current date is
       | Oct 2, 2022, 12:31:02 AM |
     When test is selected
      | Issue ID | 12345|

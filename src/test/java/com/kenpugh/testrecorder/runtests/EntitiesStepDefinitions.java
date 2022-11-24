@@ -77,7 +77,7 @@ public class EntitiesStepDefinitions {
     }
 
 
-    @When("Configuration test double value for current date is")
+    @When("value for current date is")
     public void configuration_test_double_value_for_current_date_is(List<String> dataTable) {
         String currentDateValueString = dataTable.get(0);
         MyDateTime value = MyDateTime.parse(currentDateValueString);
@@ -92,7 +92,7 @@ public class EntitiesStepDefinitions {
         }
 
     }
-    @When("Configuration test double value for runner is")
+    @When("value for runner is")
         public void configuration_test_double_value_for_runner_is(List<String> dataTable) {
             String currentRunnerString = dataTable.get(0);
             Name name = new Name(currentRunnerString);
