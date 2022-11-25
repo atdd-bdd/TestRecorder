@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.kenpugh.testrecorder.ui.TestRunHistoryDialog">
   <scrollpane id="d0618">
     <constraints>
-      <xy x="48" y="54" width="524" height="297"/>
+      <xy x="48" y="54" width="1073" height="297"/>
     </constraints>
     <properties/>
     <border type="none"/>

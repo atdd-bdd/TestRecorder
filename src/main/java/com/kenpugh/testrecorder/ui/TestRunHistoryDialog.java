@@ -2,7 +2,7 @@ package com.kenpugh.testrecorder.ui;
 
 import com.kenpugh.testrecorder.domainterms.IssueID;
 import com.kenpugh.testrecorder.domainterms.SubIssueID;
-import com.kenpugh.testrecorder.entities.TestRun;
+
 import com.kenpugh.testrecorder.entities.TestRunCollection;
 import com.kenpugh.testrecorder.entities.TestRunDTO;
 
@@ -64,8 +64,9 @@ public class TestRunHistoryDialog extends JDialog {
 
     public static void main(String[] args) {
         TestRunHistoryDialog dialog = new TestRunHistoryDialog();
-        dialog.issueID = new IssueID("12345");
-        dialog.subIssueID = new SubIssueID("abc");
+        dialog.testRunDTOs =   TestRunCollection.listTestRunDTOfromListTestRun(
+                TestRunCollection.findTestRuns(new IssueID("12345"),new SubIssueID("abc")));
+
         dialog.updateData();
         dialog.pack();
         dialog.setVisible(true);
@@ -73,17 +74,15 @@ public class TestRunHistoryDialog extends JDialog {
     }
 
     public void updateData() {
-        List<TestRun> testRuns = TestRunCollection.findTestRuns(issueID, subIssueID);
-        testRunDTOs = TestRunCollection.listTestRunDTOfromListTestRun(testRuns);
         tableModel.setNumRows(0);
         for (TestRunDTO testRunDTO : testRunDTOs) {
             String[] data = new String[6];
             data[0] = testRunDTO.issueID;
-            data[1] = testRunDTO.runner;
-            data[2] = testRunDTO.result;
-            data[3] = testRunDTO.dateTime;
-            data[4] = testRunDTO.comments;
-            data[5] = testRunDTO.subIssueID;
+            data[1] = testRunDTO.subIssueID;
+            data[2] = testRunDTO.runner;
+            data[3] = testRunDTO.result;
+            data[4] = testRunDTO.dateTime;
+            data[5] = testRunDTO.comments;
             tableModel.addRow(data);
         }
         tableModel.fireTableDataChanged();
@@ -94,6 +93,7 @@ public class TestRunHistoryDialog extends JDialog {
 
         String[] columnNames = {
                 "Issue ID",
+                "Sub Issue ID",
                 "Runner",
                 "Result",
                 "Date Time",

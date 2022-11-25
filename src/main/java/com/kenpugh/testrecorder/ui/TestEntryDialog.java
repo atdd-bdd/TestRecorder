@@ -1,8 +1,6 @@
 package com.kenpugh.testrecorder.ui;
 
-import com.kenpugh.testrecorder.domainterms.MyFileSystem;
-import com.kenpugh.testrecorder.domainterms.MyString;
-import com.kenpugh.testrecorder.domainterms.TestStatus;
+import com.kenpugh.testrecorder.domainterms.*;
 import com.kenpugh.testrecorder.entities.MyConfiguration;
 import com.kenpugh.testrecorder.entities.TestDTO;
 import com.kenpugh.testrecorder.log.Log;
@@ -34,15 +32,13 @@ public class TestEntryDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         subIssueIDTextField.setInputVerifier(new SubIssueIDInputVerifier());
-        subIssueIDTextField.setVerifyInputWhenFocusTarget(true);
+        subIssueIDTextField.setVerifyInputWhenFocusTarget(false);
          issueIDTextField.setInputVerifier(new IssueIDInputVerifier());
-        issueIDTextField.setVerifyInputWhenFocusTarget(true);
+        issueIDTextField.setVerifyInputWhenFocusTarget(false);
         issueIDTextField.setSelectionStart(0);
         issueIDTextField.setSelectionEnd(4);
-        filePathTextField.setInputVerifier(new NameInputVerifier());
-        filePathTextField.setVerifyInputWhenFocusTarget(true);
         nameTextField.setInputVerifier(new NameInputVerifier());
-        nameTextField.setVerifyInputWhenFocusTarget(true);
+        nameTextField.setVerifyInputWhenFocusTarget(false);
         testDTO = new TestDTO();
 
         buttonOK.addActionListener(new ActionListener() {
@@ -92,7 +88,9 @@ public class TestEntryDialog extends JDialog {
         });
     }
     public void initialize() {
-        issueIDTextField.setText(testDTO.issueID);
+        if (!testDTO.issueID.equals(IssueID.NOT_SPECIFIED))
+            issueIDTextField.setText(testDTO.issueID);
+
         nameTextField.setText(testDTO.name);
         filePathTextField.setText(testDTO.filePath);
         commentsTextField.setText( testDTO.comments);
@@ -100,7 +98,8 @@ public class TestEntryDialog extends JDialog {
         datePreviousResultTextField.setText(testDTO.datePreviousResult);
         runnerTextField.setText(testDTO.runner);
         lastResultTextField.setText( testDTO.lastResult);
-        subIssueIDTextField.setText(testDTO.subIssueID);
+        if (!testDTO.subIssueID.equals(SubIssueID.NOT_SPECIFIED))
+             subIssueIDTextField.setText(testDTO.subIssueID);
         initializeTestStatus(testDTO.testStatus);
     }
 
@@ -112,6 +111,38 @@ public class TestEntryDialog extends JDialog {
     }
 
     private void onOK() {
+        testValid = true;
+        UpdateTestDTOFromFields();
+        UpdateTestStatus();
+        if (!new IssueIDInputVerifier().verify(issueIDTextField))
+            testValid = false;
+        if (!new SubIssueIDInputVerifier().verify(subIssueIDTextField))
+            testValid = false;
+        if (!new NameInputVerifier().verify(nameTextField))
+            testValid = false;
+        CheckFilePath();
+        if (testValid){
+            dispose();
+            }
+    }
+
+    private void CheckFilePath() {
+        MyString filePathString = new MyString(testDTO.filePath);
+        if (!MyFileSystem.checkReadability(filePathString)) {
+            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                    "File " + filePathString + " is not readable");
+            testValid = false;
+        }
+    }
+
+    private void UpdateTestStatus() {
+        String temp = Objects.requireNonNull(testStatusComboBox.getSelectedItem()).toString();
+        if (temp == null)
+            temp = "Active";
+        testDTO.testStatus = temp;
+    }
+
+    private void UpdateTestDTOFromFields() {
         testDTO.issueID = issueIDTextField.getText();
         testDTO.name = nameTextField.getText();
         testDTO.filePath = filePathTextField.getText();
@@ -121,18 +152,6 @@ public class TestEntryDialog extends JDialog {
         testDTO.runner = runnerTextField.getText();
         testDTO.lastResult = lastResultTextField.getText();
         testDTO.subIssueID = subIssueIDTextField.getText();
-        String temp = Objects.requireNonNull(testStatusComboBox.getSelectedItem()).toString();
-        if (temp == null)
-            temp = "Active";
-        testDTO.testStatus = temp;
-        testValid = true;
-        MyString filePathString = new MyString(testDTO.filePath);
-        if (!MyFileSystem.checkReadability(filePathString)) {
-            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
-                    "File " + filePathString + " is not readable");
-            testValid = false;
-        }
-        dispose();
     }
 
 
@@ -153,7 +172,10 @@ public class TestEntryDialog extends JDialog {
     public void enableStatusOnly() {
         nameTextField.setEditable(false);
         issueIDTextField.setEditable(false);
+        subIssueIDTextField.setEditable(false);
         lastResultTextField.setEditable(false);
         filePathTextField.setEditable(false);
+        filePathTextField.setEnabled(false);
+        browseButton.setEnabled(false);
     }
 }

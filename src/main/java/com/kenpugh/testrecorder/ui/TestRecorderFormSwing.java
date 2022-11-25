@@ -110,8 +110,11 @@ public class TestRecorderFormSwing {
                 int row = getTableRowIndex();
                 if (row < 0) return;
                 TestDTO testDTO = testDTOs.get(row);
+
                 dialog.issueID = new IssueID(testDTO.issueID);
                 dialog.subIssueID = new SubIssueID(testDTO.subIssueID);
+                dialog.testRunDTOs = TestRunCollection.listTestRunDTOfromListTestRun(
+                        TestRunCollection.findTestRuns(dialog.issueID, dialog.subIssueID));
                 dialog.updateData();
                 dialog.pack();
                 dialog.setLocationRelativeTo(frame);
@@ -164,10 +167,16 @@ public class TestRecorderFormSwing {
 
 
     private int getTableRowIndex() {
-        int row =  testTable.getSelectedRow();
+        int selected =  testTable.getSelectedRow();
+        if (selected < 0 )  {
+            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                    "Nothing selected ");
+            return selected;
+        }
+        int row = testTable.convertRowIndexToModel(selected);
         if (row < 0 )  {
             JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
-                    "No tests  ");
+                    "Unable to convert selected to row ");
             return row;
         }
         int lastRow = testDTOs.size() -1;
@@ -189,6 +198,11 @@ public class TestRecorderFormSwing {
 public static JFrame frame;
     public static void main(String[] args) {
         MyConfiguration.loadFromFile();
+        try {
+            UIManager.createLookAndFeel("Windows");
+        } catch (UnsupportedLookAndFeelException e) {
+            Log.write(Log.Level.Severe, "Look and feel not availabe", "Windows");
+        }
         setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
         frame = new JFrame("TestRecorderFormSwing");
         TestRecorderFormSwing.inProgress = true;
@@ -319,7 +333,7 @@ public static JFrame frame;
             row = testDTOs.size() - 1;
         Log.write(Log.Level.Debug, "", " selected " + row + " " + selectedIssueIDString +
                    "  " + selectedSubIssueIDString);
-        if (row > 0)
+        if (row >= 0)
             testTable.setRowSelectionInterval(row, row);
     }
 
