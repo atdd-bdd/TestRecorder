@@ -6,14 +6,13 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class TestFilterDialog extends JDialog {
+    public TestFilter testFilter;
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JCheckBox includeActiveCheckBox;
     private JCheckBox includeInactiveCheckBox;
     private JCheckBox includeRetiredCheckBox;
-
-    public TestFilter testFilter;
 
     public TestFilterDialog() {
         setContentPane(contentPane);
@@ -48,6 +47,15 @@ public class TestFilterDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    public static void main(String[] args) {
+        TestFilterDialog dialog = new TestFilterDialog();
+        dialog.testFilter = new TestFilter();
+        dialog.initialize();
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
+    }
+
     private void onOK() {
         // add your code here
         testFilter.includeActive = includeActiveCheckBox.isSelected();
@@ -60,15 +68,6 @@ public class TestFilterDialog extends JDialog {
     private void onCancel() {
         // add your code here if necessary
         dispose();
-    }
-
-    public static void main(String[] args) {
-        TestFilterDialog dialog = new TestFilterDialog();
-        dialog.testFilter = new TestFilter();
-        dialog.initialize();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 
     public void initialize() {

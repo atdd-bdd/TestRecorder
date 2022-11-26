@@ -3,9 +3,7 @@ package com.kenpugh.testrecorder.ui;
 
 import com.kenpugh.testrecorder.domainterms.*;
 import com.kenpugh.testrecorder.entities.*;
-
 import com.kenpugh.testrecorder.log.Log;
-
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,18 +11,18 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
 
-
 public class TestRecorderFormSwing {
     static public boolean inProgress = false;
-
+    public static TestRecorderFormSwing testRecorderFormSwing;
+    public static JFrame frame;
+    public List<TestDTO> testDTOs;
+    public TestFilter testFilter = new TestFilter();
     private JPanel aPanel;
-
     private JButton addTest;
     private JButton runTestButton;
     private JButton showHistory;
@@ -32,12 +30,8 @@ public class TestRecorderFormSwing {
     private JButton filterTestsButton;
     private JButton changeStatusButton;
     private DefaultTableModel tableModel;
-    public static TestRecorderFormSwing testRecorderFormSwing;
-
-    public List<TestDTO> testDTOs;
 
 
-    public TestFilter testFilter = new TestFilter();
     public TestRecorderFormSwing() {
         runTestButton.addActionListener(new ActionListener() {
             /**
@@ -48,7 +42,7 @@ public class TestRecorderFormSwing {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int row = getTableRowIndex();
-                if (row <0)  return;
+                if (row < 0) return;
 
                 TestDTO selectedTestDTO = testDTOs.get(row);
                 TestRun testRun = TestRun.getBaseTestRun(
@@ -57,11 +51,10 @@ public class TestRecorderFormSwing {
                 TestRunDialog dialog = new TestRunDialog();
                 dialog.testRunDTO = testRun.getDTO();
                 dialog.scriptText = MyFileSystem.read(new MyString(selectedTestDTO.filePath));
-                if (dialog.scriptText.isEmpty())
-                {
+                if (dialog.scriptText.isEmpty()) {
                     JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
-                            "File " +  selectedTestDTO.filePath + " is not readable " + " root is " +
-                            MyConfiguration.rootFilePath.toString());
+                            "File " + selectedTestDTO.filePath + " is not readable " + " root is " +
+                                    MyConfiguration.rootFilePath.toString());
 
                     return;
                 }
@@ -87,12 +80,12 @@ public class TestRecorderFormSwing {
                 dialog.pack();
                 dialog.setLocationRelativeTo(frame);
                 dialog.setVisible(true);
-                if (dialog.testValid){
+                if (dialog.testValid) {
                     Test test = Test.testFromDTO(dialog.testDTO);
                     if (!TestCollection.addTest(test)) {
                         JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
                                 "Test for Issue ID " + dialog.testDTO.issueID +
-                                        " SubIssue ID " + dialog.testDTO.subIssueID + " already exists " );
+                                        " SubIssue ID " + dialog.testDTO.subIssueID + " already exists ");
 
                     }
                     testRecorderFormSwing.updateData();
@@ -108,7 +101,7 @@ public class TestRecorderFormSwing {
                 if (row < 0) return;
                 TestDTO testDTO = testDTOs.get(row);
 
-                    dialog.testRunDTOs = TestRunCollection.listTestRunDTOfromListTestRun(
+                dialog.testRunDTOs = TestRunCollection.listTestRunDTOfromListTestRun(
                         TestRunCollection.findTestRuns(new IssueID(testDTO.issueID),
                                 new SubIssueID(testDTO.subIssueID)));
                 dialog.updateData();
@@ -136,19 +129,19 @@ public class TestRecorderFormSwing {
             public void actionPerformed(ActionEvent e) {
                 TestEntryDialog dialog = new TestEntryDialog();
                 int row = getTableRowIndex();
-                if (row <0)  return;
+                if (row < 0) return;
                 dialog.testDTO = testDTOs.get(row);
                 dialog.initialize();
                 dialog.enableStatusOnly();
                 dialog.pack();
                 dialog.setLocationRelativeTo(frame);
                 dialog.setVisible(true);
-                if (dialog.testValid){
+                if (dialog.testValid) {
                     Test test = Test.testFromDTO(dialog.testDTO);
                     if (!TestCollection.updateTest(test)) {
                         JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
                                 "Test for Issue ID " + dialog.testDTO.issueID +
-                                        " SubIssue ID " + dialog.testDTO.subIssueID + " could not update " );
+                                        " SubIssue ID " + dialog.testDTO.subIssueID + " could not update ");
 
                     }
                     testRecorderFormSwing.updateData();
@@ -157,26 +150,6 @@ public class TestRecorderFormSwing {
 
             }
         });
-    }
-
-
-    private int getTableRowIndex() {
-        int selected =  testTable.getSelectedRow();
-        if (selected < 0 )  {
-            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
-                    "Nothing selected ");
-            return selected;
-        }
-        int row = testTable.convertRowIndexToModel(selected);
-        if (row < 0 )  {
-            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
-                    "Unable to convert selected to row ");
-            return row;
-        }
-        int lastRow = testDTOs.size() -1;
-        if (row > lastRow)
-            row = lastRow;
-        return row;
     }
 
     private static void setUIFont(javax.swing.plaf.FontUIResource f) {
@@ -189,7 +162,7 @@ public class TestRecorderFormSwing {
             }
         }
     }
-public static JFrame frame;
+
     public static void main(String[] args) {
         MyConfiguration.loadFromFile();
         try {
@@ -225,8 +198,26 @@ public static JFrame frame;
             }
         });
 
-}
+    }
 
+    private int getTableRowIndex() {
+        int selected = testTable.getSelectedRow();
+        if (selected < 0) {
+            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                    "Nothing selected ");
+            return selected;
+        }
+        int row = testTable.convertRowIndexToModel(selected);
+        if (row < 0) {
+            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                    "Unable to convert selected to row ");
+            return row;
+        }
+        int lastRow = testDTOs.size() - 1;
+        if (row > lastRow)
+            row = lastRow;
+        return row;
+    }
 
     private void setUpTable() {
         //  super(new GridLayout(1,0));
@@ -248,7 +239,8 @@ public static JFrame frame;
         testTable = new JTable(tableModel) {
             public boolean editCellAt(int row, int column, java.util.EventObject e) {
                 return false;
-            }};
+            }
+        };
         testTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
         testTable.setFillsViewportHeight(true);
         testTable.setRowSelectionAllowed(true);
@@ -285,7 +277,7 @@ public static JFrame frame;
 
             @Override
             public int compare(String name1, String name2) {
-                 MyDateTime date1= new MyDateTime(name1);
+                MyDateTime date1 = new MyDateTime(name1);
                 MyDateTime date2 = new MyDateTime(name2);
                 return date1.compareTo(date2);
             }
@@ -294,7 +286,7 @@ public static JFrame frame;
 
             @Override
             public int compare(String name1, String name2) {
-                MyDateTime date1= new MyDateTime(name1);
+                MyDateTime date1 = new MyDateTime(name1);
                 MyDateTime date2 = new MyDateTime(name2);
                 return date1.compareTo(date2);
             }

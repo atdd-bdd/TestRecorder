@@ -10,17 +10,15 @@ import java.util.Date;
 import java.util.Objects;
 
 public class MyDateTime {
-    private Date theDate;
     public static final String NEVER_STRING = "Never";
     public static final String EARLIEST_STRING = "Earliest";
-
     public static final String STARTED_STRING = "Started";
-
     public static final String NOW_STRING = "Now";
     public static final MyDateTime NEVER_DATETIME;
     public static final MyDateTime EARLIEST_DATETIME;
     public static final MyDateTime DEFAULT_DATETIME;
     public static final MyDateTime STARTED_DATETIME;
+
     static {
         NEVER_DATETIME = new MyDateTime("Jan 1, 1970, 0:0:0 AM", true);
         EARLIEST_DATETIME = new MyDateTime("Jan 1, 1970, 0:0:1 AM", true);
@@ -28,11 +26,14 @@ public class MyDateTime {
         STARTED_DATETIME = CurrentDateTimeService.getCurrentDateTime();
     }
 
+    private Date theDate;
+
     public MyDateTime() {
         theDate = NEVER_DATETIME.theDate;
     }
+
     @SuppressWarnings("SameParameterValue")
-    private MyDateTime(String dateTime, boolean exit){
+    private MyDateTime(String dateTime, boolean exit) {
         // Use for static variables
         try {
             theDate = DateFormat.getDateTimeInstance().parse(dateTime);
@@ -62,18 +63,15 @@ public class MyDateTime {
         return dateLastRun;
     }
 
-    public int compareTo(MyDateTime other){
-        return (this.theDate.compareTo(other.theDate));
-    }
     static public MyDateTime parse(@NotNull String value) {
         if (value.equals(NEVER_STRING))
-                return NEVER_DATETIME;
+            return NEVER_DATETIME;
         if (value.equals(NOW_STRING))
-                return CurrentDateTimeService.getCurrentDateTime();
+            return CurrentDateTimeService.getCurrentDateTime();
         if (value.equals(EARLIEST_STRING))
-                return EARLIEST_DATETIME;
+            return EARLIEST_DATETIME;
         if (value.equals(STARTED_STRING))
-                return STARTED_DATETIME;
+            return STARTED_DATETIME;
         if (value.isEmpty() || value.isBlank())
             return DEFAULT_DATETIME;
         MyDateTime mdt;
@@ -85,8 +83,11 @@ public class MyDateTime {
             mdt.theDate = NEVER_DATETIME.theDate;
         }
         return mdt;
-        }
+    }
 
+    public int compareTo(MyDateTime other) {
+        return (this.theDate.compareTo(other.theDate));
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -110,7 +111,7 @@ public class MyDateTime {
         if (theDate.equals(NEVER_DATETIME.theDate)) {
             return NEVER_STRING;
         }
-        if (theDate.equals(STARTED_DATETIME.theDate)){
+        if (theDate.equals(STARTED_DATETIME.theDate)) {
             return STARTED_STRING;
         }
         if (theDate.equals(EARLIEST_DATETIME.theDate))

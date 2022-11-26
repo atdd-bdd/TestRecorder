@@ -38,7 +38,7 @@ public class TestRunDataAccess {
         String selectString = "select * from TEST_RUNS where IssueID = '"
                 + anIssueID.toString() + "' " +
                 " AND SubIssueID = '" + aSubIssueID.toString() + "';";
-            Log.write(Log.Level.Debug, " statement is ", selectString);
+        Log.write(Log.Level.Debug, " statement is ", selectString);
         try {
             DatabaseSetup.open();
             Statement s = DatabaseSetup.connection.createStatement();

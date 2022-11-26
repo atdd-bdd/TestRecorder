@@ -20,7 +20,7 @@ public class TestRunCollection {
     @NotNull
     static public List<TestRun> findTestRuns(IssueID issueID, SubIssueID subIssueID) {
         List<TestRunDTO> testRunDTOs = TestRunDataAccess.findByIssueID(issueID, subIssueID);
-            return listTestRunFromListTestDTORun(testRunDTOs);
+        return listTestRunFromListTestDTORun(testRunDTOs);
     }
 
     static public List<TestRun> getAll() {
@@ -51,7 +51,6 @@ public class TestRunCollection {
         }
         return testRuns;
     }
-
 
 
     public static void deleteAll() {

@@ -13,9 +13,9 @@ public class TestRunandTestCollaborator {
             t.UpdateTestFromTestRun(tr);
             TestDTO testDTO = t.getDTO();
             if (!TestDataAccess.update(testDTO))
-                Log.write(Log.Level.Severe,"Error in updating test", t.toString());
+                Log.write(Log.Level.Severe, "Error in updating test", t.toString());
         } else
-            Log.write(Log.Level.Severe," Cannot update test - not found ",  tr.getIssueID().toString());
+            Log.write(Log.Level.Severe, " Cannot update test - not found ", tr.getIssueID().toString());
         TestRunCollection.addTestRun(tr);
     }
 }

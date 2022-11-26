@@ -1,19 +1,19 @@
 package com.kenpugh.testrecorder.runtests;
 
 
+import com.kenpugh.testrecorder.database.TestDataAccess;
 import com.kenpugh.testrecorder.database.TestRunDataAccess;
+import com.kenpugh.testrecorder.domainterms.IssueID;
+import com.kenpugh.testrecorder.domainterms.MyFileSystem;
 import com.kenpugh.testrecorder.domainterms.SubIssueID;
 import com.kenpugh.testrecorder.entities.*;
 import com.kenpugh.testrecorder.log.Log;
+import com.kenpugh.testrecorder.services.CurrentDateTimeService;
+import com.kenpugh.testrecorder.services.CurrentUserService;
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import com.kenpugh.testrecorder.database.TestDataAccess;
-import com.kenpugh.testrecorder.domainterms.IssueID;
-import com.kenpugh.testrecorder.domainterms.MyFileSystem;
-import com.kenpugh.testrecorder.services.CurrentDateTimeService;
-import com.kenpugh.testrecorder.services.CurrentUserService;
 
 import java.util.List;
 
@@ -43,9 +43,10 @@ public class StepDefinitions {
                 fail("Unable to add test");
         }
     }
+
     @When("adding a test that already exists")
     public void adding_a_test_that_already_exists(@Transpose List<Test> dataTable) {
-            TestCollection.addTest(dataTable.get(0));
+        TestCollection.addTest(dataTable.get(0));
 
     }
 
@@ -102,26 +103,24 @@ public class StepDefinitions {
     public void test_is_now(List<Test> dataTable) {
         Test expected = dataTable.get(0);
         Test actual = TestCollection.findTest(currentIssueID, currentSubIssueID);
-       assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Then("test run records exist")
     public void test_run_records_exist(List<TestRun> dataTable) {
         List<TestRun> results = TestRunCollection.findTestRuns(currentIssueID, currentSubIssueID);
 
-        assertTrue(arrayContains(dataTable.toArray(), results.toArray() ));
+        assertTrue(arrayContains(dataTable.toArray(), results.toArray()));
 
 
     }
 
     private boolean arrayContains(Object[] expectedArray, Object[] actualArray) {
         boolean containsAll = true;
-       for (Object expected: expectedArray){
+        for (Object expected : expectedArray) {
             boolean contains = false;
-            for(Object actual: actualArray)
-            {
-                if (expected.equals(actual))
-                {
+            for (Object actual : actualArray) {
+                if (expected.equals(actual)) {
                     contains = true;
                     break;
                 }
@@ -136,8 +135,9 @@ public class StepDefinitions {
 
     @Given("test runs are empty")
     public void test_runs_are_empty() {
-         TestRunCollection.deleteAll();
+        TestRunCollection.deleteAll();
     }
+
     static class TestRunDisplay {
         String testRunScript = "";
     }

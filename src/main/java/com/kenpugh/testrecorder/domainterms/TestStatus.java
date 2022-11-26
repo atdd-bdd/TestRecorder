@@ -3,7 +3,7 @@ package com.kenpugh.testrecorder.domainterms;
 import com.kenpugh.testrecorder.log.Log;
 
 public enum TestStatus {
-    Active, Inactive, Retired ;
+    Active, Inactive, Retired;
 
     public static TestStatus parse(String value) {
         if (value.isBlank() || value.isBlank())
@@ -13,7 +13,7 @@ public enum TestStatus {
             result = TestStatus.valueOf(value);
 
         } catch (IllegalArgumentException e) {
-            Log.write(Log.Level.Severe,"Bad TestStatus value ", value);
+            Log.write(Log.Level.Severe, "Bad TestStatus value ", value);
         }
         return result;
     }

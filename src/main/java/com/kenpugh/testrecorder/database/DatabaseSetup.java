@@ -32,10 +32,10 @@ public class DatabaseSetup {
         try {
             connection = DriverManager.getConnection(url, userid, password);
         } catch (SQLException ex) {
-            Log.write(Log.Level.Severe, "SQLException: ",ex.getMessage() + " Setup");
+            Log.write(Log.Level.Severe, "SQLException: ", ex.getMessage() + " Setup");
         }
         if (connection == null) {
-            Log.write(Log.Level.Severe,"Cannot make connection to database", url);
+            Log.write(Log.Level.Severe, "Cannot make connection to database", url);
             System.exit(0);
         }
     }
@@ -62,7 +62,7 @@ public class DatabaseSetup {
             statement.execute("DROP TABLE TEST_RUNS ;");
             setupComplete = true;
         } catch (SQLException ex) {
-            Log.write(Log.Level.Severe,"SQLException: ", ex.getMessage() + " RemoveTables");
+            Log.write(Log.Level.Severe, "SQLException: ", ex.getMessage() + " RemoveTables");
         }
 
     }

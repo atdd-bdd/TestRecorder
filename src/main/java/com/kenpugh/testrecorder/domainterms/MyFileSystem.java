@@ -23,6 +23,7 @@ public class MyFileSystem {
             throw new RuntimeException("Cannot access file  " + path);
         }
     }
+
     public static boolean checkReadability(MyString filePath) {
         Path path = Paths.get(MyConfiguration.rootFilePath.toString(), filePath.toString());
         try {

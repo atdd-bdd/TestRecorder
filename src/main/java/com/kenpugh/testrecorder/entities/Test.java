@@ -1,7 +1,6 @@
 package com.kenpugh.testrecorder.entities;
 
 import com.kenpugh.testrecorder.domainterms.*;
-
 import com.kenpugh.testrecorder.log.Log;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,8 +8,9 @@ import java.util.Objects;
 
 
 public class Test {
+    public final static Test NOT_FOUND = new Test();
     private IssueID issueID = IssueID.INVALID_ISSUE_ID;
-   private Name name = new Name("");
+    private Name name = new Name("");
     private TestResult lastResult = TestResult.Failure;
     private Name runner = new Name("");
     private MyDateTime dateLastRun = MyDateTime.NEVER_DATETIME;
@@ -19,7 +19,13 @@ public class Test {
     private TextString comments = new TextString("No comment");
     private SubIssueID subIssueID = new SubIssueID();
     private TestStatus testStatus = TestStatus.Active;
-    public final static Test NOT_FOUND = new Test();
+
+    static public Test testFromDTO(TestDTO testDTO) {
+        Test result = new Test();
+        result.fromDTO((testDTO));
+        return result;
+    }
+
     public boolean selectiveEquals(Object o, TestUseFields testUseFields) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -28,36 +34,30 @@ public class Test {
         boolean result = (issueID.equals(test.issueID) || !testUseFields.issueID)
                 && (name.equals(test.name) || !testUseFields.name)
                 && (lastResult == test.lastResult || !testUseFields.lastResult)
-                && (runner.equals(test.runner)  || !testUseFields.runner)
-                && (dateLastRun.equals(test.dateLastRun)  || !testUseFields.dateLastRun)
+                && (runner.equals(test.runner) || !testUseFields.runner)
+                && (dateLastRun.equals(test.dateLastRun) || !testUseFields.dateLastRun)
                 && (datePreviousResult.equals(test.datePreviousResult) || !testUseFields.datePreviousResult)
                 && (filePath.equals(test.filePath) || !testUseFields.filePath)
                 && (comments.equals(test.comments) || !testUseFields.comments)
                 && (subIssueID.equals(test.subIssueID) || !testUseFields.subIssueID)
-                && (testStatus.equals(test.testStatus) || !testUseFields.testStatus)
-                ;
-    if (!result)
+                && (testStatus.equals(test.testStatus) || !testUseFields.testStatus);
+        if (!result)
             Log.write(Log.Level.Debug, "Selective equal values " + " for " + this + " == " + test +
-                    " selections: ", testUseFields.toString() );
-    return result;
+                    " selections: ", testUseFields.toString());
+        return result;
     }
+
     public void fromDTO(@NotNull TestDTO testDTO) {
-         issueID = new IssueID(testDTO.issueID);
+        issueID = new IssueID(testDTO.issueID);
         name = new Name(testDTO.name);
-         lastResult = TestResult.parse(testDTO.lastResult);
-         dateLastRun = MyDateTime.parse(testDTO.dateLastRun);
-         datePreviousResult = MyDateTime.parse(testDTO.datePreviousResult);
-         filePath = new MyString(testDTO.filePath);
+        lastResult = TestResult.parse(testDTO.lastResult);
+        dateLastRun = MyDateTime.parse(testDTO.dateLastRun);
+        datePreviousResult = MyDateTime.parse(testDTO.datePreviousResult);
+        filePath = new MyString(testDTO.filePath);
         comments = new TextString(testDTO.comments);
         runner = new Name(testDTO.runner);
         testStatus = TestStatus.parse(testDTO.testStatus);
         subIssueID = new SubIssueID(testDTO.subIssueID);
-    }
-
-    static public Test testFromDTO(TestDTO testDTO) {
-        Test result = new Test();
-        result.fromDTO((testDTO));
-        return result;
     }
 
     public TestDTO getDTO() {
@@ -106,11 +106,9 @@ public class Test {
     }
 
 
-
-
     public void UpdateTestFromTestRun(TestRun tr) {
         if (!tr.getIssueID().equals(issueID)) {
-            Log.write(Log.Level.Severe," Trying to update wrong test " , issueID + " with " + tr.getIssueID());
+            Log.write(Log.Level.Severe, " Trying to update wrong test ", issueID + " with " + tr.getIssueID());
             return;
         }
 

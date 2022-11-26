@@ -1,7 +1,13 @@
 package com.kenpugh.testrecorder.ui;
 
-import com.kenpugh.testrecorder.domainterms.*;
-import com.kenpugh.testrecorder.entities.*;
+import com.kenpugh.testrecorder.domainterms.IssueID;
+import com.kenpugh.testrecorder.domainterms.MyDateTime;
+import com.kenpugh.testrecorder.domainterms.MyFileSystem;
+import com.kenpugh.testrecorder.domainterms.SubIssueID;
+import com.kenpugh.testrecorder.entities.MyConfiguration;
+import com.kenpugh.testrecorder.entities.Test;
+import com.kenpugh.testrecorder.entities.TestCollection;
+import com.kenpugh.testrecorder.entities.TestRunDTO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -16,14 +22,12 @@ import java.util.Vector;
 import static com.kenpugh.testrecorder.ui.TestRecorderFormSwing.frame;
 
 public class TestRunHistoryDialog extends JDialog {
+    public List<TestRunDTO> testRunDTOs;
     private JPanel contentPane;
     private JButton aestRunDetailButton;
     private JButton buttonCancel;
     private JTable testRunTable;
-
     private DefaultTableModel tableModel;
-
-    public List<TestRunDTO> testRunDTOs;
 
     public TestRunHistoryDialog() {
         setContentPane(contentPane);
@@ -38,12 +42,11 @@ public class TestRunHistoryDialog extends JDialog {
                 TestRunDTO selectedTestRunDTO = testRunDTOs.get(row);
                 dialog.testRunDTO = selectedTestRunDTO;
                 Test test = TestCollection.findTest(new IssueID(selectedTestRunDTO.issueID),
-                    new SubIssueID(selectedTestRunDTO.subIssueID));
+                        new SubIssueID(selectedTestRunDTO.subIssueID));
                 dialog.scriptText = MyFileSystem.read(test.getFilePath());
-                if (dialog.scriptText.isEmpty())
-                {
+                if (dialog.scriptText.isEmpty()) {
                     JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
-                            "File " +  test.getFilePath().toString() + " is not readable " + " root is " +
+                            "File " + test.getFilePath().toString() + " is not readable " + " root is " +
                                     MyConfiguration.rootFilePath.toString());
 
                     return;
@@ -81,21 +84,20 @@ public class TestRunHistoryDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-
-    private void onCancel() {
-        // add your code here if necessary
-        dispose();
-    }
-
     public static void main(String[] args) {
         TestRunHistoryDialog dialog = new TestRunHistoryDialog();
-        dialog.testRunDTOs =  new ArrayList<>();
+        dialog.testRunDTOs = new ArrayList<>();
         dialog.testRunDTOs.add(new TestRunDTO());
         dialog.updateData();
 
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
+    }
+
+    private void onCancel() {
+        // add your code here if necessary
+        dispose();
     }
 
     public void updateData() {
@@ -127,10 +129,11 @@ public class TestRunHistoryDialog extends JDialog {
         Vector<String> columnHeaders = new Vector<>(List.of(columnNames));
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(columnHeaders);
-        testRunTable = new JTable(tableModel){
+        testRunTable = new JTable(tableModel) {
             public boolean editCellAt(int row, int column, java.util.EventObject e) {
                 return false;
-            }};
+            }
+        };
         testRunTable.setPreferredScrollableViewportSize(new Dimension(500, 200));
         testRunTable.setFillsViewportHeight(true);
 
@@ -140,7 +143,7 @@ public class TestRunHistoryDialog extends JDialog {
 
             @Override
             public int compare(String name1, String name2) {
-                MyDateTime date1= new MyDateTime(name1);
+                MyDateTime date1 = new MyDateTime(name1);
                 MyDateTime date2 = new MyDateTime(name2);
                 return date1.compareTo(date2);
             }
@@ -152,20 +155,21 @@ public class TestRunHistoryDialog extends JDialog {
     private void createUIComponents() {
         setUpTable();
     }
+
     private int getTableRowIndex() {
-        int selected =  testRunTable.getSelectedRow();
-        if (selected < 0 )  {
+        int selected = testRunTable.getSelectedRow();
+        if (selected < 0) {
             JOptionPane.showMessageDialog(frame,
                     "Nothing selected ");
             return selected;
         }
         int row = testRunTable.convertRowIndexToModel(selected);
-        if (row < 0 )  {
+        if (row < 0) {
             JOptionPane.showMessageDialog(frame,
                     "Unable to convert selected to row ");
             return row;
         }
-        int lastRow = testRunDTOs.size() -1;
+        int lastRow = testRunDTOs.size() - 1;
         if (row > lastRow)
             row = lastRow;
         return row;

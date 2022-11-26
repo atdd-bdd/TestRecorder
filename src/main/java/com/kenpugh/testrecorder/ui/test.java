@@ -41,6 +41,13 @@ public class test extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    public static void main(String[] args) {
+        test dialog = new test();
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
+    }
+
     private void onOK() {
         // add your code here
         dispose();
@@ -49,12 +56,5 @@ public class test extends JDialog {
     private void onCancel() {
         // add your code here if necessary
         dispose();
-    }
-
-    public static void main(String[] args) {
-        test dialog = new test();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }

@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 public class StepDefinitionHelpers {
-    static public void setFieldFromKeyValue (Object obj, String key, String value){
+    static public void setFieldFromKeyValue(Object obj, String key, String value) {
         Class<?> c = obj.getClass();
         Field field;
         String camelCaseKey = makeCamel(key);
@@ -30,7 +30,7 @@ public class StepDefinitionHelpers {
         }
     }
 
-    static public void setBooleanFromValue (Object obj, String key,String value){
+    static public void setBooleanFromValue(Object obj, String key, String value) {
         Class<?> c = obj.getClass();
         Field field;
         String camelCaseKey = makeCamel(key);
@@ -38,8 +38,7 @@ public class StepDefinitionHelpers {
         //noinspection RedundantIfStatement
         if (value == null) {
             result = false;
-            }
-        else
+        } else
             result = true;
         try {
             field = c.getField(camelCaseKey);
@@ -56,31 +55,32 @@ public class StepDefinitionHelpers {
         }
     }
 
-    static public String makeCamel (String value){
-            StringBuilder result = new StringBuilder();
-            boolean convertToUpper = false;
-            for (int i = 0; i < value.length(); i++) {
-                Character c = value.charAt(i);
-                if (i == 0) {
-                    result.append(Character.toLowerCase(c));
-                    continue;
-                }
-                if (c == ' ') {
-                    convertToUpper = true;
-                    continue;
-                }
-                if (convertToUpper) {
-                    result.append(Character.toUpperCase(c));
-                    convertToUpper = false;
-                    continue;
-                }
-                result.append(c);
+    static public String makeCamel(String value) {
+        StringBuilder result = new StringBuilder();
+        boolean convertToUpper = false;
+        for (int i = 0; i < value.length(); i++) {
+            Character c = value.charAt(i);
+            if (i == 0) {
+                result.append(Character.toLowerCase(c));
+                continue;
             }
-            return result.toString();
-
-
+            if (c == ' ') {
+                convertToUpper = true;
+                continue;
+            }
+            if (convertToUpper) {
+                result.append(Character.toUpperCase(c));
+                convertToUpper = false;
+                continue;
+            }
+            result.append(c);
         }
-    static public TestUseFields setUseFieldFromEntryMap(Map< String, String > entryMap){
+        return result.toString();
+
+
+    }
+
+    static public TestUseFields setUseFieldFromEntryMap(Map<String, String> entryMap) {
         TestUseFields testUseFields = new TestUseFields();
         for (Map.Entry<String, String> entry : entryMap.entrySet()) {
             StepDefinitionHelpers.setBooleanFromValue(testUseFields, entry.getKey(), entry.getValue());

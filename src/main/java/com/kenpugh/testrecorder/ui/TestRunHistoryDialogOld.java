@@ -2,7 +2,6 @@ package com.kenpugh.testrecorder.ui;
 
 import com.kenpugh.testrecorder.domainterms.IssueID;
 import com.kenpugh.testrecorder.domainterms.SubIssueID;
-
 import com.kenpugh.testrecorder.entities.TestRunCollection;
 import com.kenpugh.testrecorder.entities.TestRunDTO;
 
@@ -14,15 +13,14 @@ import java.util.List;
 import java.util.Vector;
 
 public class TestRunHistoryDialogOld extends JDialog {
+    public List<TestRunDTO> testRunDTOs;
+    public IssueID issueID;
+    public SubIssueID subIssueID;
     private JPanel contentPane;
     private JButton buttonOK;
     private JTable testRunTable;
     private DefaultTableModel tableModel;
 
-    public List<TestRunDTO> testRunDTOs;
-
-    public IssueID issueID;
-    public SubIssueID subIssueID;
     public TestRunHistoryDialogOld() {
         setContentPane(contentPane);
         setModal(true);
@@ -33,7 +31,6 @@ public class TestRunHistoryDialogOld extends JDialog {
                 onOK();
             }
         });
-
 
 
         // call onCancel() when cross is clicked
@@ -52,6 +49,17 @@ public class TestRunHistoryDialogOld extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    public static void main(String[] args) {
+        TestRunHistoryDialogOld dialog = new TestRunHistoryDialogOld();
+        dialog.testRunDTOs = TestRunCollection.listTestRunDTOfromListTestRun(
+                TestRunCollection.findTestRuns(new IssueID("12345"), new SubIssueID("abc")));
+
+        dialog.updateData();
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
+    }
+
     private void onOK() {
         // add your code here
         dispose();
@@ -60,17 +68,6 @@ public class TestRunHistoryDialogOld extends JDialog {
     private void onCancel() {
         // add your code here if necessary
         dispose();
-    }
-
-    public static void main(String[] args) {
-        TestRunHistoryDialogOld dialog = new TestRunHistoryDialogOld();
-        dialog.testRunDTOs =   TestRunCollection.listTestRunDTOfromListTestRun(
-                TestRunCollection.findTestRuns(new IssueID("12345"),new SubIssueID("abc")));
-
-        dialog.updateData();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 
     public void updateData() {
@@ -102,10 +99,11 @@ public class TestRunHistoryDialogOld extends JDialog {
         Vector<String> columnHeaders = new Vector<>(List.of(columnNames));
         tableModel = new DefaultTableModel();
         tableModel.setColumnIdentifiers(columnHeaders);
-        testRunTable = new JTable(tableModel){
+        testRunTable = new JTable(tableModel) {
             public boolean editCellAt(int row, int column, java.util.EventObject e) {
                 return false;
-            }};
+            }
+        };
         testRunTable.setPreferredScrollableViewportSize(new Dimension(500, 200));
         testRunTable.setFillsViewportHeight(true);
 

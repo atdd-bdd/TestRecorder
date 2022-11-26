@@ -59,13 +59,13 @@ public class TestCollection {
     @SuppressWarnings("RedundantIfStatement")
     public static List<Test> filter(List<Test> unfiltered, TestFilter testFilter) {
         List<Test> filtered = new ArrayList<>();
-        for (Test test : unfiltered){
+        for (Test test : unfiltered) {
             boolean include = false;
-            if ((test.getTestStatus() ==TestStatus.Active) && testFilter.includeActive)
+            if ((test.getTestStatus() == TestStatus.Active) && testFilter.includeActive)
                 include = true;
-            if ((test.getTestStatus() ==TestStatus.Inactive) && testFilter.includeInactive)
+            if ((test.getTestStatus() == TestStatus.Inactive) && testFilter.includeInactive)
                 include = true;
-            if ((test.getTestStatus() == TestStatus.Retired)  && testFilter.includeRetired)
+            if ((test.getTestStatus() == TestStatus.Retired) && testFilter.includeRetired)
                 include = true;
             if (include)
                 filtered.add(test);

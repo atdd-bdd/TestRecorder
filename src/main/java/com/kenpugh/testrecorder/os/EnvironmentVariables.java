@@ -6,18 +6,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EnvironmentVariables {
-    static final Map<String, String > environment = new HashMap<>();
+    public static final String NOT_FOUND = "NOT FOUND";
+    static final Map<String, String> environment = new HashMap<>();
 
-
-    public static void  setenv(String variable, String value){
+    public static void setenv(String variable, String value) {
         // Does this locally for testing
         // Must set env before running production code
-       environment.put(variable, value);
+        environment.put(variable, value);
     }
-    public static final String NOT_FOUND = "NOT FOUND";
-    public static String getenv(String variable){
+
+    public static String getenv(String variable) {
         String value = environment.get(variable);
-        if (value == null){
+        if (value == null) {
             value = System.getenv(variable);
         }
         if (value == null) {

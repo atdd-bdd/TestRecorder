@@ -4,6 +4,7 @@ package com.kenpugh.testrecorder.entities;
 import com.kenpugh.testrecorder.domainterms.*;
 
 public class TestDTO {
+    public final static TestDTO NOT_FOUND = new TestDTO();
     public String issueID = IssueID.NOT_SPECIFIED;
     public String name = Name.EMPTY;
     public String lastResult = TestResult.Failure.toString();
@@ -14,6 +15,4 @@ public class TestDTO {
     public String comments = "";
     public String subIssueID = SubIssueID.NOT_SPECIFIED;
     public String testStatus = TestStatus.Active.toString();
-
-    public final static TestDTO NOT_FOUND = new TestDTO();
 }

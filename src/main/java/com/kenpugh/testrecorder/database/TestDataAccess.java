@@ -17,8 +17,8 @@ public class TestDataAccess {
     public static boolean addTest(TestDTO aTest) {
         IssueID issueID = new IssueID(aTest.issueID);
         SubIssueID subIssueID = new SubIssueID(aTest.subIssueID);
-        if (findByIssueID(issueID, subIssueID ) != TestDTO.NOT_FOUND) {
-            Log.write(Log.Level.Info, "Adding duplicate issue id", issueID.toString() );
+        if (findByIssueID(issueID, subIssueID) != TestDTO.NOT_FOUND) {
+            Log.write(Log.Level.Info, "Adding duplicate issue id", issueID.toString());
             return false;
         }
         try {
@@ -115,11 +115,11 @@ public class TestDataAccess {
                     "testStatus='" + testDTO.testStatus + "' " +
                     "WHERE issueID='" + testDTO.issueID + "'" +
                     "AND subIssueID='" + testDTO.subIssueID + "';";
-            Log.write(Log.Level.Debug, " statement is " , s);
-              statement.execute(s);
+            Log.write(Log.Level.Debug, " statement is ", s);
+            statement.execute(s);
             return true;
         } catch (SQLException ex) {
-            Log.write(Log.Level.Severe, "SQLException: ",ex.getMessage() + " Update");
+            Log.write(Log.Level.Severe, "SQLException: ", ex.getMessage() + " Update");
             return false;
         }
 

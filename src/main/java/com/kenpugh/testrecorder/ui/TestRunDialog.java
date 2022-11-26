@@ -59,12 +59,35 @@ public class TestRunDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    private static void setUIFont(javax.swing.plaf.FontUIResource f) {
+        java.util.Enumeration<Object> keys = UIManager.getDefaults().keys();
+        while (keys.hasMoreElements()) {
+            Object key = keys.nextElement();
+            Object value = UIManager.get(key);
+            if (value instanceof javax.swing.plaf.FontUIResource) {
+                UIManager.put(key, f);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
+        TestRunDialog dialog = new TestRunDialog();
+        dialog.testRun = new TestRun();
+        dialog.testRunDTO = dialog.testRun.getDTO();
+        dialog.initializeData();
+
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
+    }
+
     public void initializeData() {
         runnerTextField.setText(testRunDTO.runner);
         commentsTextArea.setText(testRunDTO.comments);
         dateTimeTextField.setText(testRunDTO.dateTime);
         issueIDTextField.setText(testRunDTO.issueID);
-         successRadioButton.setSelected(false);
+        successRadioButton.setSelected(false);
         failureRadioButton.setSelected(true);
         successRadioButton.setEnabled(true);
         failureRadioButton.setEnabled(true);
@@ -89,38 +112,12 @@ public class TestRunDialog extends JDialog {
         dispose();
     }
 
-    private static void setUIFont(javax.swing.plaf.FontUIResource f) {
-        java.util.Enumeration<Object> keys = UIManager.getDefaults().keys();
-        while (keys.hasMoreElements()) {
-            Object key = keys.nextElement();
-            Object value = UIManager.get(key);
-            if (value instanceof javax.swing.plaf.FontUIResource) {
-                UIManager.put(key, f);
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
-        TestRunDialog dialog = new TestRunDialog();
-        dialog.testRun = new TestRun();
-        dialog.testRunDTO = dialog.testRun.getDTO();
-        dialog.initializeData();
-
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
-
     public void enableNothing() {
         commentsTextArea.setEditable(false);
-        if (testRunDTO.result.equals(TestResult.Success.toString()))
-        {
+        if (testRunDTO.result.equals(TestResult.Success.toString())) {
             successRadioButton.setSelected(true);
             failureRadioButton.setSelected(false);
-        }
-        else
-        {
+        } else {
             successRadioButton.setSelected(false);
             failureRadioButton.setSelected(true);
         }

@@ -1,7 +1,6 @@
 package com.kenpugh.testrecorder.entities;
 
 import com.kenpugh.testrecorder.domainterms.*;
-
 import com.kenpugh.testrecorder.services.CurrentDateTimeService;
 import com.kenpugh.testrecorder.services.CurrentUserService;
 
@@ -22,6 +21,12 @@ public class TestRun {
         result.subIssueID = subIssueID;
         result.dateTime = CurrentDateTimeService.getCurrentDateTime();
         result.runner = CurrentUserService.getCurrentUser();
+        return result;
+    }
+
+    static public TestRun TestRunFromDTO(TestRunDTO testRunDTO) {
+        TestRun result = new TestRun();
+        result.fromDTO(testRunDTO);
         return result;
     }
 
@@ -62,18 +67,12 @@ public class TestRun {
     }
 
     public void fromDTO(TestRunDTO testRunDTO) {
-         comments = new TextString(testRunDTO.comments);
-         issueID = new IssueID(testRunDTO.issueID);
-         dateTime = new MyDateTime(testRunDTO.dateTime);
-         runner = new Name(testRunDTO.runner);
-         result = TestResult.valueOf(testRunDTO.result);
-         subIssueID = new SubIssueID(testRunDTO.subIssueID);
-    }
-
-    static public TestRun TestRunFromDTO(TestRunDTO testRunDTO) {
-        TestRun result = new TestRun();
-        result.fromDTO(testRunDTO);
-        return result;
+        comments = new TextString(testRunDTO.comments);
+        issueID = new IssueID(testRunDTO.issueID);
+        dateTime = new MyDateTime(testRunDTO.dateTime);
+        runner = new Name(testRunDTO.runner);
+        result = TestResult.valueOf(testRunDTO.result);
+        subIssueID = new SubIssueID(testRunDTO.subIssueID);
     }
 
     public TestResult getTestResult() {
@@ -84,28 +83,28 @@ public class TestRun {
         return dateTime;
     }
 
+    public void setDateTime(MyDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public IssueID getIssueID() {
         return issueID;
+    }
+
+    public void setIssueID(IssueID issueID) {
+        this.issueID = issueID;
     }
 
     public Name getRunner() {
         return runner;
     }
 
-    public TextString getComments() {
-        return comments;
-    }
-
     public void setRunner(Name runner) {
         this.runner = runner;
     }
 
-    public void setDateTime(MyDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public void setIssueID(IssueID issueID) {
-        this.issueID = issueID;
+    public TextString getComments() {
+        return comments;
     }
 
     public SubIssueID getSubIssueID() {

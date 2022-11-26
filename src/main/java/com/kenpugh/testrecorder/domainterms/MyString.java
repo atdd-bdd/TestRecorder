@@ -6,10 +6,19 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class MyString {
+    static final Pattern patternPrintableCharsOnly = Pattern.compile("[^\\\\!#%&'*+,\\-./:;<=>?@^_`{|}~\\w\\s]",
+            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
     private final String value;
 
     public MyString() {
         value = "";
+    }
+
+    public MyString(String value) {
+        String newValue = patternPrintableCharsOnly.matcher(value).replaceAll("");
+        if (!newValue.equals(value))
+            Log.write(Log.Level.Severe, " Replaced ", value + " with " + newValue);
+        this.value = newValue;
     }
 
     @Override
@@ -28,15 +37,5 @@ public class MyString {
     @Override
     public String toString() {
         return value;
-    }
-
-    static final Pattern patternPrintableCharsOnly = Pattern.compile("[^\\\\!#%&'*+,\\-./:;<=>?@^_`{|}~\\w\\s]",
-            Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
-
-    public MyString(String value) {
-        String newValue = patternPrintableCharsOnly.matcher(value).replaceAll("");
-        if (!newValue.equals(value))
-            Log.write(Log.Level.Severe, " Replaced ", value + " with " + newValue);
-        this.value = newValue;
     }
 }

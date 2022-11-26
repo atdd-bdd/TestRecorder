@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public class TestEntryDialog extends JDialog {
     public boolean testValid = false;
+    public TestDTO testDTO;
     private JPanel contentPane2;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -25,7 +26,6 @@ public class TestEntryDialog extends JDialog {
     private JButton browseButton;
     private JTextField subIssueIDTextField;
     private JComboBox<String> testStatusComboBox;
-    public TestDTO testDTO;
 
     public TestEntryDialog() {
         setContentPane(contentPane2);
@@ -33,9 +33,9 @@ public class TestEntryDialog extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         subIssueIDTextField.setInputVerifier(new SubIssueIDInputVerifier());
         subIssueIDTextField.setVerifyInputWhenFocusTarget(true);
-         issueIDTextField.setInputVerifier(new IssueIDInputVerifier());
+        issueIDTextField.setInputVerifier(new IssueIDInputVerifier());
         issueIDTextField.setVerifyInputWhenFocusTarget(true);
-          nameTextField.setInputVerifier(new NameInputVerifier());
+        nameTextField.setInputVerifier(new NameInputVerifier());
         nameTextField.setVerifyInputWhenFocusTarget(true);
         testDTO = new TestDTO();
 
@@ -76,8 +76,8 @@ public class TestEntryDialog extends JDialog {
                 int returnValue = jfc.showOpenDialog(TestRecorderFormSwing.frame);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     String filename = String.valueOf(jfc.getSelectedFile());
-                    String filename1 = filename.replace(rootPathString,"");
-                    Log.write(Log.Level.Debug, "", "filename "  + filename + " replaced " + filename1 + " root " + MyConfiguration.rootFilePath.toString());
+                    String filename1 = filename.replace(rootPathString, "");
+                    Log.write(Log.Level.Debug, "", "filename " + filename + " replaced " + filename1 + " root " + MyConfiguration.rootFilePath.toString());
                     filePathTextField.setText(filename1);
 
                 }
@@ -85,19 +85,28 @@ public class TestEntryDialog extends JDialog {
             }
         });
     }
+
+    public static void main(String[] args) {
+        TestEntryDialog dialog = new TestEntryDialog();
+        dialog.initialize();
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
+    }
+
     public void initialize() {
         if (!testDTO.issueID.equals(IssueID.NOT_SPECIFIED))
             issueIDTextField.setText(testDTO.issueID);
 
         nameTextField.setText(testDTO.name);
         filePathTextField.setText(testDTO.filePath);
-        commentsTextField.setText( testDTO.comments);
+        commentsTextField.setText(testDTO.comments);
         dateResultTextField.setText(testDTO.dateLastRun);
         datePreviousResultTextField.setText(testDTO.datePreviousResult);
         runnerTextField.setText(testDTO.runner);
-        lastResultTextField.setText( testDTO.lastResult);
+        lastResultTextField.setText(testDTO.lastResult);
         if (!testDTO.subIssueID.equals(SubIssueID.NOT_SPECIFIED))
-             subIssueIDTextField.setText(testDTO.subIssueID);
+            subIssueIDTextField.setText(testDTO.subIssueID);
         initializeTestStatus(testDTO.testStatus);
     }
 
@@ -119,9 +128,9 @@ public class TestEntryDialog extends JDialog {
         if (!new NameInputVerifier().verify(nameTextField))
             testValid = false;
         CheckFilePath();
-        if (testValid){
+        if (testValid) {
             dispose();
-            }
+        }
     }
 
     private void CheckFilePath() {
@@ -152,19 +161,10 @@ public class TestEntryDialog extends JDialog {
         testDTO.subIssueID = subIssueIDTextField.getText();
     }
 
-
     private void onCancel() {
         // add your code here if necessary
         testValid = false;
         dispose();
-    }
-
-    public static void main(String[] args) {
-        TestEntryDialog dialog = new TestEntryDialog();
-        dialog.initialize();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 
     public void enableStatusOnly() {

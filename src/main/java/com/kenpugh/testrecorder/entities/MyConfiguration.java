@@ -11,12 +11,26 @@ import com.kenpugh.testrecorder.os.EnvironmentVariables;
 import java.util.Map;
 
 public class MyConfiguration {
-    public enum MyConfigurationVariables {
-        rootFilePath, useTestDoubleForDateTime,
-        useTestDoubleForRunner, valueTestDoubleForDateTime,
-        valueTestDoubleForRunner, formNotCloseOnExit,
-        databaseURL, databaseJDBCDriver, databasePassword, databaseUserID
-    }
+    public static final String rootFilePathString = MyConfigurationVariables.rootFilePath.toString();
+    public static final String useTestDoubleForDateTimeString = MyConfigurationVariables.useTestDoubleForDateTime.toString();
+    public static final String useTestDoubleForRunnerString = MyConfigurationVariables.useTestDoubleForRunner.toString();
+    public static final String valueTestDoubleForDateTimeString = MyConfigurationVariables.valueTestDoubleForDateTime.toString();
+    public static final String valueTestDoubleForRunnerString = MyConfigurationVariables.valueTestDoubleForRunner.toString();
+    public static final String formNotCloseOnExitString = MyConfigurationVariables.formNotCloseOnExit.toString();
+    public static final String databaseURLString = MyConfigurationVariables.databaseURL.toString();
+    public static final String databaseJDBCDriverString = MyConfigurationVariables.databaseJDBCDriver.toString();
+    public static final String databasePasswordString = MyConfigurationVariables.databasePassword.toString();
+    public static final String databaseUserIDString = MyConfigurationVariables.databaseUserID.toString();
+    public static MyString rootFilePath = new MyString();
+    public static boolean useTestDoubleForDateTime = false;
+    static public boolean useTestDoubleForRunner = false;
+    static public boolean formNotCloseOnExit = false;
+    static public MyDateTime valueTestDoubleForDateTime = new MyDateTime();
+    static public Name valueTestDoubleForRunner = new Name();
+    static public String databaseURL = "";
+    static public String databaseJDBCDriver = "";
+    static public String databaseUserID = "";
+    static public String databasePassword = "";
 
     public static boolean isValidVariable(String variable) {
         try {
@@ -28,71 +42,38 @@ public class MyConfiguration {
         return true;
     }
 
-    public static final String rootFilePathString = MyConfigurationVariables.rootFilePath.toString();
-
-    public static final String useTestDoubleForDateTimeString = MyConfigurationVariables.useTestDoubleForDateTime.toString();
-
-    public static final String useTestDoubleForRunnerString = MyConfigurationVariables.useTestDoubleForRunner.toString();
-
-    public static final String valueTestDoubleForDateTimeString = MyConfigurationVariables.valueTestDoubleForDateTime.toString();
-    public static final String valueTestDoubleForRunnerString = MyConfigurationVariables.valueTestDoubleForRunner.toString();
-    public static final String formNotCloseOnExitString = MyConfigurationVariables.formNotCloseOnExit.toString();
-
-
-    public static final String databaseURLString = MyConfigurationVariables.databaseURL.toString();
-
-    public static final String databaseJDBCDriverString = MyConfigurationVariables.databaseJDBCDriver.toString();
-
-    public static final String databasePasswordString = MyConfigurationVariables.databasePassword.toString();
-
-    public static final String databaseUserIDString = MyConfigurationVariables.databaseUserID.toString();
-
-    public static MyString rootFilePath = new MyString();
-    public static boolean useTestDoubleForDateTime = false;
-    static public boolean useTestDoubleForRunner = false;
-    static public boolean formNotCloseOnExit = false;
-
-    static public MyDateTime valueTestDoubleForDateTime = new MyDateTime();
-    static public Name valueTestDoubleForRunner = new Name();
-
-    static public String databaseURL = "";
-    static public String databaseJDBCDriver = "";
-    static public String databaseUserID = "";
-    static public String databasePassword = "";
-
-
     @SuppressWarnings("StringOperationCanBeSimplified")
     public static void fromDTO() {
         for (Map.Entry<String, String> entry : MyConfigurationDTO.values.entrySet()) {
             String value = entry.getValue();
             String name = entry.getKey();
             if (value == null || name == null) {
-                Log.write(Log.Level.Info, " Configuration null for value or name", name + " "+ value);
+                Log.write(Log.Level.Info, " Configuration null for value or name", name + " " + value);
                 continue;
             }
 
             if (name.equals(rootFilePathString))
                 rootFilePath = new MyString(value);
             else if (name.equals(useTestDoubleForRunnerString))
-                 useTestDoubleForRunner = Boolean.parseBoolean(value);
+                useTestDoubleForRunner = Boolean.parseBoolean(value);
             else if (name.equals(useTestDoubleForDateTimeString))
-                    useTestDoubleForDateTime = Boolean.parseBoolean(value);
-           else if (name.equals(valueTestDoubleForDateTimeString))
-                    valueTestDoubleForDateTime = new MyDateTime(value);
-           else if (name.equals( valueTestDoubleForRunnerString))
-                    valueTestDoubleForRunner = new Name(value);
-           else if (name.equals( formNotCloseOnExitString))
-                    formNotCloseOnExit = Boolean.parseBoolean(value);
-          else if (name.equals(databaseURLString))
-                    databaseURL = new String(value);
-          else if (name.equals(databaseJDBCDriverString))
-                    databaseJDBCDriver = new String(value);
-          else if (name.equals(databasePasswordString))
-                    databasePassword = new String(value);
-          else if (name.equals(databaseUserIDString))
-                    databaseUserID = new String(value);
-         else
-             Log.write(Log.Level.Severe, " Configuration bad variable", name);
+                useTestDoubleForDateTime = Boolean.parseBoolean(value);
+            else if (name.equals(valueTestDoubleForDateTimeString))
+                valueTestDoubleForDateTime = new MyDateTime(value);
+            else if (name.equals(valueTestDoubleForRunnerString))
+                valueTestDoubleForRunner = new Name(value);
+            else if (name.equals(formNotCloseOnExitString))
+                formNotCloseOnExit = Boolean.parseBoolean(value);
+            else if (name.equals(databaseURLString))
+                databaseURL = new String(value);
+            else if (name.equals(databaseJDBCDriverString))
+                databaseJDBCDriver = new String(value);
+            else if (name.equals(databasePasswordString))
+                databasePassword = new String(value);
+            else if (name.equals(databaseUserIDString))
+                databaseUserID = new String(value);
+            else
+                Log.write(Log.Level.Severe, " Configuration bad variable", name);
         }
     }
 
@@ -156,5 +137,12 @@ public class MyConfiguration {
                 + databaseUserIDString + "=" + databaseUserID +
 
                 " " + "}";
+    }
+
+    public enum MyConfigurationVariables {
+        rootFilePath, useTestDoubleForDateTime,
+        useTestDoubleForRunner, valueTestDoubleForDateTime,
+        valueTestDoubleForRunner, formNotCloseOnExit,
+        databaseURL, databaseJDBCDriver, databasePassword, databaseUserID
     }
 }

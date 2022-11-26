@@ -1,6 +1,5 @@
 package com.kenpugh.testrecorder.ui;
 
-
 import com.kenpugh.testrecorder.domainterms.SubIssueID;
 
 import javax.swing.*;
@@ -15,7 +14,6 @@ public class SubIssueIDInputVerifier extends InputVerifier {
             JOptionPane.showMessageDialog(TestRecorderFormSwing.frame, "Sub Issue ID must have 3 characters");
             return false;
         }
-
     }
 }
 
