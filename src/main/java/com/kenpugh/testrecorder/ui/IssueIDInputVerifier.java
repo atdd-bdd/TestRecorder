@@ -12,8 +12,8 @@ import javax.swing.*;
         @Override
         public boolean verify(JComponent input) {
             String text = ((JTextField) input).getText();
-            IssueID issueID = new IssueID(text);
-            if (!issueID.equals(IssueID.INVALID_ISSUE_ID))
+
+            if (IssueID.CheckValue(text))
                 return true;
             else {
                 JOptionPane.showMessageDialog(TestRecorderFormSwing.frame, "Issue ID must have 5 characters");

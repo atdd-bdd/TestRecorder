@@ -36,8 +36,7 @@ public class TestRecorderFormSwing {
 
     public List<TestDTO> testDTOs;
 
-    public String selectedIssueIDString ="";   // Which row should be marked.
-    public String selectedSubIssueIDString = "";
+
     public TestFilter testFilter = new TestFilter();
     public TestRecorderFormSwing() {
         runTestButton.addActionListener(new ActionListener() {
@@ -97,8 +96,6 @@ public class TestRecorderFormSwing {
 
                     }
                     testRecorderFormSwing.updateData();
-                    selectedIssueIDString = dialog.testDTO.issueID;
-                    selectedSubIssueIDString = dialog.testDTO.subIssueID;
                 }
 
             }
@@ -111,10 +108,9 @@ public class TestRecorderFormSwing {
                 if (row < 0) return;
                 TestDTO testDTO = testDTOs.get(row);
 
-                dialog.issueID = new IssueID(testDTO.issueID);
-                dialog.subIssueID = new SubIssueID(testDTO.subIssueID);
-                dialog.testRunDTOs = TestRunCollection.listTestRunDTOfromListTestRun(
-                        TestRunCollection.findTestRuns(dialog.issueID, dialog.subIssueID));
+                    dialog.testRunDTOs = TestRunCollection.listTestRunDTOfromListTestRun(
+                        TestRunCollection.findTestRuns(new IssueID(testDTO.issueID),
+                                new SubIssueID(testDTO.subIssueID)));
                 dialog.updateData();
                 dialog.pack();
                 dialog.setLocationRelativeTo(frame);
@@ -156,8 +152,6 @@ public class TestRecorderFormSwing {
 
                     }
                     testRecorderFormSwing.updateData();
-                    selectedIssueIDString = dialog.testDTO.issueID;
-                    selectedSubIssueIDString = dialog.testDTO.subIssueID;
                 }
 
 
@@ -285,14 +279,6 @@ public static JFrame frame;
         }
         tableModel.fireTableDataChanged();
 
-        if (testDTOs.size() >= 1) {
-            if (selectedIssueIDString.isEmpty())
-                selectedIssueIDString = testDTOs.get(0).issueID;
-            if (selectedSubIssueIDString.isEmpty())
-                selectedSubIssueIDString = testDTOs.get(0).subIssueID;
-            setSelectedRow();
-        }
-
         TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(tableModel);
         testTable.setRowSorter(tableRowSorter);
         tableRowSorter.setComparator(5, new Comparator<String>() {
@@ -314,27 +300,8 @@ public static JFrame frame;
             }
         });
 
-        setSelectedRow();
         tableModel.fireTableDataChanged();
 
-    }
-
-    private void setSelectedRow() {
-        /// Find the row in here
-        int row = 0;
-        for (TestDTO testDTO : testDTOs) {
-            if (testDTO.issueID.equals(selectedIssueIDString) &&
-                    testDTO.subIssueID.equals(selectedSubIssueIDString)) {
-                break;
-            }
-            row = row + 1;
-        }
-        if (row >= testDTOs.size())
-            row = testDTOs.size() - 1;
-        Log.write(Log.Level.Debug, "", " selected " + row + " " + selectedIssueIDString +
-                   "  " + selectedSubIssueIDString);
-        if (row >= 0)
-            testTable.setRowSelectionInterval(row, row);
     }
 
 

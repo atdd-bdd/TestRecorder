@@ -32,13 +32,11 @@ public class TestEntryDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         subIssueIDTextField.setInputVerifier(new SubIssueIDInputVerifier());
-        subIssueIDTextField.setVerifyInputWhenFocusTarget(false);
+        subIssueIDTextField.setVerifyInputWhenFocusTarget(true);
          issueIDTextField.setInputVerifier(new IssueIDInputVerifier());
-        issueIDTextField.setVerifyInputWhenFocusTarget(false);
-        issueIDTextField.setSelectionStart(0);
-        issueIDTextField.setSelectionEnd(4);
-        nameTextField.setInputVerifier(new NameInputVerifier());
-        nameTextField.setVerifyInputWhenFocusTarget(false);
+        issueIDTextField.setVerifyInputWhenFocusTarget(true);
+          nameTextField.setInputVerifier(new NameInputVerifier());
+        nameTextField.setVerifyInputWhenFocusTarget(true);
         testDTO = new TestDTO();
 
         buttonOK.addActionListener(new ActionListener() {
@@ -175,7 +173,6 @@ public class TestEntryDialog extends JDialog {
         subIssueIDTextField.setEditable(false);
         lastResultTextField.setEditable(false);
         filePathTextField.setEditable(false);
-        filePathTextField.setEnabled(false);
         browseButton.setEnabled(false);
     }
 }

@@ -6,6 +6,19 @@ Filter
 Add a read from csv file and use @datatabletype to convert it
 
 ***** Change runtesthistory to get a List<TestRunDTO>,  don't use IssueID as lookup.
+* Change the main to just create one
+
+Add a show testrun  button on the history.   Display the test.
+    See
+
+ Change the test display to allow for growth of panel
+     for comments.
+
+ Maybe redo when database is cleared off.   Should it be a separate methoed
+
+ Make up installation instructions -  be sure to use a different databases than the tes one
+
+ Read in a large csv file
 
 Clean up the dialogs.
 

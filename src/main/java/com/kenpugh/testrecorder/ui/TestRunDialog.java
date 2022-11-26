@@ -64,9 +64,10 @@ public class TestRunDialog extends JDialog {
         commentsTextArea.setText(testRunDTO.comments);
         dateTimeTextField.setText(testRunDTO.dateTime);
         issueIDTextField.setText(testRunDTO.issueID);
-        successRadioButton.setSelected(false);
+         successRadioButton.setSelected(false);
         failureRadioButton.setSelected(true);
-
+        successRadioButton.setEnabled(true);
+        failureRadioButton.setEnabled(true);
         scriptTextArea.setText(scriptText);
     }
 
@@ -104,9 +105,26 @@ public class TestRunDialog extends JDialog {
         TestRunDialog dialog = new TestRunDialog();
         dialog.testRun = new TestRun();
         dialog.testRunDTO = dialog.testRun.getDTO();
+        dialog.initializeData();
 
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
+    }
+
+    public void enableNothing() {
+        commentsTextArea.setEditable(false);
+        if (testRunDTO.result.equals(TestResult.Success.toString()))
+        {
+            successRadioButton.setSelected(true);
+            failureRadioButton.setSelected(false);
+        }
+        else
+        {
+            successRadioButton.setSelected(false);
+            failureRadioButton.setSelected(true);
+        }
+        successRadioButton.setEnabled(false);
+        failureRadioButton.setEnabled(false);
     }
 }

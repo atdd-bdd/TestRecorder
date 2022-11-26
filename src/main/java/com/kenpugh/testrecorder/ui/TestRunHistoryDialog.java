@@ -1,40 +1,69 @@
 package com.kenpugh.testrecorder.ui;
 
-import com.kenpugh.testrecorder.domainterms.IssueID;
-import com.kenpugh.testrecorder.domainterms.SubIssueID;
-
-import com.kenpugh.testrecorder.entities.TestRunCollection;
-import com.kenpugh.testrecorder.entities.TestRunDTO;
+import com.kenpugh.testrecorder.domainterms.*;
+import com.kenpugh.testrecorder.entities.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
+import static com.kenpugh.testrecorder.ui.TestRecorderFormSwing.frame;
+
 public class TestRunHistoryDialog extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
+    private JButton aestRunDetailButton;
+    private JButton buttonCancel;
     private JTable testRunTable;
+
     private DefaultTableModel tableModel;
 
     public List<TestRunDTO> testRunDTOs;
 
-    public IssueID issueID;
-    public SubIssueID subIssueID;
     public TestRunHistoryDialog() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(aestRunDetailButton);
 
-        buttonOK.addActionListener(new ActionListener() {
+        aestRunDetailButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                int row = getTableRowIndex();
+                if (row < 0) return;
+                TestRunDialog dialog = new TestRunDialog();
+                TestRunDTO selectedTestRunDTO = testRunDTOs.get(row);
+                dialog.testRunDTO = selectedTestRunDTO;
+                Test test = TestCollection.findTest(new IssueID(selectedTestRunDTO.issueID),
+                    new SubIssueID(selectedTestRunDTO.subIssueID));
+                dialog.scriptText = MyFileSystem.read(test.getFilePath());
+                if (dialog.scriptText.isEmpty())
+                {
+                    JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+                            "File " +  test.getFilePath().toString() + " is not readable " + " root is " +
+                                    MyConfiguration.rootFilePath.toString());
+
+                    return;
+                }
+
+                dialog.initializeData();
+                dialog.enableNothing();
+                dialog.pack();
+                dialog.setLocationRelativeTo(frame);
+                dialog.setVisible(true);
+
+
             }
         });
 
-
+        buttonCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        });
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -52,10 +81,6 @@ public class TestRunHistoryDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
 
     private void onCancel() {
         // add your code here if necessary
@@ -64,10 +89,10 @@ public class TestRunHistoryDialog extends JDialog {
 
     public static void main(String[] args) {
         TestRunHistoryDialog dialog = new TestRunHistoryDialog();
-        dialog.testRunDTOs =   TestRunCollection.listTestRunDTOfromListTestRun(
-                TestRunCollection.findTestRuns(new IssueID("12345"),new SubIssueID("abc")));
-
+        dialog.testRunDTOs =  new ArrayList<>();
+        dialog.testRunDTOs.add(new TestRunDTO());
         dialog.updateData();
+
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
@@ -109,10 +134,41 @@ public class TestRunHistoryDialog extends JDialog {
         testRunTable.setPreferredScrollableViewportSize(new Dimension(500, 200));
         testRunTable.setFillsViewportHeight(true);
 
+        TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(tableModel);
+        testRunTable.setRowSorter(tableRowSorter);
+        tableRowSorter.setComparator(4, new Comparator<String>() {
+
+            @Override
+            public int compare(String name1, String name2) {
+                MyDateTime date1= new MyDateTime(name1);
+                MyDateTime date2 = new MyDateTime(name2);
+                return date1.compareTo(date2);
+            }
+        });
 
     }
+
 
     private void createUIComponents() {
         setUpTable();
     }
+    private int getTableRowIndex() {
+        int selected =  testRunTable.getSelectedRow();
+        if (selected < 0 )  {
+            JOptionPane.showMessageDialog(frame,
+                    "Nothing selected ");
+            return selected;
+        }
+        int row = testRunTable.convertRowIndexToModel(selected);
+        if (row < 0 )  {
+            JOptionPane.showMessageDialog(frame,
+                    "Unable to convert selected to row ");
+            return row;
+        }
+        int lastRow = testRunDTOs.size() -1;
+        if (row > lastRow)
+            row = lastRow;
+        return row;
+    }
+
 }

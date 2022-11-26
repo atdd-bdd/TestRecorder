@@ -1,5 +1,7 @@
 package com.kenpugh.testrecorder.domainterms;
 
+
+
 import java.util.Objects;
 
 public class IssueID {
@@ -25,14 +27,21 @@ public class IssueID {
     }
 
     public IssueID(String value) {
-        if (value.length() != 5)
+        if (CheckValue(value))
+            this.value = value;
+        else
             this.value = NOT_SPECIFIED;
-        else {
-            if (value.matches("\\w+"))
-                this.value = value;
-            else
-                this.value = NOT_SPECIFIED;
-        }
+    }
+
+
+    @SuppressWarnings("RedundantIfStatement")
+    static public  boolean CheckValue(String value) {
+        if (value.length() != 5)
+            return false;
+        if (value.matches("\\w+"))
+                return true;
+        else
+                return false;
     }
 
     @Override
