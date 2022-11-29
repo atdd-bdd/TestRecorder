@@ -17,6 +17,7 @@ import java.util.Vector;
 
 
 public class TestRecorder {
+    private static final String labelForPreferences = "Test";
     static public boolean inProgress = false;
     public static TestRecorder testRecorderFormSwing;
     public static JFrame frame;
@@ -30,11 +31,9 @@ public class TestRecorder {
     private JButton filterTestsButton;
     private JButton changeStatusButton;
     private DefaultTableModel tableModel;
-
-    private static final String labelForPreferences = "Test";
-
     private TestDTO currentTestDTO = new TestDTO();
     private int currentSelectedRow = 0;
+
     public TestRecorder() {
         runTestButton.addActionListener(new ActionListener() {
 
@@ -72,6 +71,46 @@ public class TestRecorder {
                 changeStatus();
             }
         });
+    }
+
+    public static void main(String[] args) {
+        MyConfiguration.loadFromFile();
+        try {
+            UIManager.createLookAndFeel("Windows");
+        } catch (UnsupportedLookAndFeelException e) {
+            Log.write(Log.Level.Severe, "Look and feel not availabe", "Windows");
+        }
+        UIHelpers.setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
+        frame = new JFrame("Test Recorder");
+        // Image anImage = Toolkit.getDefaultToolkit().getImage(which one?)
+        // frame.setIconImage(anImage);
+        TestRecorder.inProgress = true;
+
+        testRecorderFormSwing = new TestRecorder();
+        testRecorderFormSwing.testFilter.includeActive = true;
+        frame.setContentPane(testRecorderFormSwing.aPanel);
+        if (!MyConfiguration.formNotCloseOnExit) {
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        }
+
+
+        frame.pack();
+        frame.setVisible(true);
+        testRecorderFormSwing.updateData();
+        setWindowListener();
+
+    }
+
+    private static void setWindowListener() {
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                Log.write(Log.Level.Info, "Window is closing", "");
+
+                TestRecorder.inProgress = false;
+            }
+        });
+
     }
 
     private void changeStatus() {
@@ -123,7 +162,7 @@ public class TestRecorder {
         dialog.setVisible(true);
     }
 
-    private  void addTest() {
+    private void addTest() {
         getTableRowIndex();
         TestEntryDialog dialog = new TestEntryDialog();
         dialog.initialize();
@@ -173,47 +212,6 @@ public class TestRecorder {
         }
     }
 
-
-    public static void main(String[] args) {
-        MyConfiguration.loadFromFile();
-        try {
-            UIManager.createLookAndFeel("Windows");
-        } catch (UnsupportedLookAndFeelException e) {
-            Log.write(Log.Level.Severe, "Look and feel not availabe", "Windows");
-        }
-        UIHelpers.setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
-        frame = new JFrame("Test Recorder");
-        // Image image = Toolkit.getDefaultToolkit().getImage(which one?)
-        // frame.setIconImage(image);
-        TestRecorder.inProgress = true;
-
-        testRecorderFormSwing = new TestRecorder();
-        testRecorderFormSwing.testFilter.includeActive = true;
-        frame.setContentPane(testRecorderFormSwing.aPanel);
-        if (!MyConfiguration.formNotCloseOnExit) {
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        }
-
-
-        frame.pack();
-        frame.setVisible(true);
-        testRecorderFormSwing.updateData();
-        setWindowListener();
-
-    }
-
-    private static void setWindowListener() {
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                Log.write(Log.Level.Info, "Window is closing", "");
-
-                TestRecorder.inProgress = false;
-            }
-        });
-
-    }
-
     private int getTableRowIndex() {
         currentSelectedRow = testTable.getSelectedRow();
         if (currentSelectedRow < 0) {
@@ -231,7 +229,7 @@ public class TestRecorder {
         if (row > lastRow)
             row = lastRow;
 
-        int [] columnWidths =  UIHelpers.getColumnWidths(testTable);
+        int[] columnWidths = UIHelpers.getColumnWidths(testTable);
         UIHelpers.storeColumnWidthsIntoPreferences(columnWidths, labelForPreferences);
         currentTestDTO = testDTOs.get(row);
 
@@ -264,8 +262,8 @@ public class TestRecorder {
         testTable.setFillsViewportHeight(true);
         testTable.setRowSelectionAllowed(true);
 
-        int [] columnWidths = UIHelpers.loadColumnWidthsFromPreferences(testTable, labelForPreferences) ;
-        UIHelpers.setColumnWidths (testTable, columnWidths);
+        int[] columnWidths = UIHelpers.loadColumnWidthsFromPreferences(testTable, labelForPreferences);
+        UIHelpers.setColumnWidths(testTable, columnWidths);
 
     }
 
@@ -320,8 +318,7 @@ public class TestRecorder {
     }
 
     private void setCurrentRow() {
-            if (currentSelectedRow >= 0)
-            {
+        if (currentSelectedRow >= 0) {
             for (int i = 0; i < testDTOs.size(); i++) {
                 int rowDTO = testTable.convertRowIndexToModel(i);
                 TestDTO entry = testDTOs.get(rowDTO);
@@ -332,12 +329,12 @@ public class TestRecorder {
                 }
             }
         }
-            if (currentSelectedRow >= 0)
-        testTable.changeSelection(currentSelectedRow,0,false, false);
-            else if (testDTOs.size() > 0) {
-                testTable.changeSelection(currentSelectedRow, 0, false, false);
-                currentSelectedRow = 0;
-            }
+        if (currentSelectedRow >= 0)
+            testTable.changeSelection(currentSelectedRow, 0, false, false);
+        else if (testDTOs.size() > 0) {
+            testTable.changeSelection(currentSelectedRow, 0, false, false);
+            currentSelectedRow = 0;
+        }
 
     }
 

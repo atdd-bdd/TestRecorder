@@ -74,6 +74,14 @@ public class TestEntryDialog extends JDialog {
         });
     }
 
+    public static void main(String[] args) {
+        TestEntryDialog dialog = new TestEntryDialog();
+        dialog.initialize();
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
+    }
+
     private void findTestScriptFile() {
         String rootPathString = MyConfiguration.rootFilePath.toString();
         JFileChooser jfc =
@@ -88,14 +96,6 @@ public class TestEntryDialog extends JDialog {
             filePathTextField.setText(filename1);
 
         }
-    }
-
-    public static void main(String[] args) {
-        TestEntryDialog dialog = new TestEntryDialog();
-        dialog.initialize();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 
     public void initialize() {

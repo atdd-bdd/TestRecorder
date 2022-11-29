@@ -20,14 +20,13 @@ import java.util.List;
 import java.util.Vector;
 
 public class TestRunHistoryDialog extends JDialog {
+    private final String labelForPreferences = "TestRun";
     public List<TestRunDTO> testRunDTOs;
     private JPanel contentPane;
     private JButton testRunDetailButton;
     private JButton buttonCancel;
     private JTable testRunTable;
     private DefaultTableModel tableModel;
-
-    private final String labelForPreferences = "TestRun";
 
     public TestRunHistoryDialog() {
         setContentPane(contentPane);
@@ -62,13 +61,25 @@ public class TestRunHistoryDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    public static void main(String[] args) {
+        TestRunHistoryDialog dialog = new TestRunHistoryDialog();
+        // put something in to test it
+        dialog.testRunDTOs = new ArrayList<>();
+        dialog.testRunDTOs.add(new TestRunDTO());
+        dialog.testRunDTOs.add(new TestRunDTO());
+        dialog.updateData();
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
+    }
+
     private void showTestRunDetail() {
         int row = getTableRowIndex();
         if (row < 0) return;
         TestRunDialog dialog = new TestRunDialog();
         TestRunDTO selectedTestRunDTO = testRunDTOs.get(row);
         dialog.testRunDTO = selectedTestRunDTO;
-        dialog.scriptText = getScriptText( selectedTestRunDTO);
+        dialog.scriptText = getScriptText(selectedTestRunDTO);
         dialog.initializeData();
         dialog.enableNothing();
         dialog.pack();
@@ -88,20 +99,8 @@ public class TestRunHistoryDialog extends JDialog {
         return scriptText;
     }
 
-    public static void main(String[] args) {
-        TestRunHistoryDialog dialog = new TestRunHistoryDialog();
-        // put something in to test it
-        dialog.testRunDTOs = new ArrayList<>();
-        dialog.testRunDTOs.add(new TestRunDTO());
-        dialog.testRunDTOs.add(new TestRunDTO());
-        dialog.updateData();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
-
     private void onCancel() {
-        int [] columnWidths =  UIHelpers.getColumnWidths(testRunTable);
+        int[] columnWidths = UIHelpers.getColumnWidths(testRunTable);
         UIHelpers.storeColumnWidthsIntoPreferences(columnWidths, labelForPreferences);
 
         dispose();
@@ -124,9 +123,9 @@ public class TestRunHistoryDialog extends JDialog {
 
         tableModel.fireTableDataChanged();
         if (testRunDTOs.size() > 0)
-            testRunTable.changeSelection(0,0,false, false);
-        int [] columnWidths = UIHelpers.loadColumnWidthsFromPreferences(testRunTable, labelForPreferences) ;
-        UIHelpers.setColumnWidths (testRunTable, columnWidths);
+            testRunTable.changeSelection(0, 0, false, false);
+        int[] columnWidths = UIHelpers.loadColumnWidthsFromPreferences(testRunTable, labelForPreferences);
+        UIHelpers.setColumnWidths(testRunTable, columnWidths);
     }
 
 
