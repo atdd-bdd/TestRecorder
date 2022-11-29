@@ -11,7 +11,7 @@ public class SubIssueIDInputVerifier extends InputVerifier {
         if (SubIssueID.CheckValue(text))
             return true;
         else {
-            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame, "Sub Issue ID must have 3 characters");
+            JOptionPane.showMessageDialog(input, "Sub Issue ID must have 3 characters");
             return false;
         }
     }

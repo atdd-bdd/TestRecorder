@@ -1,7 +1,7 @@
 package com.kenpugh.testrecorder.runtests;
 
 import com.kenpugh.testrecorder.entities.TestRun;
-import com.kenpugh.testrecorder.ui.TestRecorderFormSwing;
+import com.kenpugh.testrecorder.ui.TestRecorder;
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -12,7 +12,7 @@ public class UIStepDefinitions {
 
     @SuppressWarnings("BusyWait")
     private static void waitForInProgress() {
-        while (TestRecorderFormSwing.inProgress) {
+        while (TestRecorder.inProgress) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -24,7 +24,7 @@ public class UIStepDefinitions {
     @When("test table swing is shown for {int} seconds")
     public void test_table_swing_is_shown_for_seconds(Integer int1) {
 
-        TestRecorderFormSwing.main(null);
+        TestRecorder.main(null);
         try {
             Thread.sleep(int1 * 1000);
         } catch (InterruptedException e) {
@@ -35,7 +35,7 @@ public class UIStepDefinitions {
     @When("test table swing is shown")
     public void test_table_swing_is_shown() {
 
-        TestRecorderFormSwing.main(null);
+        TestRecorder.main(null);
         waitForInProgress();
     }
 
@@ -47,13 +47,13 @@ public class UIStepDefinitions {
             System.err.println(" Comments " + testRun.getComments());
         }
 
-        TestRecorderFormSwing.main(null);
+        TestRecorder.main(null);
         waitForInProgress();
     }
 
     @When("run the program")
     public void run_the_program() {
-        TestRecorderFormSwing.main(null);
+        TestRecorder.main(null);
     }
 
     @Then("test table should show that data")

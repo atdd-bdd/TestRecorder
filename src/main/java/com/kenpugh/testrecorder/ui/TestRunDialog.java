@@ -12,7 +12,7 @@ import java.awt.event.*;
 public class TestRunDialog extends JDialog {
     public TestRunDTO testRunDTO = new TestRunDTO();
     public TestRun testRun;
-    public boolean added = false;
+    public boolean result = false;
     public String scriptText = "No script";
     private JPanel contentPane;
     private JButton buttonOK;
@@ -59,24 +59,12 @@ public class TestRunDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private static void setUIFont(javax.swing.plaf.FontUIResource f) {
-        java.util.Enumeration<Object> keys = UIManager.getDefaults().keys();
-        while (keys.hasMoreElements()) {
-            Object key = keys.nextElement();
-            Object value = UIManager.get(key);
-            if (value instanceof javax.swing.plaf.FontUIResource) {
-                UIManager.put(key, f);
-            }
-        }
-    }
-
     public static void main(String[] args) {
-        setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
+        UIHelpers.setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
         TestRunDialog dialog = new TestRunDialog();
         dialog.testRun = new TestRun();
         dialog.testRunDTO = dialog.testRun.getDTO();
         dialog.initializeData();
-
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
@@ -100,15 +88,14 @@ public class TestRunDialog extends JDialog {
             testRunDTO.result = TestResult.Success.toString();
         else if (failureRadioButton.isSelected())
             testRunDTO.result = TestResult.Failure.toString();
-
         else
             Log.write(Log.Level.Severe, "Test Run test result is not set", "");
-        added = true;
+        result = true;
         dispose();
     }
 
     private void onCancel() {
-        added = false;
+        result = false;
         dispose();
     }
 

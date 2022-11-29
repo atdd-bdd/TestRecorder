@@ -19,46 +19,24 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
-import static com.kenpugh.testrecorder.ui.TestRecorderFormSwing.frame;
-
 public class TestRunHistoryDialog extends JDialog {
     public List<TestRunDTO> testRunDTOs;
     private JPanel contentPane;
-    private JButton aestRunDetailButton;
+    private JButton testRunDetailButton;
     private JButton buttonCancel;
     private JTable testRunTable;
     private DefaultTableModel tableModel;
 
+    private final String labelForPreferences = "TestRun";
+
     public TestRunHistoryDialog() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(aestRunDetailButton);
+        getRootPane().setDefaultButton(buttonCancel);
 
-        aestRunDetailButton.addActionListener(new ActionListener() {
+        testRunDetailButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int row = getTableRowIndex();
-                if (row < 0) return;
-                TestRunDialog dialog = new TestRunDialog();
-                TestRunDTO selectedTestRunDTO = testRunDTOs.get(row);
-                dialog.testRunDTO = selectedTestRunDTO;
-                Test test = TestCollection.findTest(new IssueID(selectedTestRunDTO.issueID),
-                        new SubIssueID(selectedTestRunDTO.subIssueID));
-                dialog.scriptText = MyFileSystem.read(test.getFilePath());
-                if (dialog.scriptText.isEmpty()) {
-                    JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
-                            "File " + test.getFilePath().toString() + " is not readable " + " root is " +
-                                    MyConfiguration.rootFilePath.toString());
-
-                    return;
-                }
-
-                dialog.initializeData();
-                dialog.enableNothing();
-                dialog.pack();
-                dialog.setLocationRelativeTo(frame);
-                dialog.setVisible(true);
-
-
+                showTestRunDetail();
             }
         });
 
@@ -84,19 +62,48 @@ public class TestRunHistoryDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    private void showTestRunDetail() {
+        int row = getTableRowIndex();
+        if (row < 0) return;
+        TestRunDialog dialog = new TestRunDialog();
+        TestRunDTO selectedTestRunDTO = testRunDTOs.get(row);
+        dialog.testRunDTO = selectedTestRunDTO;
+        dialog.scriptText = getScriptText( selectedTestRunDTO);
+        dialog.initializeData();
+        dialog.enableNothing();
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+    private String getScriptText(TestRunDTO selectedTestRunDTO) {
+        Test test = TestCollection.findTest(new IssueID(selectedTestRunDTO.issueID),
+                new SubIssueID(selectedTestRunDTO.subIssueID));
+        String scriptText = MyFileSystem.read(test.getFilePath());
+        if (scriptText.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "File " + test.getFilePath().toString() + " is not readable " + " root is " +
+                            MyConfiguration.rootFilePath.toString());
+        }
+        return scriptText;
+    }
+
     public static void main(String[] args) {
         TestRunHistoryDialog dialog = new TestRunHistoryDialog();
+        // put something in to test it
         dialog.testRunDTOs = new ArrayList<>();
         dialog.testRunDTOs.add(new TestRunDTO());
+        dialog.testRunDTOs.add(new TestRunDTO());
         dialog.updateData();
-
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
     }
 
     private void onCancel() {
-        // add your code here if necessary
+        int [] columnWidths =  UIHelpers.getColumnWidths(testRunTable);
+        UIHelpers.storeColumnWidthsIntoPreferences(columnWidths, labelForPreferences);
+
         dispose();
     }
 
@@ -112,9 +119,16 @@ public class TestRunHistoryDialog extends JDialog {
             data[5] = testRunDTO.comments;
             tableModel.addRow(data);
         }
-        tableModel.fireTableDataChanged();
+        testRunTable.setUpdateSelectionOnSort(true);
+        testRunTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+        tableModel.fireTableDataChanged();
+        if (testRunDTOs.size() > 0)
+            testRunTable.changeSelection(0,0,false, false);
+        int [] columnWidths = UIHelpers.loadColumnWidthsFromPreferences(testRunTable, labelForPreferences) ;
+        UIHelpers.setColumnWidths (testRunTable, columnWidths);
     }
+
 
     private void setUpTable() {
 
@@ -134,7 +148,7 @@ public class TestRunHistoryDialog extends JDialog {
                 return false;
             }
         };
-        testRunTable.setPreferredScrollableViewportSize(new Dimension(500, 200));
+        testRunTable.setPreferredScrollableViewportSize(new Dimension(600, 200));
         testRunTable.setFillsViewportHeight(true);
 
         TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(tableModel);
@@ -157,15 +171,15 @@ public class TestRunHistoryDialog extends JDialog {
     }
 
     private int getTableRowIndex() {
-        int selected = testRunTable.getSelectedRow();
-        if (selected < 0) {
-            JOptionPane.showMessageDialog(frame,
+        int currentSelectedRow = testRunTable.getSelectedRow();
+        if (currentSelectedRow < 0) {
+            JOptionPane.showMessageDialog(this,
                     "Nothing selected ");
-            return selected;
+            return currentSelectedRow;
         }
-        int row = testRunTable.convertRowIndexToModel(selected);
+        int row = testRunTable.convertRowIndexToModel(currentSelectedRow);
         if (row < 0) {
-            JOptionPane.showMessageDialog(frame,
+            JOptionPane.showMessageDialog(this,
                     "Unable to convert selected to row ");
             return row;
         }

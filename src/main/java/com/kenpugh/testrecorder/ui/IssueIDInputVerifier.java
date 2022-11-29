@@ -14,7 +14,7 @@ public class IssueIDInputVerifier extends InputVerifier {
         if (IssueID.CheckValue(text))
             return true;
         else {
-            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame, "Issue ID must have 5 characters");
+            JOptionPane.showMessageDialog(input, "Issue ID must have 5 characters");
             return false;
         }
 

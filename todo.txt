@@ -1,18 +1,15 @@
-Filter
 
-   Check values DTO to internal
-    Convert to default value and issue severe warning
+
+
+Add SubIssueID to testrun
+
+Extract all the methods in the UI
+
+Change title everywhere to Sub ID on the tables.
 
 Add a read from csv file and use @datatabletype to convert it
 
-***** Change runtesthistory to get a List<TestRunDTO>,  don't use IssueID as lookup.
-* Change the main to just create one
-
-Add a show testrun  button on the history.   Display the test.
-    See
-
- Change the test display to allow for growth of panel
-     for comments.
+Get the column widths and set them once.  Make the history larger
 
  Maybe redo when database is cleared off.   Should it be a separate methoed
 
@@ -20,13 +17,11 @@ Add a show testrun  button on the history.   Display the test.
 
  Read in a large csv file
 
-Clean up the dialogs.
-
 Change run.bat  to use correct jar
 
 Add some color to the dialogs.   Change the font.
 
-Check out how to not get out if OK shows there are still issue
+
 
 Add a Header to the Swing Dialog form
 

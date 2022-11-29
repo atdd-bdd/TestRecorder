@@ -68,22 +68,26 @@ public class TestEntryDialog extends JDialog {
         browseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String rootPathString = MyConfiguration.rootFilePath.toString();
-                JFileChooser jfc =
-                        new JFileChooser(rootPathString);
-                jfc.setDialogTitle("Choose the manual script file: ");
-                jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                int returnValue = jfc.showOpenDialog(TestRecorderFormSwing.frame);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    String filename = String.valueOf(jfc.getSelectedFile());
-                    String filename1 = filename.replace(rootPathString, "");
-                    Log.write(Log.Level.Debug, "", "filename " + filename + " replaced " + filename1 + " root " + MyConfiguration.rootFilePath.toString());
-                    filePathTextField.setText(filename1);
-
-                }
+                findTestScriptFile();
 
             }
         });
+    }
+
+    private void findTestScriptFile() {
+        String rootPathString = MyConfiguration.rootFilePath.toString();
+        JFileChooser jfc =
+                new JFileChooser(rootPathString);
+        jfc.setDialogTitle("Choose the manual script file: ");
+        jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int returnValue = jfc.showOpenDialog(this);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            String filename = String.valueOf(jfc.getSelectedFile());
+            String filename1 = filename.replace(rootPathString, "");
+            Log.write(Log.Level.Debug, "", "filename " + filename + " replaced " + filename1 + " root " + MyConfiguration.rootFilePath.toString());
+            filePathTextField.setText(filename1);
+
+        }
     }
 
     public static void main(String[] args) {
@@ -97,6 +101,8 @@ public class TestEntryDialog extends JDialog {
     public void initialize() {
         if (!testDTO.issueID.equals(IssueID.NOT_SPECIFIED))
             issueIDTextField.setText(testDTO.issueID);
+        if (!testDTO.subIssueID.equals(SubIssueID.NOT_SPECIFIED))
+            subIssueIDTextField.setText(testDTO.subIssueID);
 
         nameTextField.setText(testDTO.name);
         filePathTextField.setText(testDTO.filePath);
@@ -105,8 +111,6 @@ public class TestEntryDialog extends JDialog {
         datePreviousResultTextField.setText(testDTO.datePreviousResult);
         runnerTextField.setText(testDTO.runner);
         lastResultTextField.setText(testDTO.lastResult);
-        if (!testDTO.subIssueID.equals(SubIssueID.NOT_SPECIFIED))
-            subIssueIDTextField.setText(testDTO.subIssueID);
         initializeTestStatus(testDTO.testStatus);
     }
 
@@ -136,7 +140,7 @@ public class TestEntryDialog extends JDialog {
     private void CheckFilePath() {
         MyString filePathString = new MyString(testDTO.filePath);
         if (!MyFileSystem.checkReadability(filePathString)) {
-            JOptionPane.showMessageDialog(TestRecorderFormSwing.frame,
+            JOptionPane.showMessageDialog(this,
                     "File " + filePathString + " is not readable");
             testValid = false;
         }
