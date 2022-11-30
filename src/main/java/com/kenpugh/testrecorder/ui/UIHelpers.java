@@ -13,7 +13,6 @@ public class UIHelpers {
             TableColumn column = jTable.getColumnModel().getColumn(i);
             column.setWidth(columnWidths[i]);
             column.setPreferredWidth(columnWidths[i]);
-            System.out.println("Setting Width of column " + i + " : " + column.getWidth());
         }
         jTable.invalidate();
         TestRecorder.frame.invalidate();
@@ -26,7 +25,6 @@ public class UIHelpers {
         int[] columnWidths = new int[columnCount];
         for (int i = 0; i < columnCount; i++) {
             int width = jTable.getColumnModel().getColumn(i).getWidth();
-            System.out.println("Width of column " + i + " : " + width);
             columnWidths[i] = width;
         }
         return columnWidths;
@@ -40,7 +38,6 @@ public class UIHelpers {
         for (int i = 0; i < columnWidths.length; i++) {
             String variable = identifier + i;
             preferences.putInt(variable, columnWidths[i]);
-            System.out.println(" Storing " + columnWidths[i]);
         }
     }
 
@@ -53,7 +50,6 @@ public class UIHelpers {
         for (int i = 0; i < columnWidths.length; i++) {
             String variable = identifier + i;
             columnWidths[i] = preferences.getInt(variable, 75);
-            System.out.println(" Loaind " + columnWidths[i]);
         }
         return columnWidths;
     }

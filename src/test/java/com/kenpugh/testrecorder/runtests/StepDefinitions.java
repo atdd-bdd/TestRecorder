@@ -11,6 +11,7 @@ import com.kenpugh.testrecorder.log.Log;
 import com.kenpugh.testrecorder.services.CurrentDateTimeService;
 import com.kenpugh.testrecorder.services.CurrentUserService;
 import io.cucumber.java.Transpose;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -57,8 +58,9 @@ public class StepDefinitions {
 
     @Given("test exists")
     public void test_exists(List<Test> dataTable) {
-        if (!TestCollection.addTest(dataTable.get(0))) {
-            if (!TestCollection.updateTest(dataTable.get(0))) {
+        Test test = dataTable.get(0);
+        if (!TestCollection.addTest(test)) {
+            if (!TestCollection.updateTest(test)) {
                 fail("Unable to update existing test");
             }
         }
@@ -115,7 +117,7 @@ public class StepDefinitions {
 
     }
 
-    private boolean arrayContains(Object[] expectedArray, Object[] actualArray) {
+    public boolean arrayContains(Object[] expectedArray, Object[] actualArray) {
         boolean containsAll = true;
         for (Object expected : expectedArray) {
             boolean contains = false;
@@ -136,6 +138,15 @@ public class StepDefinitions {
     @Given("test runs are empty")
     public void test_runs_are_empty() {
         TestRunCollection.deleteAll();
+    }
+
+    @And("test is changed")
+    public void testIsChanged(@Transpose List<Test> datatable) {
+       Test testChanges = datatable.get(0);
+       Test toChange = TestCollection.findTest(currentIssueID, currentSubIssueID);
+       if (EntitiesStepDefinitions.testUseFields.testStatus)
+           toChange.setTestStatus(testChanges.getTestStatus());
+       TestCollection.updateTest(toChange);
     }
 
     static class TestRunDisplay {

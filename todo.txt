@@ -1,15 +1,5 @@
 
-
-
-Add SubIssueID to testrun
-
-Extract all the methods in the UI
-
-Change title everywhere to Sub ID on the tables.
-
 Add a read from csv file and use @datatabletype to convert it
-
-Get the column widths and set them once.  Make the history larger
 
  Maybe redo when database is cleared off.   Should it be a separate methoed
 
@@ -23,34 +13,10 @@ Add some color to the dialogs.   Change the font.
 
 
 
-Add a Header to the Swing Dialog form
 
 Add instructions on how to run it separately .
 
 Long discussion on how the details.
-
-
-
-Add validity checking in fromDTO in both classes.
-    Substitute DEFAULT_VALUE;
-   Do the Xused version with reflection
-
-
-
-
-How to know how many columns on input table and therefore which columns to check
-Finish this 
-
-     Have a DTO that is initialized to all nulls.
-     Fill it in from the input table.
-     Must have some way of getting the value.
-     static FieldsSupplied = all nulls
-     set it up with booleans
-     pass it the dataTable - it checks each field
-     (if entry.get("ID") != null) fieldsupplied = true;
-     boolean FieldsSupplied.check (Test a, Test b) ;
-
-
 
 ** turn csv into | | |
 c++ program = read csv,  write | | |

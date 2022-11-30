@@ -36,20 +36,15 @@ public class TestRecorder {
 
     public TestRecorder() {
         runTestButton.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 runTest();
-
             }
         });
         addTestButton.addActionListener(new ActionListener() {
-
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 addTest();
-
             }
         });
         showHistoryButton.addActionListener(new ActionListener() {
@@ -73,40 +68,12 @@ public class TestRecorder {
         });
     }
 
-    public static void main(String[] args) {
-        MyConfiguration.loadFromFile();
-        try {
-            UIManager.createLookAndFeel("Windows");
-        } catch (UnsupportedLookAndFeelException e) {
-            Log.write(Log.Level.Severe, "Look and feel not availabe", "Windows");
-        }
-        UIHelpers.setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
-        frame = new JFrame("Test Recorder");
-        // Image anImage = Toolkit.getDefaultToolkit().getImage(which one?)
-        // frame.setIconImage(anImage);
-        TestRecorder.inProgress = true;
-
-        testRecorderFormSwing = new TestRecorder();
-        testRecorderFormSwing.testFilter.includeActive = true;
-        frame.setContentPane(testRecorderFormSwing.aPanel);
-        if (!MyConfiguration.formNotCloseOnExit) {
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        }
-
-
-        frame.pack();
-        frame.setVisible(true);
-        testRecorderFormSwing.updateData();
-        setWindowListener();
-
-    }
 
     private static void setWindowListener() {
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 Log.write(Log.Level.Info, "Window is closing", "");
-
                 TestRecorder.inProgress = false;
             }
         });
@@ -115,7 +82,7 @@ public class TestRecorder {
 
     private void changeStatus() {
         TestEntryDialog dialog = new TestEntryDialog();
-        int row = getTableRowIndex();
+        int row = getTableRowIndexAndSetSelectedRowDTO();
         if (row < 0) return;
         dialog.testDTO = testDTOs.get(row);
         dialog.initialize();
@@ -126,7 +93,7 @@ public class TestRecorder {
         if (dialog.testValid) {
             Test test = Test.testFromDTO(dialog.testDTO);
             if (!TestCollection.updateTest(test)) {
-                JOptionPane.showMessageDialog(TestRecorder.frame,
+                JOptionPane.showMessageDialog(frame,
                         "Test for Issue ID " + dialog.testDTO.issueID +
                                 " SubIssue ID " + dialog.testDTO.subIssueID + " could not update ");
 
@@ -136,7 +103,7 @@ public class TestRecorder {
     }
 
     private void filterTests() {
-        getTableRowIndex();
+        getTableRowIndexAndSetSelectedRowDTO();
         TestFilterDialog dialog = new TestFilterDialog();
         dialog.testFilter = testFilter;
         dialog.initialize();
@@ -149,7 +116,7 @@ public class TestRecorder {
 
     private void showTestRunHistory() {
         TestRunHistoryDialog dialog = new TestRunHistoryDialog();
-        int row = getTableRowIndex();
+        int row = getTableRowIndexAndSetSelectedRowDTO();
         if (row < 0) return;
         TestDTO testDTO = testDTOs.get(row);
 
@@ -163,7 +130,7 @@ public class TestRecorder {
     }
 
     private void addTest() {
-        getTableRowIndex();
+        getTableRowIndexAndSetSelectedRowDTO();
         TestEntryDialog dialog = new TestEntryDialog();
         dialog.initialize();
         dialog.pack();
@@ -172,7 +139,7 @@ public class TestRecorder {
         if (dialog.testValid) {
             Test test = Test.testFromDTO(dialog.testDTO);
             if (!TestCollection.addTest(test)) {
-                JOptionPane.showMessageDialog(TestRecorder.frame,
+                JOptionPane.showMessageDialog(frame,
                         "Test for Issue ID " + dialog.testDTO.issueID +
                                 " SubIssue ID " + dialog.testDTO.subIssueID + " already exists ");
 
@@ -184,7 +151,7 @@ public class TestRecorder {
     }
 
     private void runTest() {
-        int row = getTableRowIndex();
+        int row = getTableRowIndexAndSetSelectedRowDTO();
         if (row < 0) return;
 
         TestDTO selectedTestDTO = testDTOs.get(row);
@@ -195,10 +162,9 @@ public class TestRecorder {
         dialog.testRunDTO = testRun.getDTO();
         dialog.scriptText = MyFileSystem.read(new MyString(selectedTestDTO.filePath));
         if (dialog.scriptText.isEmpty()) {
-            JOptionPane.showMessageDialog(TestRecorder.frame,
+            JOptionPane.showMessageDialog(frame,
                     "File " + selectedTestDTO.filePath + " is not readable " + " root is " +
                             MyConfiguration.rootFilePath.toString());
-
             return;
         }
         dialog.initializeData();
@@ -212,16 +178,16 @@ public class TestRecorder {
         }
     }
 
-    private int getTableRowIndex() {
+    private int getTableRowIndexAndSetSelectedRowDTO() {
         currentSelectedRow = testTable.getSelectedRow();
         if (currentSelectedRow < 0) {
-            JOptionPane.showMessageDialog(TestRecorder.frame,
+            JOptionPane.showMessageDialog(frame,
                     "Nothing selected ");
             return currentSelectedRow;
         }
         int row = testTable.convertRowIndexToModel(currentSelectedRow);
         if (row < 0) {
-            JOptionPane.showMessageDialog(TestRecorder.frame,
+            JOptionPane.showMessageDialog(frame,
                     "Unable to convert selected to row ");
             return row;
         }
@@ -229,15 +195,22 @@ public class TestRecorder {
         if (row > lastRow)
             row = lastRow;
 
-        int[] columnWidths = UIHelpers.getColumnWidths(testTable);
-        UIHelpers.storeColumnWidthsIntoPreferences(columnWidths, labelForPreferences);
+        storeCurrentColumnWidths();
+
         currentTestDTO = testDTOs.get(row);
 
         return row;
     }
 
+    private void storeCurrentColumnWidths() {
+        int[] columnWidths = UIHelpers.getColumnWidths(testTable);
+        UIHelpers.storeColumnWidthsIntoPreferences(columnWidths, labelForPreferences);
+    }
+    private void createUIComponents() {
+        setUpTable();
+    }
+
     private void setUpTable() {
-        //  super(new GridLayout(1,0));
         String[] columnNames = new String[]{
                 "Issue ID",
                 "Sub Issue ID",
@@ -262,9 +235,13 @@ public class TestRecorder {
         testTable.setFillsViewportHeight(true);
         testTable.setRowSelectionAllowed(true);
 
+        setColumnWidthsFromPreferences();
+
+    }
+
+    private void setColumnWidthsFromPreferences() {
         int[] columnWidths = UIHelpers.loadColumnWidthsFromPreferences(testTable, labelForPreferences);
         UIHelpers.setColumnWidths(testTable, columnWidths);
-
     }
 
     public void updateData() {
@@ -294,7 +271,6 @@ public class TestRecorder {
         TableRowSorter<DefaultTableModel> tableRowSorter = new TableRowSorter<>(tableModel);
         testTable.setRowSorter(tableRowSorter);
         tableRowSorter.setComparator(5, new Comparator<String>() {
-
             @Override
             public int compare(String name1, String name2) {
                 MyDateTime date1 = new MyDateTime(name1);
@@ -303,7 +279,6 @@ public class TestRecorder {
             }
         });
         tableRowSorter.setComparator(6, new Comparator<String>() {
-
             @Override
             public int compare(String name1, String name2) {
                 MyDateTime date1 = new MyDateTime(name1);
@@ -335,15 +310,32 @@ public class TestRecorder {
             testTable.changeSelection(currentSelectedRow, 0, false, false);
             currentSelectedRow = 0;
         }
-
     }
 
+    public static void main(String[] args) {
+        MyConfiguration.loadFromFile();
+        try {
+            UIManager.createLookAndFeel("Windows");
+        } catch (UnsupportedLookAndFeelException e) {
+            Log.write(Log.Level.Severe, "Look and feel not availabe", "Windows");
+        }
+        UIHelpers.setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
+        frame = new JFrame("Test Recorder");
+        // Image anImage = Toolkit.getDefaultToolkit().getImage(which one?)
+        // frame.setIconImage(anImage);
+        TestRecorder.inProgress = true;
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-        setUpTable();
-        /*
+        testRecorderFormSwing = new TestRecorder();
+        testRecorderFormSwing.testFilter.includeActive = true;
+        frame.setContentPane(testRecorderFormSwing.aPanel);
+        if (!MyConfiguration.formNotCloseOnExit) {
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        }
 
-         */
+        frame.pack();
+        frame.setVisible(true);
+        testRecorderFormSwing.updateData();
+        setWindowListener();
     }
+
 }

@@ -128,4 +128,7 @@ public class Test {
     public TestStatus getTestStatus() {
         return testStatus;
     }
+    public void setTestStatus(TestStatus value){
+        testStatus = value;
+    }
 }
