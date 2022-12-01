@@ -32,8 +32,7 @@ public class UIHelpers {
 
 
     public static void storeColumnWidthsIntoPreferences(int[] columnWidths, String identifier) {
-        System.out.println(" Saving columns for " + identifier);
-        Preferences preferences;
+         Preferences preferences;
         preferences = Preferences.userRoot().node(programName);
         for (int i = 0; i < columnWidths.length; i++) {
             String variable = identifier + i;
@@ -42,7 +41,6 @@ public class UIHelpers {
     }
 
     public static int[] loadColumnWidthsFromPreferences(JTable jTable, String identifier) {
-        System.out.println(" Loading columns for " + identifier);
         int columnCount = jTable.getColumnCount();
         int[] columnWidths = new int[columnCount];
         Preferences preferences;

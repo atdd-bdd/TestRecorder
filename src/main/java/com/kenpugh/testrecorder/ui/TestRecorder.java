@@ -183,6 +183,10 @@ public class TestRecorder {
     }
 
     private int getTableRowIndexAndSetSelectedRowDTO() {
+        if (testDTOs.size() == 0){
+            currentSelectedRow = -1;
+            return currentSelectedRow;
+        }
         currentSelectedRow = testTable.getSelectedRow();
         if (currentSelectedRow < 0) {
             JOptionPane.showMessageDialog(frame,
@@ -314,6 +318,8 @@ public class TestRecorder {
             testTable.changeSelection(currentSelectedRow, 0, false, false);
             currentSelectedRow = 0;
         }
+        else
+            currentSelectedRow = -1;
     }
 
     public static void main(String[] args) {
