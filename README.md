@@ -24,4 +24,4 @@ If you are running this from an IDE:
     java -cp TestRecorder-0.9.jar;C:\Users\KenV1\.m2\repository\org\hsqldb\hsqldb\2.7.1\hsqldb-2.7.1.jar   
              com.kenpugh.testrecorder.ui.TestRecorder
 
-  
+  The application does not store the contents of a manual script test.  The testscript should be created and kept in the source code repository.  The path to that script is a combination of a filename and a path that is in configuration.txt.  You can change the configuration by changing rootFilePath where it appears in the TestRecorder.feature and UI.feature files.  
