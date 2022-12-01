@@ -91,5 +91,14 @@
             </plugin>
 
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.gif</include>
+                </includes>
+            </resource>
+        </resources>
+
     </build>
 </project>

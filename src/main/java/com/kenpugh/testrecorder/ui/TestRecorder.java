@@ -1,5 +1,7 @@
 package com.kenpugh.testrecorder.ui;
 
+import java.io.*;
+import java.lang.Thread;
 
 import com.kenpugh.testrecorder.domainterms.*;
 import com.kenpugh.testrecorder.entities.*;
@@ -11,8 +13,10 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 
 
@@ -317,12 +321,11 @@ public class TestRecorder {
         try {
             UIManager.createLookAndFeel("Windows");
         } catch (UnsupportedLookAndFeelException e) {
-            Log.write(Log.Level.Severe, "Look and feel not availabe", "Windows");
+            Log.write(Log.Level.Severe, "Look and feel not available", "Windows");
         }
         UIHelpers.setUIFont(new javax.swing.plaf.FontUIResource(new Font("MS Mincho", Font.PLAIN, 16)));
         frame = new JFrame("Test Recorder");
-        // Image anImage = Toolkit.getDefaultToolkit().getImage(which one?)
-        // frame.setIconImage(anImage);
+        setIconImageFromFile("icon.gif");
         TestRecorder.inProgress = true;
 
         testRecorderFormSwing = new TestRecorder();
@@ -338,4 +341,21 @@ public class TestRecorder {
         setWindowListener();
     }
 
+    @SuppressWarnings("SameParameterValue")
+    private static void setIconImageFromFile(String filename) {
+        // Image anImage = Toolkit.getDefaultToolkit().getImage(which one?)
+        // frame.setIconImage(anImage)
+
+        InputStream isr =
+                Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
+
+        byte[] array;
+        try {
+            array = Objects.requireNonNull(isr).readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ImageIcon ii = new ImageIcon(array);
+        frame.setIconImage(ii.getImage());
+    }
 }

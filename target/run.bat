@@ -1,1 +1,1 @@
-java -cp TestRecorder-0.0.1-SNAPSHOT.jar;C:\Users\KenV1\.m2\repository\org\hsqldb\hsqldb\2.7.1\hsqldb-2.7.1.jar kenpugh.TestRecorder.UI.TestRecorderFormSwing
+java -cp TestRecorder-0.9.jar;C:\Users\KenV1\.m2\repository\org\hsqldb\hsqldb\2.7.1\hsqldb-2.7.1.jar com.kenpugh.testrecorder.ui.TestRecorder

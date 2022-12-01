@@ -1,1 +1,0 @@
-formNotCloseOnExit|true|$rootFilePath|C:UsersKenV1IdeaProjectsTestRecordertarget|$useTestDoubleForDateTime|true|$valueTestDoubleForDateTime|Oct 1, 2022, 12:30:01 AM|$databaseUserID|null|$useTestDoubleForRunner|true|$databasePassword||$databaseJDBCDriver|org.hsqldb.jdbcDriver|$valueTestDoubleForRunner|Sam|$databaseURL|jdbc:hsqldb:hsql://localhost|$
