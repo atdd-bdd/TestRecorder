@@ -33,8 +33,8 @@ public class TestRunCollection {
         return listTestRun;
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
-    static public List<TestRunDTO> listTestRunDTOfromListTestRun(List<TestRun> testRuns) {
+
+    static public List<TestRunDTO> listTestRunDTOFromListTestRun(List<TestRun> testRuns) {
         List<TestRunDTO> testRunDTOs = new ArrayList<>();
         for (TestRun testRun : testRuns) {
             TestRunDTO temp = testRun.getDTO();

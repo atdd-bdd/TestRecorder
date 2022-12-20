@@ -13,7 +13,6 @@ public class Log {
             System.out.println();   // Ignore info for now
         }
 
-
     }
 
     public enum Level {Info, @SuppressWarnings("unused") Debug, Severe}

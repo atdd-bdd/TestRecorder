@@ -96,7 +96,7 @@ public class MyConfiguration {
         MyString configurationFileName;
         String value = EnvironmentVariables.getenv(environmentVariableName);
         if (value.equals(EnvironmentVariables.NOT_FOUND))
-            configurationFileName = new MyString("C:\\Users\\KenV1\\IdeaProjects\\TestRecorder\\target\\configuration.txt");
+            configurationFileName = new MyString("configuration.txt");
         else {
             configurationFileName = new MyString(value);
         }

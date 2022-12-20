@@ -191,7 +191,7 @@ public class EntitiesStepDefinitions {
     @Then("test is equal when selectively compared to")
     public void test_is_equal_when_selectively_compared_to(List<Test> dataTable) {
         Test compare = dataTable.get(0);
-        @SuppressWarnings("SpellCheckingInspection") List<Test> actuals = TestCollection.getAll();
+        List<Test> actuals = TestCollection.getAll();
         // can change any value in testDTO to test comparison
         TestDTO testDTO = actuals.get(0).getDTO();
         Test actual = Test.testFromDTO(testDTO);

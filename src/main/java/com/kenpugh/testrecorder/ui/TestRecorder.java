@@ -124,7 +124,7 @@ public class TestRecorder {
         if (row < 0) return;
         TestDTO testDTO = testDTOs.get(row);
 
-        dialog.testRunDTOs = TestRunCollection.listTestRunDTOfromListTestRun(
+        dialog.testRunDTOs = TestRunCollection.listTestRunDTOFromListTestRun(
                 TestRunCollection.findTestRuns(new IssueID(testDTO.issueID),
                         new SubIssueID(testDTO.subIssueID)));
         dialog.updateData();
