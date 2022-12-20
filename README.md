@@ -7,7 +7,7 @@ In order to run the application, you will need access to a database.  If you do 
 
 There are two sets of tests - RunAutoTests and RunManualTests.   The manual tests bring up the UI.   The UI uses Swing.
 
-Main scenarios for the application  are in TestRecorder.feature.   The configuration settings allow for test doubles for the date/time and for the test runner (i.e. the user).    
+Main scenarios for the application are in TestRecorder.feature.   The configuration settings allow for test doubles for the date/time and for the test runner (i.e. the user).    
 
 If you are running this from an IDE:
 
@@ -20,8 +20,8 @@ If you are running this from an IDE:
     For the second test, try out any or all of the button options.   
     For the third test, you should see Run Test use your logon and the current date/time.    
     
- To run the program from the command line, alter this command line so it uses the location where the hsqldb jar is stored.   
-    java -cp TestRecorder-0.9.jar;C:\Users\KenV1\.m2\repository\org\hsqldb\hsqldb\2.7.1\hsqldb-2.7.1.jar   
+ To run the program from the command line, alter this command line to use the location where the hsqldb jar is stored.   
+    java -cp TestRecorder-0.9.9.jar;C:\Users\KenV1\.m2\repository\org\hsqldb\hsqldb\2.7.1\hsqldb-2.7.1.jar   
              com.kenpugh.testrecorder.ui.TestRecorder
 
   The application does not store the contents of a manual script test.  The testscript should be created and kept in the source code repository.  The path to that script is a combination of a filename and a path that is in configuration.txt.  You can change the configuration by changing rootFilePath where it appears in the TestRecorder.feature and UI.feature files.  

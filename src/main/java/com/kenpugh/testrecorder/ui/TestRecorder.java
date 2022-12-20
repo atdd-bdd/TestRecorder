@@ -193,6 +193,14 @@ public class TestRecorder {
                     "Nothing selected ");
             return currentSelectedRow;
         }
+        if (currentSelectedRow >= testDTOs.size())
+        {
+            JOptionPane.showMessageDialog(frame,
+                    "Selection out of range");
+            currentSelectedRow = testDTOs.size() - 1;
+            return currentSelectedRow;
+
+        }
         int row = testTable.convertRowIndexToModel(currentSelectedRow);
         if (row < 0) {
             JOptionPane.showMessageDialog(frame,

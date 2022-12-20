@@ -41,7 +41,7 @@ Feature: UI
     Then test table should show that data
 
 
-  @manual @setuprun
+  @manual @set_up_run
   Scenario: Run manual with no test doubles
     Given tests are
       | Issue ID | SubIssueID | Name              | Runner  | Last Result | Date Last Run | Date Previous Result | File Path               |
@@ -50,7 +50,7 @@ Feature: UI
       | Variable                 | Value                                            |
       | useTestDoubleForDateTime | false                                            |
       | useTestDoubleForRunner   | false                                            |
-      | rootFilePath             | C:\Users\user\ideaprojects\TestRecorder\target |
+      | rootFilePath             | target\ |
       | formNotCloseOnExit       | false                                            |
       | databaseURL              | jdbc:hsqldb:hsql://localhost                     |
       | databaseJDBCDriver       | org.hsqldb.jdbcDriver                            |

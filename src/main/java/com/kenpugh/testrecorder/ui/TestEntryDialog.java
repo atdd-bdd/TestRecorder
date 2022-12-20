@@ -3,7 +3,6 @@ package com.kenpugh.testrecorder.ui;
 import com.kenpugh.testrecorder.domainterms.*;
 import com.kenpugh.testrecorder.entities.MyConfiguration;
 import com.kenpugh.testrecorder.entities.TestDTO;
-import com.kenpugh.testrecorder.log.Log;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -90,12 +89,9 @@ public class TestEntryDialog extends JDialog {
         jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         int returnValue = jfc.showOpenDialog(this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            String filename = String.valueOf(jfc.getSelectedFile());
-            String filename1 = filename.replace(rootPathString, "");
-            Log.write(Log.Level.Debug, "", "filename " + filename + " replaced " + filename1 + " root " + MyConfiguration.rootFilePath.toString());
-            filePathTextField.setText(filename1);
-
-        }
+            String filename = jfc.getName(jfc.getSelectedFile());
+            filePathTextField.setText(filename);
+       }
     }
 
     public void initialize() {

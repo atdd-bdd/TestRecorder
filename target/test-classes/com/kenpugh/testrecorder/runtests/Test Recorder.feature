@@ -3,7 +3,7 @@ Feature: Test Recorder
   Background:
     Given configuration values are:
       | Variable                   | Value                                            |
-      | rootFilePath               | C:\Users\KenV1\IdeaProjects\TestRecorder\target\ |
+      | rootFilePath               | target\ |
       | useTestDoubleForDateTime   | true                                             |
       | useTestDoubleForRunner     | true                                             |
       | valueTestDoubleForDateTime | Oct 1, 2022, 12:30:01 AM                         |
